@@ -1,0 +1,108 @@
+<div class="page-wrapper">
+  <app-header></app-header>
+
+  <main>
+    <div class="container-fluid">
+      <div class="row align-items-stretch">
+        <div class="col-12 col-md-6 position-relative">
+          <div class="image-overlay"></div>
+          <img
+            src="/../assets/img/Form_food.png"
+            alt="Plato con vegetales"
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-12 col-md-6 py-5">
+          <div
+            class="container d-flex justify-content-center align-items-center"
+          >
+            <div class="form-container">
+              <h2 class="text-center mb-4">¡Bienvenido de nuevo!</h2>
+              <p class="text-center text-white mb-4">
+                Regístrate para continuar con tu rutina saludable
+              </p>
+              <!-- <form [formGroup]="loginForm" (ngSubmit)="login()"> -->
+              <form action="">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    placeholder="Introducir Email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Contraseña</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      formControlName="password"
+                      placeholder="Introducir Contraseña"
+                      required
+                    />
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="togglePassword"
+                    >
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="remember"
+                  />
+                  <label class="form-check-label" for="remember"
+                    >Recuérdame</label
+                  >
+                </div>
+                <div class="mb-3 text-end">
+                  <a routerLink="/forgotPass" class="text-white"
+                    >¿Has olvidado tu contraseña?</a
+                  >
+                </div>
+                <button type="submit" class="entrar btn btn-light w-100">
+                  Entrar
+                </button>
+                <div class="mt-2 text-end">
+                  <a routerLink="/register" class="text-white"
+                    >¿No tienes cuenta? Regístrate</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+
+  <!-- <script>
+    document
+      .getElementById("togglePassword")
+      .addEventListener("click", function () {
+        const passwordInput = document.getElementById("password");
+        const icon = this.querySelector("i");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          icon.classList.remove("bi-eye");
+          icon.classList.add("bi-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          icon.classList.remove("bi-eye-slash");
+          icon.classList.add("bi-eye");
+        }
+      });
+  </script> -->
+</div>

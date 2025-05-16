@@ -1,0 +1,157 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background-color: #fce8a3;
+  color: #fff;
+  flex: 1;
+
+  .col-12.col-md-6 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .form-container {
+    background-color: #5a7212;
+    border-radius: 20px;
+    padding-inline: 80px;
+    padding-block: 50px;
+    width: 100%;
+    max-width: 500px;
+    margin-inline: 50px;
+    margin-block: auto;
+
+    label {
+      font-size: 25px;
+      font-weight: normal;
+      margin-left: 10px;
+    }
+
+    #email {
+      border: none;
+      border-radius: 30px;
+      padding: 10px;
+      margin-bottom: 20px;
+      width: 100%;
+
+      &::placeholder {
+        color: #c8c8c8;
+        padding-left: 20px;
+      }
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      border-radius: 30px;
+      overflow: hidden;
+      background-color: #fff;
+
+      input {
+        border: none;
+        flex: 1;
+        padding: 10px;
+        outline: none;
+
+        &::placeholder {
+          color: #c8c8c8;
+          padding-left: 20px;
+        }
+
+        &:focus,
+        &:focus-visible {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      button {
+        background-color: transparent;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          font-size: 18px;
+          color: #666;
+        }
+
+        &:hover i {
+          color: #000;
+        }
+      }
+    }
+
+    .entrar {
+      color: #000;
+      border-radius: 20px;
+      max-width: 150px;
+      padding-block: 10px;
+      margin-left: auto;
+      display: block;
+
+      &::before {
+        color: #000;
+      }
+    }
+
+    .form-check {
+      input {
+        background-color: #5a7212;
+        margin-left: 20px;
+        margin-top: 5px;
+      }
+
+      label {
+        color: #fff;
+        font-size: 14px;
+        margin-left: 10px;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 14px;
+      display: inline-block;
+      color: #fff;
+      text-align: right;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,0 +1,154 @@
+<div class="page-wrapper">
+  <app-loged-header></app-loged-header>
+
+  <main>
+    <div class="container-fluid">
+      <div class="welcome-banner">
+        <h1>¡Bienvenid&#64; de nuevo, Usuario!</h1>
+      </div>
+
+      <!-- Tarjetas de Nutrición -->
+      <div class="row nutrition-info">
+        <!-- Calorías -->
+        <div class="col-md-3 col-sm-6">
+          <div class="nutrition-card">
+            <div class="nutrition-label">Calorías</div>
+            <div class="nutrition-wrapper">
+              <p class="nutrition-value">1.200</p>
+              <p class="nutrition-goal">/1.800</p>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 67%"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proteínas -->
+        <div class="col-md-3 col-sm-6">
+          <div class="nutrition-card">
+            <div class="nutrition-label">Proteínas</div>
+            <div class="nutrition-wrapper">
+              <p class="nutrition-value">1.200</p>
+              <p class="nutrition-goal">/1.800</p>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 67%"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carbohidratos -->
+        <div class="col-md-3 col-sm-6">
+          <div class="nutrition-card">
+            <div class="nutrition-label">Carbohidratos</div>
+            <div class="nutrition-wrapper">
+              <p class="nutrition-value">1.200</p>
+              <p class="nutrition-goal">/1.800</p>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 67%"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grasas -->
+        <div class="col-md-3 col-sm-6">
+          <div class="nutrition-card">
+            <div class="nutrition-label">Grasas</div>
+            <div class="nutrition-wrapper">
+              <p class="nutrition-value">1.200</p>
+              <p class="nutrition-goal">/1.800</p>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 67%"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan Personalizado -->
+      <h2 class="section-title">Tu plan personalizado</h2>
+
+      <div class="tabs-container">
+        <!-- Pestañas -->
+        <div class="d-flex mb-4 plan-bar">
+          <button class="tab-button active">Diario</button>
+          <button class="tab-button">Semanal</button>
+          <button class="tab-button">Personalizado</button>
+        </div>
+
+        <!-- Tarjetas de Comidas -->
+        <div class="row meals-table">
+          <!-- Desayuno -->
+          <div class="col-md-4">
+            <div class="meal-card">
+              <img
+                src="/../../../assets/img/Desayuno.png"
+                alt="Desayuno"
+                class="meal-img"
+              />
+              <div class="meal-info">
+                <div class="meal-type">Desayuno</div>
+                <div class="meal-calories">450 Kcal</div>
+                <div class="meal-time"><i class="far fa-clock"></i> 08:00</div>
+                <button class="recipe-btn">Ver Receta</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Almuerzo -->
+          <div class="col-md-4">
+            <div class="meal-card">
+              <img
+                src="/../../../assets/img/Almuerzo.png"
+                alt="Almuerzo"
+                class="meal-img"
+              />
+              <div class="meal-info">
+                <div class="meal-type">Almuerzo</div>
+                <div class="meal-calories">650 Kcal</div>
+                <div class="meal-time"><i class="far fa-clock"></i> 13:00</div>
+                <button class="recipe-btn">Ver Receta</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cena -->
+          <div class="col-md-4">
+            <div class="meal-card">
+              <img
+                src="/../../../assets/img/Cena.png"
+                alt="Cena Ligera"
+                class="meal-img"
+              />
+              <div class="meal-info">
+                <div class="meal-type">Cena Ligera</div>
+                <div class="meal-calories">450 Kcal</div>
+                <div class="meal-time"><i class="far fa-clock"></i> 20:00</div>
+                <button class="recipe-btn">Ver Receta</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

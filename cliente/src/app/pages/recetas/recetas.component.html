@@ -1,0 +1,114 @@
+<div class="page-wrapper">
+  <app-loged-header></app-loged-header>
+
+  <main>
+    <div class="container-fluid mt-4">
+      <div class="row mb-4">
+        <div class="col">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Todo</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">Desayunos</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Almuerzo</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Cena</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Snacks</a></li>
+          </ul>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-outline-secondary">Filtros</button>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col">
+          <div class="btn-group" role="group">
+            <button type="button">Vegetales</button>
+            <button type="button">Carne</button>
+            <button type="button">Pescado</button>
+            <button type="button">Legumbres</button>
+            <button type="button">Pasta</button>
+            <button type="button">Postres</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row recetas">
+        <div class="col-md-4 mb-4 receta-card">
+          <div class="card">
+            <img
+              src="../../../assets/img/Ensalada.png"
+              class="card-img-top"
+              alt="Ensalada"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Ensalada</h5>
+              <p class="card-text">
+                <small class="text-muted">
+                  <i class="bi bi-clock"></i> 25 mins
+                  <i class="bi bi-fire ms-2"></i> 420 kcal
+                </small>
+              </p>
+              <a href="#" class="btn btn-primary">Ver Receta</a>
+              <button class="btn btn-outline-secondary float-end">
+                Añadir
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4 receta-card">
+          <div class="card">
+            <img
+              src="../../../assets/img/Pancakes.png"
+              class="card-img-top"
+              alt="Pancakes"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Pancakes</h5>
+              <p class="card-text">
+                <small class="text-muted">
+                  <i class="bi bi-clock"></i> 30 mins
+                  <i class="bi bi-fire ms-2"></i> 380 kcal
+                </small>
+              </p>
+              <a href="#" class="btn btn-primary">Ver receta</a>
+              <button class="btn btn-outline-secondary float-end">
+                Añadir
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4 receta-card">
+          <div class="card">
+            <img
+              src="../../../assets/img/Tostadas.png"
+              class="card-img-top"
+              alt="Tostadas"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Tostadas</h5>
+              <p class="card-text">
+                <small class="text-muted">
+                  <i class="bi bi-clock"></i> 15 mins
+                  <i class="bi bi-fire ms-2"></i> 280 kcal
+                </small>
+              </p>
+              <a href="#" class="btn btn-primary">Ver Receta</a>
+              <button class="btn btn-outline-secondary float-end">
+                Añadir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 mb-4">
+        <button class="btn btn-lg extend-recetas">
+          <i class="bi bi-plus-circle me-2"></i> Crear una receta
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

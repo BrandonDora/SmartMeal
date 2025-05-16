@@ -1,0 +1,39 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background-color: $bg;
+  flex: 1;
+
+  img {
+    margin-top: 2vh;
+    width: 90%;
+    height: auto;
+  }
+
+  .comenzar {
+    text-align: center;
+    margin-top: 3vh;
+    padding-right: 15vh;
+
+    .subtitulo {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .btn {
+      background-color: $verde;
+      color: #fff;
+      font-weight: bolder;
+      font-size: large;
+    }
+  }
+}

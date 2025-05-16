@@ -1,0 +1,52 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background-color: $bg;
+  display: flex;
+  flex: 1;
+}
+
+.profile-card {
+  border: none;
+  max-width: 70%;
+  background-color: $bg;
+
+  .profile-cover {
+    background-color: $bg;
+    height: 170px;
+    width: 100%;
+  }
+
+  .avatar {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    border-radius: 50%;
+  }
+
+  .info-card {
+    border-radius: 25px;
+    background-color: $bg-light;
+
+    .progress-bar {
+      background-color: $verde;
+    }
+  }
+
+  .stat {
+    border: solid 1px #000;
+    border-radius: 20px;
+    margin-inline: 35px;
+    padding-block: 20px;
+  }
+}

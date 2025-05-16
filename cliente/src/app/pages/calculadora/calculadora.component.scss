@@ -1,0 +1,195 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background-color: $bg;
+  justify-content: center;
+  display: flex;
+  flex: 1;
+}
+
+.calculator-container {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  .calculator-card {
+    background-color: $bg-light;
+    border-radius: 25px;
+    padding: 25px;
+    width: 80%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+    h4 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      background-color: $bg-light;
+      border-radius: 25px;
+      padding: 10px 15px;
+      width: 90%;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    // Radios personalizados para sexo
+    .gender-options {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .custom-radio {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .form-check-input {
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+
+      .custom-radio-circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: $bg-light;
+        border: 2px solid $verde;
+        transition: background 0.2s, border 0.2s;
+        margin-right: 6px;
+        margin-left: 12px;
+        margin-bottom: 10px;
+      }
+
+      .form-check-input:checked + .custom-radio-circle {
+        background: $verde;
+        border-color: $verde;
+      }
+
+      .form-check-label {
+        margin-left: 0;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+    }
+
+    select {
+      background-color: #efefef;
+      border-radius: 25px;
+      padding: 8px 20px;
+      width: 90%;
+      margin-bottom: 20px;
+      font-weight: bold;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    button {
+      background-color: $verde;
+      border-radius: 25px;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      width: 90%;
+
+      &:hover {
+        background-color: #a3c72e;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .result-card {
+    background-color: #5a7212;
+    color: #fff;
+    border-radius: 25px;
+    padding: 25px;
+    width: 100%;
+    margin-top: 20px;
+
+    .result-value {
+      font-size: 1.7rem;
+      font-weight: bold;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-size: 0.72rem;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  .how-it-works {
+    h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .col-md-4 {
+      padding: 10px;
+
+      .step-card {
+        border-radius: 25px;
+        background-color: #5a7212;
+        color: #fff;
+        padding: 15px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+
+        .step-number {
+          font-size: 1.2rem;
+          font-weight: bold;
+          background-color: $verde;
+          border-radius: 50%;
+          width: 30px;
+          text-align: center;
+        }
+
+        p {
+          padding: 5px;
+        }
+      }
+    }
+  }
+}
