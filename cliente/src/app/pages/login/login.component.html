@@ -37,7 +37,7 @@
                   <label for="password" class="form-label">Contraseña</label>
                   <div class="input-group">
                     <input
-                      type="password"
+                      [type]="showPassword ? 'text' : 'password'"
                       class="form-control"
                       id="password"
                       formControlName="password"
@@ -47,9 +47,12 @@
                     <button
                       class="btn btn-outline-secondary"
                       type="button"
-                      id="togglePassword"
+                      (click)="togglePassword()"
                     >
-                      <i class="bi bi-eye"></i>
+                      <i
+                        class="bi"
+                        [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                      ></i>
                     </button>
                   </div>
                 </div>

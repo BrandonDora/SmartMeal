@@ -25,4 +25,15 @@ class Receta extends Model
     {
         return $this->belongsToMany(Menu::class, 'menu_receta', 'id_receta', 'id_menu');
     }
+
+    public static function all($columns = ['*'])
+    {
+        // Usando Eloquent
+        return self::query()->get($columns);
+    }
+
+    public static function find($id, $columns = ['*'])
+    {
+        return self::query()->where('id_receta', $id)->first($columns);
+    }
 }

@@ -9,23 +9,36 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // POST /api/register
-    public function register(Request $request)
+   public function register(Request $request)
     {
         $data = $request->validate([
-            'usuario'  => 'required|unique:users',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'usuario'  => 'required',
+            'email'    => 'required|email',
+            'password' => 'required|min:5|confirmed',
         ]);
 
-        User::create($data);
+        // Comprobar si el usuario ya existe
+        if (User::where('usuario', $data['usuario'])->exists()) {
+            return response()->json(['message' => 'El nombre de usuario ya está registrado.'], 409);
+        }
 
-        return response()->json(['message' => 'User created'], 201);
+        // Comprobar si el email ya existe
+        if (User::where('email', $data['email'])->exists()) {
+            return response()->json(['message' => 'El correo electrónico ya está registrado.'], 409);
+        }
+
+        $user = User::create([
+            'usuario'  => $data['usuario'],
+            'email'    => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+
+        return response()->json(['message' => 'Usuario creado correctamente'], 201);
     }
 
-    // POST /api/login
     public function login(Request $request)
     {
+        \Log::info('Intento de login', $request->all());
         $credentials = $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
@@ -37,7 +50,6 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 422);
         }
 
-        // Generar un token de acceso personal
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -46,25 +58,19 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // POST /api/forgot-password
     public function forgotPassword(Request $request)
     {
         return response()->json(['message' => 'Email sent']);
     }
 
-    // GET /api/user
     public function me(Request $request)
     {
         return response()->json($request->user());
     }
 
-    // POST /api/logout
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
+        $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out'], 204);
     }
 }
