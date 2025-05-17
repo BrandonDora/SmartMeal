@@ -21,8 +21,7 @@
               <p class="text-center text-white mb-4">
                 Regístrate para continuar con tu rutina saludable
               </p>
-              <!-- <form [formGroup]="loginForm" (ngSubmit)="login()"> -->
-              <form action="">
+              <form [formGroup]="loginForm" (ngSubmit)="login()">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
@@ -68,6 +67,9 @@
                   <a routerLink="/forgotPass" class="text-white"
                     >¿Has olvidado tu contraseña?</a
                   >
+                </div>
+                <div *ngIf="errMessage" class="alert alert-danger mt-2">
+                  {{ errMessage }}
                 </div>
                 <button type="submit" class="entrar btn btn-light w-100">
                   Entrar
