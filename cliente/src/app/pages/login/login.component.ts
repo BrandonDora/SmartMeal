@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
@@ -10,6 +10,7 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule,
+  FormsModule,
 } from '@angular/forms';
 
 @Component({
@@ -21,14 +22,16 @@ import {
     HeaderComponent,
     FooterComponent,
     ReactiveFormsModule,
+    FormsModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errMessage: string | null = null;
   showPassword: boolean = false;
+  rememberMe: boolean = false;
 
   constructor(
     private router: Router,
@@ -39,6 +42,22 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]],
     });
+  }
+
+  ngOnInit(): void {
+    this.autocompletarCredenciales();
+  }
+
+  autocompletarCredenciales() {
+    const savedEmail = localStorage.getItem('rememberEmail');
+    const savedPassword = localStorage.getItem('rememberPassword');
+    if (savedEmail) {
+      this.loginForm.patchValue({ email: savedEmail });
+      this.rememberMe = true;
+    }
+    if (savedPassword) {
+      this.loginForm.patchValue({ password: savedPassword });
+    }
   }
 
   togglePassword(): void {
@@ -56,6 +75,16 @@ export class LoginComponent {
     }
 
     const { email, password } = this.loginForm.value;
+
+    // Guardar o borrar datos según el checkbox
+    if (this.rememberMe) {
+      localStorage.setItem('rememberEmail', email);
+      localStorage.setItem('rememberPassword', password);
+    } else {
+      localStorage.removeItem('rememberEmail');
+      localStorage.removeItem('rememberPassword');
+    }
+
     this.loginRequest(email, password);
   }
 

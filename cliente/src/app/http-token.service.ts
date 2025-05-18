@@ -49,4 +49,47 @@ export class HttpTokenService {
   }) {
     return this.http.post<any>(`${baseUrl}/api/register`, data);
   }
+
+  getMenus() {
+    const token = localStorage.getItem('token');
+    return this.http.get<any[]>(`${baseUrl}/api/menus`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  getMenuRecetas(idMenu: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get<any[]>(`${baseUrl}/api/menuReceta${idMenu}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  getRecetasByIds(ids: number[]) {
+    const token = localStorage.getItem('token');
+    const params = ids.map((id) => `ids[]=${id}`).join('&');
+    return this.http.get<any[]>(`${baseUrl}/api/recetas/by-ids?${params}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  getPreferenciasNutricionalesByUser(userId: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get<any>(
+      `${baseUrl}/api/preferenciasNutricionales/${userId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
+
+  crearMenu(nombre: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post<any>(
+      `${baseUrl}/api/menus`,
+      { nombre },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
 }

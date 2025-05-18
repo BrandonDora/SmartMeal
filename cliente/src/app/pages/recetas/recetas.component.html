@@ -34,67 +34,27 @@
       </div>
 
       <div class="row recetas">
-        <div class="col-md-4 mb-4 receta-card">
+        <div class="col-md-4 mb-4 receta-card" *ngFor="let receta of recetas">
           <div class="card">
+            <input type="hidden" [value]="receta.id" class="receta-id" />
             <img
-              src="../../../assets/img/Ensalada.png"
+              [src]="receta.imagen"
               class="card-img-top"
-              alt="Ensalada"
+              [alt]="receta.nombre"
             />
             <div class="card-body">
-              <h5 class="card-title">Ensalada</h5>
+              <h5 class="card-title">{{ receta.nombre }}</h5>
               <p class="card-text">
                 <small class="text-muted">
-                  <i class="bi bi-clock"></i> 25 mins
-                  <i class="bi bi-fire ms-2"></i> 420 kcal
+                  <i class="bi bi-clock"></i> {{ receta.tiempo_preparacion }}
+                  <i class="bi bi-fire ms-2"></i> {{ receta.calorias }} kcal
                 </small>
               </p>
               <a href="#" class="btn btn-primary">Ver Receta</a>
-              <button class="btn btn-outline-secondary float-end">
-                Añadir
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4 receta-card">
-          <div class="card">
-            <img
-              src="../../../assets/img/Pancakes.png"
-              class="card-img-top"
-              alt="Pancakes"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Pancakes</h5>
-              <p class="card-text">
-                <small class="text-muted">
-                  <i class="bi bi-clock"></i> 30 mins
-                  <i class="bi bi-fire ms-2"></i> 380 kcal
-                </small>
-              </p>
-              <a href="#" class="btn btn-primary">Ver receta</a>
-              <button class="btn btn-outline-secondary float-end">
-                Añadir
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4 receta-card">
-          <div class="card">
-            <img
-              src="../../../assets/img/Tostadas.png"
-              class="card-img-top"
-              alt="Tostadas"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Tostadas</h5>
-              <p class="card-text">
-                <small class="text-muted">
-                  <i class="bi bi-clock"></i> 15 mins
-                  <i class="bi bi-fire ms-2"></i> 280 kcal
-                </small>
-              </p>
-              <a href="#" class="btn btn-primary">Ver Receta</a>
-              <button class="btn btn-outline-secondary float-end">
+              <button
+                class="btn btn-outline-secondary float-end"
+                (click)="onAnadirReceta(receta.id_receta)"
+              >
                 Añadir
               </button>
             </div>

@@ -9,7 +9,37 @@ class RecetaSeeder extends Seeder
 {
     public function run(): void
     {
-        $polloId = DB::table('recetas')->insertGetId([
+        $Ensalada = DB::table('recetas')->insertGetId([
+            'nombre'       => 'Ensalada',
+            'descripcion'  => 'Ensalada de lechuga.',
+            'imagen'       => 'http://localhost:8000/storage/recetas/Ensalada.png',
+            'calorias'     => 420,
+            'proteinas'    => 45,
+            'grasas'       => 5,
+            'carbohidratos'=> 35,
+        ]);
+
+        $Pancake = DB::table('recetas')->insertGetId([
+            'nombre'       => 'Pancakes',
+            'descripcion'  => 'Pancake rico',
+            'imagen'       => 'http://localhost:8000/storage/recetas/Pancakes.png',
+            'calorias'     => 380,
+            'proteinas'    => 35,
+            'grasas'       => 15,
+            'carbohidratos'=> 40,
+        ]);
+
+        $Tostada = DB::table('recetas')->insertGetId([
+            'nombre'       => 'Tostadas',
+            'descripcion'  => 'Tostadas con mermelada',
+            'imagen'       => 'http://localhost:8000/storage/recetas/Tostadas.png',
+            'calorias'     => 280,
+            'proteinas'    => 35,
+            'grasas'       => 15,
+            'carbohidratos'=> 40,
+        ]);
+
+                $polloId = DB::table('recetas')->insertGetId([
             'nombre'       => 'Pollo con arroz y brócoli',
             'descripcion'  => 'Fácil plato completo para almuerzo.',
             'calorias'     => 450,

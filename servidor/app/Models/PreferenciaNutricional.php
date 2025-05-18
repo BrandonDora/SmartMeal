@@ -10,6 +10,18 @@ class PreferenciaNutricional extends Model
     protected $primaryKey = 'id_preferencia';
     public $timestamps = false;
 
+    protected $fillable = [
+        'user_id',
+        'calorias_deseadas',
+        'objetivo',
+    ];
+
+    protected $casts = [
+        'user_id' => 'integer',
+        'calorias_deseadas' => 'integer',
+        'objetivo' => 'string',
+    ];
+
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'user_id');

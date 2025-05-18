@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_preferencia');
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->integer('calorias_deseadas');
+            $table->string('objetivo');
             $table->timestamps();
         });
     }

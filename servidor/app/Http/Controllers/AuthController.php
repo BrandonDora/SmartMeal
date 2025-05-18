@@ -63,11 +63,11 @@ class AuthController extends Controller
         return response()->json(['message' => 'Email sent']);
     }
 
-    public function me(Request $request)
+    public function user(Request $request)
     {
         return response()->json($request->user());
     }
-
+    
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

@@ -11,7 +11,7 @@
               <div class="col-md-6 calculator-form">
                 <h4 class="section-title">Información necesaria</h4>
 
-                <form>
+                <form [formGroup]="calcForm" (ngSubmit)="calcular()">
                   <!-- Peso -->
                   <div class="mb-4">
                     <label
@@ -32,6 +32,7 @@
                       type="number"
                       class="form-control"
                       id="weight"
+                      formControlName="weight"
                       placeholder="Poner peso"
                     />
                   </div>
@@ -56,6 +57,7 @@
                       type="number"
                       class="form-control"
                       id="height"
+                      formControlName="height"
                       placeholder="Poner altura"
                     />
                   </div>
@@ -80,6 +82,7 @@
                       type="number"
                       class="form-control"
                       id="age"
+                      formControlName="age"
                       placeholder="Poner edad"
                     />
                   </div>
@@ -95,7 +98,7 @@
                           name="sexo"
                           id="hombre"
                           value="hombre"
-                          checked
+                          formControlName="sexo"
                         />
                         <span class="custom-radio-circle"></span>
                         <label class="form-check-label" for="hombre"
@@ -109,6 +112,7 @@
                           name="sexo"
                           id="mujer"
                           value="mujer"
+                          formControlName="sexo"
                         />
                         <span class="custom-radio-circle"></span>
                         <label class="form-check-label" for="mujer"
@@ -123,8 +127,12 @@
                     <label for="activity" class="form-label"
                       >Nivel de Actividad</label
                     >
-                    <select class="form-select" id="activity">
-                      <option value="1.2" selected>1.2</option>
+                    <select
+                      class="form-select"
+                      id="activity"
+                      formControlName="activity"
+                    >
+                      <option value="1.2">1.2</option>
                       <option value="1.375">1.4</option>
                       <option value="1.55">1.6</option>
                       <option value="1.725">1.7</option>
@@ -132,10 +140,37 @@
                     </select>
                   </div>
 
+                  <!-- Meta / Objetivo -->
+                  <div class="mb-4">
+                    <label for="goal" class="form-label">Objetivo</label>
+                    <select
+                      class="form-select"
+                      id="goal"
+                      formControlName="goal"
+                    >
+                      <option value="bajar">Bajar de Peso</option>
+                      <option value="mantener">Mantener Peso</option>
+                      <option value="subir">Subir de Peso</option>
+                    </select>
+                  </div>
+
                   <!-- Botón Calcular -->
-                  <button type="button" class="btn calculate-btn">
-                    Calcular
+                  <button
+                    type="submit"
+                    class="btn calculate-btn"
+                    [disabled]="loading"
+                  >
+                    {{ loading ? "Calculando..." : "Calcular" }}
                   </button>
+                  <div *ngIf="error" class="alert alert-danger mt-3">
+                    {{ error }}
+                  </div>
+                  <div
+                    *ngIf="success"
+                    class="alert-success-custom animate__animated animate__fadeInDown"
+                  >
+                    <i class="fas fa-check-circle"></i> {{ success }}
+                  </div>
                 </form>
               </div>
 
@@ -146,14 +181,22 @@
                 <!-- Resultado BMR -->
                 <div class="result-card mb-4">
                   <div class="result-title">Basal Metabolic Rate (BMR)</div>
-                  <div class="result-value">1,689</div>
+                  <div class="result-value">
+                    {{ bmr !== null ? (bmr | number : "1.0-0") : "---" }}
+                  </div>
                   <div class="result-unit">calorías/día</div>
                 </div>
 
                 <!-- Resultado Calorías de Mantenimiento -->
                 <div class="result-card">
                   <div class="result-title">Calorías de Mantenimiento</div>
-                  <div class="result-value">2,618</div>
+                  <div class="result-value">
+                    {{
+                      caloriasMantenimiento !== null
+                        ? (caloriasMantenimiento | number : "1.0-0")
+                        : "---"
+                    }}
+                  </div>
                   <div class="result-unit">calorías/día</div>
                 </div>
 

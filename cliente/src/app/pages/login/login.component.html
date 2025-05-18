@@ -21,7 +21,11 @@
               <p class="text-center text-white mb-4">
                 Regístrate para continuar con tu rutina saludable
               </p>
-              <form [formGroup]="loginForm" (ngSubmit)="login()">
+              <form
+                [formGroup]="loginForm"
+                (ngSubmit)="login()"
+                autocomplete="on"
+              >
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
@@ -31,6 +35,7 @@
                     formControlName="email"
                     placeholder="Introducir Email"
                     required
+                    autocomplete="username"
                   />
                 </div>
                 <div class="mb-3">
@@ -43,6 +48,7 @@
                       formControlName="password"
                       placeholder="Introducir Contraseña"
                       required
+                      autocomplete="current-password"
                     />
                     <button
                       class="btn btn-outline-secondary"
@@ -61,6 +67,9 @@
                     type="checkbox"
                     class="form-check-input"
                     id="remember"
+                    [(ngModel)]="rememberMe"
+                    [ngModelOptions]="{ standalone: true }"
+                    name="rememberMe"
                   />
                   <label class="form-check-label" for="remember"
                     >Recuérdame</label

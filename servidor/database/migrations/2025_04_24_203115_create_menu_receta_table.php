@@ -19,6 +19,9 @@ return new class extends Migration
             // Claves foráneas
             $table->foreign('id_menu')->references('id_menu')->on('menus')->onDelete('cascade');
             $table->foreign('id_receta')->references('id_receta')->on('recetas')->onDelete('cascade');
+
+            // Timestamps para trazabilidad
+            $table->timestamps();
         });        
     }
 

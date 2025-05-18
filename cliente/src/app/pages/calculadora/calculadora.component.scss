@@ -151,7 +151,7 @@ main {
       margin: 0;
 
       li {
-        font-size: 0.72rem;
+        font-size: 1rem;
         margin-bottom: 5px;
       }
     }
@@ -190,6 +190,34 @@ main {
           padding: 5px;
         }
       }
+    }
+  }
+
+  .alert-success-custom {
+    background: $verde;
+    color: #fff;
+    border: 1.5px solid #000;
+    border-radius: 18px;
+    padding: 14px 20px;
+    margin-bottom: 18px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(90, 114, 18, 0.08);
+    z-index: 10;
+    animation: fadeInDown 0.7s;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }

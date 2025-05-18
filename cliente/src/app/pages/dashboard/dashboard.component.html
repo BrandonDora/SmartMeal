@@ -4,149 +4,216 @@
   <main>
     <div class="container-fluid">
       <div class="welcome-banner">
-        <h1>¡Bienvenid&#64; de nuevo, Usuario!</h1>
+        <h1>¡Bienvenid&#64; de nuevo, {{ usuario }}!</h1>
       </div>
 
-      <!-- Tarjetas de Nutrición -->
-      <div class="row nutrition-info">
-        <!-- Calorías -->
-        <div class="col-md-3 col-sm-6">
-          <div class="nutrition-card">
-            <div class="nutrition-label">Calorías</div>
-            <div class="nutrition-wrapper">
-              <p class="nutrition-value">1.200</p>
-              <p class="nutrition-goal">/1.800</p>
-            </div>
-            <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 67%"
-              ></div>
-            </div>
+      <ng-container *ngIf="menus.length === 0">
+        <div class="container-fluid empty-menu-box mb-3">
+          <h2 class="text-center">¡Sin recetas!</h2>
+        </div>
+        <ng-container *ngIf="prefs.length === 0">
+          <div class="container-fluid empty-menu-box">
+            <p class="text-center">
+              Para empezar a crear tu menú te recomendamos añadir marcar tu meta
+              calculando tus calorías de mantenimiento.<br />
+              <a routerLink="/calculadora" class="btn btn-primary mt-3"
+                >Ir a Calculadora</a
+              >
+            </p>
+          </div>
+        </ng-container>
+        <div class="d-flex justify-content-center gap-3 mt-3">
+          <a
+            href="#"
+            class="btn btn-primary"
+            (click)="
+              mostrarFormularioMenu = !mostrarFormularioMenu;
+              $event.preventDefault()
+            "
+            >Crear Menú</a
+          >
+          <a
+            href="#"
+            class="btn btn-primary"
+            (click)="mostrarMsgGenerarMenu = true; $event.preventDefault()"
+            >Generar menú</a
+          >
+        </div>
+        <div *ngIf="mostrarMsgGenerarMenu">
+          <div
+            *ngIf="prefs.length === 0"
+            class="text-center mt-2 text-danger fw-bold"
+          >
+            PRIMERO DEBES IR A LA CALCULADORA
+          </div>
+          <div
+            *ngIf="prefs.length > 0"
+            class="text-center mt-2 text-success fw-bold"
+          >
+            TODO OK
           </div>
         </div>
-
-        <!-- Proteínas -->
-        <div class="col-md-3 col-sm-6">
-          <div class="nutrition-card">
-            <div class="nutrition-label">Proteínas</div>
-            <div class="nutrition-wrapper">
-              <p class="nutrition-value">1.200</p>
-              <p class="nutrition-goal">/1.800</p>
-            </div>
-            <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 67%"
-              ></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Carbohidratos -->
-        <div class="col-md-3 col-sm-6">
-          <div class="nutrition-card">
-            <div class="nutrition-label">Carbohidratos</div>
-            <div class="nutrition-wrapper">
-              <p class="nutrition-value">1.200</p>
-              <p class="nutrition-goal">/1.800</p>
-            </div>
-            <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 67%"
-              ></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Grasas -->
-        <div class="col-md-3 col-sm-6">
-          <div class="nutrition-card">
-            <div class="nutrition-label">Grasas</div>
-            <div class="nutrition-wrapper">
-              <p class="nutrition-value">1.200</p>
-              <p class="nutrition-goal">/1.800</p>
-            </div>
-            <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 67%"
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Plan Personalizado -->
-      <h2 class="section-title">Tu plan personalizado</h2>
-
-      <div class="tabs-container">
-        <!-- Pestañas -->
-        <div class="d-flex mb-4 plan-bar">
-          <button class="tab-button active">Diario</button>
-          <button class="tab-button">Semanal</button>
-          <button class="tab-button">Personalizado</button>
-        </div>
-
-        <!-- Tarjetas de Comidas -->
-        <div class="row meals-table">
-          <!-- Desayuno -->
-          <div class="col-md-4">
-            <div class="meal-card">
-              <img
-                src="/../../../assets/img/Desayuno.png"
-                alt="Desayuno"
-                class="meal-img"
+        <div *ngIf="mostrarFormularioMenu" class="menu-form-box mt-4 mx-auto">
+          <form
+            (ngSubmit)="crearMenu()"
+            #formMenu="ngForm"
+            class="p-4"
+            style="max-width: 400px"
+          >
+            <h5 class="mb-3 text-center">Crear nuevo menú</h5>
+            <div class="mb-3">
+              <label for="nombreMenu" class="form-label">Nombre del menú</label>
+              <input
+                type="text"
+                id="nombreMenu"
+                name="nombreMenu"
+                class="form-control"
+                [(ngModel)]="nuevoMenu.nombre"
+                required
               />
-              <div class="meal-info">
-                <div class="meal-type">Desayuno</div>
-                <div class="meal-calories">450 Kcal</div>
-                <div class="meal-time"><i class="far fa-clock"></i> 08:00</div>
-                <button class="recipe-btn">Ver Receta</button>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="formMenu.invalid"
+              >
+                Crear
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="mostrarFormularioMenu = false"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="menus.length > 0">
+        <!-- Tarjetas de Nutrición -->
+        <div class="row nutrition-info">
+          <!-- Calorías -->
+          <div class="col-md-3 col-sm-6">
+            <div class="nutrition-card">
+              <div class="nutrition-label">Calorías</div>
+              <div class="nutrition-wrapper">
+                <p class="nutrition-value">1.200</p>
+                <p class="nutrition-goal">/1.800</p>
+              </div>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 67%"
+                ></div>
               </div>
             </div>
           </div>
 
-          <!-- Almuerzo -->
-          <div class="col-md-4">
-            <div class="meal-card">
-              <img
-                src="/../../../assets/img/Almuerzo.png"
-                alt="Almuerzo"
-                class="meal-img"
-              />
-              <div class="meal-info">
-                <div class="meal-type">Almuerzo</div>
-                <div class="meal-calories">650 Kcal</div>
-                <div class="meal-time"><i class="far fa-clock"></i> 13:00</div>
-                <button class="recipe-btn">Ver Receta</button>
+          <!-- Proteínas -->
+          <div class="col-md-3 col-sm-6">
+            <div class="nutrition-card">
+              <div class="nutrition-label">Proteínas</div>
+              <div class="nutrition-wrapper">
+                <p class="nutrition-value">1.200</p>
+                <p class="nutrition-goal">/1.800</p>
+              </div>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 67%"
+                ></div>
               </div>
             </div>
           </div>
 
-          <!-- Cena -->
-          <div class="col-md-4">
-            <div class="meal-card">
-              <img
-                src="/../../../assets/img/Cena.png"
-                alt="Cena Ligera"
-                class="meal-img"
-              />
-              <div class="meal-info">
-                <div class="meal-type">Cena Ligera</div>
-                <div class="meal-calories">450 Kcal</div>
-                <div class="meal-time"><i class="far fa-clock"></i> 20:00</div>
-                <button class="recipe-btn">Ver Receta</button>
+          <!-- Carbohidratos -->
+          <div class="col-md-3 col-sm-6">
+            <div class="nutrition-card">
+              <div class="nutrition-label">Carbohidratos</div>
+              <div class="nutrition-wrapper">
+                <p class="nutrition-value">1.200</p>
+                <p class="nutrition-goal">/1.800</p>
+              </div>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 67%"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grasas -->
+          <div class="col-md-3 col-sm-6">
+            <div class="nutrition-card">
+              <div class="nutrition-label">Grasas</div>
+              <div class="nutrition-wrapper">
+                <p class="nutrition-value">1.200</p>
+                <p class="nutrition-goal">/1.800</p>
+              </div>
+              <div class="progress">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 67%"
+                ></div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+        <!-- Plan Personalizado -->
+        <h2 class="section-title">Tu plan personalizado</h2>
+
+        <div class="tabs-container">
+          <!-- Pestañas -->
+          <div class="d-flex mb-4 plan-bar">
+            <button class="tab-button active">Diario</button>
+            <button class="tab-button">Semanal</button>
+            <button class="tab-button">Personalizado</button>
+          </div>
+
+          <!-- Tarjetas de Comidas -->
+          <div class="row meals-table">
+            <ng-container *ngIf="recetasMenu.length > 0; else sinRecetas">
+              <div class="col-md-4 mb-4" *ngFor="let receta of recetasMenu">
+                <div class="meal-card">
+                  <img
+                    [src]="receta.imagen || '/../../../assets/img/Desayuno.png'"
+                    [alt]="receta.nombre"
+                    class="meal-img"
+                  />
+                  <div class="meal-info">
+                    <div class="meal-type">{{ receta.nombre }}</div>
+                    <div class="meal-calories">
+                      {{ receta.calorias || 0 }} Kcal
+                    </div>
+                    <div class="meal-time">
+                      <i class="far fa-clock"></i>
+                      {{
+                        receta.tiempo_preparacion
+                          ? receta.tiempo_preparacion + " min"
+                          : ""
+                      }}
+                    </div>
+                    <button class="recipe-btn">Ver Receta</button>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #sinRecetas>
+              <div class="col-12 text-center">
+                <p>No tienes recetas en tu menú.</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </main>
 
