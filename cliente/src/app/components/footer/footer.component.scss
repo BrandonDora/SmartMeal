@@ -1,6 +1,11 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
 footer {
-  background-color: #fffeeb;
-  border-top: 2px solid #000;
+  background-color: $bg-light;
+  border-top: 2px solid $negro;
   position: relative;
 
   .footer-icons {
@@ -11,6 +16,7 @@ footer {
     i {
       font-size: 2.8vh;
       margin: 6px;
+      color: $negro;
     }
   }
 
@@ -21,6 +27,36 @@ footer {
     a {
       text-decoration: none;
       color: inherit;
+    }
+  }
+
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0.5rem;
+
+    .footer-icons {
+      position: static;
+      left: unset;
+      transform: none;
+      margin: 0 0 0 0;
+      order: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+    .derechos {
+      order: 2;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      white-space: normal;
+      flex-wrap: wrap;
+      gap: 1.2rem;
     }
   }
 }

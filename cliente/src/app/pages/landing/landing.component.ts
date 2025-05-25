@@ -22,8 +22,5 @@ export class LandingComponent implements OnInit {
       next: (res) => (this.user = res),
       error: (err) => (this.errMessage = err.error.message),
     });
-
-    //@if(user !=null){ {{user.name}} }
-    //@if(errMessage !=null){ {{errMessage}} }
   }
 }

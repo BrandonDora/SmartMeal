@@ -92,4 +92,8 @@ export class HttpTokenService {
       }
     );
   }
+
+  verificarCorreo(email: string) {
+    return this.http.post<any>(`${baseUrl}/api/correos`, { email });
+  }
 }

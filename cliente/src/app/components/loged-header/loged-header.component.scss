@@ -9,8 +9,12 @@ header {
 
   .d-flex {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 0 20px;
+    min-height: 87px;
+    height: 87px;
+    box-sizing: border-box;
 
     img:first-child {
       max-height: 8vh;
@@ -19,13 +23,16 @@ header {
     #navbar {
       flex: 1;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
+      margin-right: 40px;
 
       ul {
         display: flex;
         list-style: none;
         padding: 0;
         margin: 0;
+        height: 100%;
+        align-items: center;
 
         li {
           margin: 0 10px;
@@ -40,12 +47,39 @@ header {
             padding: 8px 18px;
             border-radius: 20px;
             transition: background 0.2s, color 0.2s;
+            cursor: pointer;
           }
-          .nav-link:hover,
-          .nav-link.active {
+          .nav-link.selected {
             background: $verde;
             color: #fff;
             text-decoration: none;
+            z-index: 1;
+          }
+          .nav-link.hovered {
+            background: darken($verde, 8%);
+            color: #fff;
+            text-decoration: none;
+            z-index: 2;
+          }
+          .nav-link:hover {
+            background: darken($verde, 8%);
+            color: #fff;
+            text-decoration: none;
+            z-index: 2;
+          }
+          .nav-link.selected:not(:hover) {
+            // Se desmarcará por lógica Angular, no CSS puro
+          }
+          .nav-link.selected:hover,
+          .nav-link.selected:focus,
+          .nav-link.selected:active {
+            background: darken($verde, 8%);
+            color: #fff;
+          }
+          .nav-link.selected:hover ~ .nav-link,
+          .nav-link.selected:has(~ .nav-link:hover) {
+            background: none;
+            color: #000;
           }
         }
       }

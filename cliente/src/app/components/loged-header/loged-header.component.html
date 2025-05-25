@@ -6,22 +6,62 @@
     <div class="container-fluid" id="navbar">
       <ul>
         <li>
-          <a routerLink="/dashboard" class="nav-link">Mi Plan</a>
+          <a
+            routerLink="/dashboard"
+            class="nav-link"
+            [ngClass]="{
+              selected: router.url.startsWith('/dashboard') && !hover,
+              hovered: hover === '/dashboard'
+            }"
+            (mouseenter)="setHover('/dashboard')"
+            (mouseleave)="setHover(null)"
+            >Mi Plan</a
+          >
         </li>
         <li>
-          <a routerLink="/recetas" class="nav-link">Recetas</a>
+          <a
+            routerLink="/recetas"
+            class="nav-link"
+            [ngClass]="{
+              selected: router.url.startsWith('/recetas') && !hover,
+              hovered: hover === '/recetas'
+            }"
+            (mouseenter)="setHover('/recetas')"
+            (mouseleave)="setHover(null)"
+            >Recetas</a
+          >
         </li>
         <li>
-          <a routerLink="/calculadora" class="nav-link">Calculadora</a>
+          <a
+            routerLink="/calculadora"
+            class="nav-link"
+            [ngClass]="{
+              selected: router.url.startsWith('/calculadora') && !hover,
+              hovered: hover === '/calculadora'
+            }"
+            (mouseenter)="setHover('/calculadora')"
+            (mouseleave)="setHover(null)"
+            >Calculadora</a
+          >
         </li>
         <li>
-          <a routerLink="/listaCompra" class="nav-link">Lista de Compras</a>
+          <a
+            routerLink="/listaCompra"
+            class="nav-link"
+            [ngClass]="{
+              selected: router.url.startsWith('/listaCompra') && !hover,
+              hovered: hover === '/listaCompra'
+            }"
+            (mouseenter)="setHover('/listaCompra')"
+            (mouseleave)="setHover(null)"
+            >Lista de Compras</a
+          >
         </li>
       </ul>
     </div>
     <div id="user-container">
       <a routerLink="/perfil">
-        <img id="user" src="assets/img/user.png" alt="Imagen de usuario" />
+        <img id="user" [src]="fotoPerfilUrl" alt="Imagen de usuario" />
       </a>
     </div>
   </div>

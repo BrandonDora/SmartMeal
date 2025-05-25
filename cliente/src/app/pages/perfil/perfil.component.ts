@@ -13,6 +13,19 @@ import { Router } from '@angular/router';
   styleUrl: './perfil.component.scss',
 })
 export class PerfilComponent {
+  usuario = {
+    nombre: 'Brandon Acapa',
+    email: 'brandonemail.com',
+    fechaRegistro: 'Enero 2025',
+    foto_perfil: '', // Aquí simulas el campo, luego lo traes del backend
+  };
+
+  get fotoPerfilUrl(): string {
+    return this.usuario.foto_perfil && this.usuario.foto_perfil.trim() !== ''
+      ? this.usuario.foto_perfil
+      : 'assets/img/default.jpg';
+  }
+
   constructor(private tokenService: HttpTokenService, private router: Router) {}
 
   logout() {
