@@ -6,9 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpTokenService } from '../../http-token.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearRecetaComponent } from '../../components/dialogs/crear-receta.component';
 import { VerRecetaComponent } from '../../components/dialogs/ver-receta.component';
+import { ModalInfoComponent } from '../../components/dialogs/modal-info.component';
 
 @Component({
   selector: 'app-recetas',
@@ -20,6 +21,7 @@ import { VerRecetaComponent } from '../../components/dialogs/ver-receta.componen
     CommonModule,
     CrearRecetaComponent,
     VerRecetaComponent,
+    ModalInfoComponent,
   ],
   templateUrl: './recetas.component.html',
   styleUrl: './recetas.component.scss',
@@ -72,43 +74,69 @@ export class RecetasComponent implements OnInit {
     });
   }
 
-  getUserId(): number | null {
-    // Suponiendo que el usuario está en localStorage como objeto JSON con id
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        return JSON.parse(user).id;
-      } catch {
-        return null;
-      }
-    }
-    return null;
-  }
-
   onAnadirReceta(recetaId: number) {
-    const usuarioId = this.getUserId();
-    if (usuarioId !== null) {
-      this.postMenuReceta(usuarioId, recetaId);
-    } else {
-      // Intentar obtener el usuario autenticado vía API con token
-      const token = localStorage.getItem('token');
-      const options = token
-        ? { headers: { Authorization: `Bearer ${token}` } }
-        : {};
-      this.http.get<any>('/api/user', options).subscribe({
-        next: (user) => {
-          if (user && user.id) {
-            this.postMenuReceta(user.id, recetaId);
-          } else {
-            alert('No se ha encontrado el usuario.');
-          }
-        },
-        error: () => alert('No se ha encontrado el usuario.'),
-      });
-    }
+    const token = localStorage.getItem('token');
+    const options = token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : {};
+    this.http.get<any>('/api/user', options).subscribe({
+      next: (user) => {
+        if (user && user.id) {
+          this.comprobarYAnadirRecetaAMenu(user.id, recetaId);
+        } else {
+          this.mostrarModalInfo('No se ha encontrado el usuario.');
+        }
+      },
+      error: () => this.mostrarModalInfo('No se ha encontrado el usuario.'),
+    });
   }
 
-  postMenuReceta(usuarioId: number, recetaId: number) {
+  comprobarYAnadirRecetaAMenu(usuarioId: number, recetaId: number) {
+    const token = localStorage.getItem('token');
+    const options = token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : {};
+    this.http.get<any[]>('/api/menus', options).subscribe({
+      next: (menus) => {
+        const menusUsuario = menus.filter((m: any) => m.user_id === usuarioId);
+        if (!menusUsuario.length) {
+          this.mostrarModalInfo(
+            'Aún no tienes ningún menú, por favor crea uno'
+          );
+          return;
+        }
+        // Buscar el menú más reciente por fecha_creacion o created_at
+        const menuMasReciente = menusUsuario.reduce((a: any, b: any) => {
+          const fechaA = new Date(a.fecha_creacion || a.created_at);
+          const fechaB = new Date(b.fecha_creacion || b.created_at);
+          return fechaA > fechaB ? a : b;
+        });
+        // Comprobar si la receta ya está en el menú más reciente
+        this.http
+          .get<any[]>(`/api/menus/${menuMasReciente.id_menu}/recetas`, options)
+          .subscribe({
+            next: (recetasMenu) => {
+              const yaAnadida = recetasMenu.some(
+                (r: any) => r.id === recetaId || r.receta_id === recetaId
+              );
+              if (yaAnadida) {
+                this.mostrarModalInfo('Esta receta ya está añadida');
+                return;
+              }
+              this.postMenuReceta(menuMasReciente.id_menu, recetaId, usuarioId);
+            },
+            error: () => {
+              this.mostrarModalInfo('Error al comprobar las recetas del menú.');
+            },
+          });
+      },
+      error: () => {
+        this.mostrarModalInfo('Error al comprobar los menús del usuario.');
+      },
+    });
+  }
+
+  postMenuReceta(menuId: number, recetaId: number, usuarioId: number) {
     const token = localStorage.getItem('token');
     const options = token
       ? { headers: { Authorization: `Bearer ${token}` } }
@@ -117,19 +145,19 @@ export class RecetasComponent implements OnInit {
       .post(
         '/api/menuReceta',
         {
+          usuario_id: usuarioId,
           receta_id: Number(recetaId),
-          usuario_id: Number(usuarioId),
         },
         options
       )
       .subscribe({
-        next: () => alert('Receta añadida al menú'),
+        next: () => this.mostrarModalInfo('Receta añadida al menú'),
         error: (err) => {
           const msg =
             err?.error?.message ||
             JSON.stringify(err?.error) ||
             'Error al añadir receta al menú';
-          alert(msg);
+          this.mostrarModalInfo(msg);
         },
       });
   }
@@ -152,6 +180,13 @@ export class RecetasComponent implements OnInit {
     this.dialog.open(VerRecetaComponent, {
       width: '600px',
       data: receta,
+    });
+  }
+
+  mostrarModalInfo(mensaje: string) {
+    this.dialog.open(ModalInfoComponent, {
+      data: { mensaje },
+      width: '350px',
     });
   }
 

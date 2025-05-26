@@ -22,14 +22,14 @@
   }
 
   .nutrient {
-    background: #f3f4f6;
+    background: $blanco;
     border-radius: 18px;
+    border: solid 1px $verde;
     padding: 8px 16px;
     font-size: 1.05rem;
     display: flex;
     align-items: center;
     gap: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
 
   button[mat-button] {
