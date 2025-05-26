@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-  <app-loged-header></app-loged-header>
+  <app-loged-header [fotoPerfilUrl]="fotoPerfilUrl"></app-loged-header>
 
   <main>
     <div class="container-fluid mt-4">
@@ -34,7 +34,10 @@
       </div>
 
       <div class="row recetas">
-        <div class="col-md-4 mb-4 receta-card" *ngFor="let receta of recetas">
+        <div
+          class="col-md-4 mb-4 receta-card"
+          *ngFor="let receta of recetas | slice : 0 : recetasMostradas"
+        >
           <div class="card">
             <input type="hidden" [value]="receta.id" class="receta-id" />
             <img
@@ -50,7 +53,12 @@
                   <i class="bi bi-fire ms-2"></i> {{ receta.calorias }} kcal
                 </small>
               </p>
-              <a href="#" class="btn btn-primary">Ver Receta</a>
+              <a
+                href="#"
+                class="btn btn-primary"
+                (click)="$event.preventDefault(); abrirVerReceta(receta)"
+                >Ver Receta</a
+              >
               <button
                 class="btn btn-outline-secondary float-end"
                 (click)="onAnadirReceta(receta.id_receta)"
@@ -62,9 +70,21 @@
         </div>
       </div>
 
-      <div class="mt-4 mb-4">
-        <button class="btn btn-lg extend-recetas">
+      <div class="mt-4 mb-4 position-relative" style="min-height: 60px">
+        <button
+          class="btn btn-lg extend-recetas position-absolute start-0"
+          style="left: 0; top: 0"
+          (click)="abrirCrearReceta()"
+        >
           <i class="bi bi-plus-circle me-2"></i> Crear una receta
+        </button>
+        <button
+          *ngIf="mostrarBotonMostrarMas"
+          class="btn btn-lg extend-recetas position-absolute start-50 translate-middle-x"
+          style="left: 50%; top: 0; transform: translateX(-50%)"
+          (click)="mostrarMasRecetas()"
+        >
+          Mostrar más <i class="bi bi-chevron-down"></i>
         </button>
       </div>
     </div>

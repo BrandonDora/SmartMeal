@@ -12,6 +12,7 @@ use App\Http\Controllers\UsuarioController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/recetas', [RecetaController::class, 'store']);
 Route::get('/recetas', [RecetaController::class, 'recetas']);
 Route::middleware(['auth:sanctum'])->get('/user', [AuthController::class, 'user']);
 Route::middleware(['auth:sanctum'])->get('/menus', [MenuController::class, 'menus']);

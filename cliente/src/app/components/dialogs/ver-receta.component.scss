@@ -1,0 +1,48 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
+.dialog-content {
+  padding: 15px;
+  background-color: $bg-light;
+
+  .titulo-dialogo {
+    color: $verde;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+
+  img {
+    border-radius: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .nutrient {
+    background: #f3f4f6;
+    border-radius: 18px;
+    padding: 8px 16px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  }
+
+  button[mat-button] {
+    background: rgba(235, 35, 35, 0.767);
+    color: #fff;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 8px 32px;
+    border: none;
+    margin-top: 18px;
+    &:hover {
+      background: #c62828;
+      color: #fff;
+    }
+  }
+}

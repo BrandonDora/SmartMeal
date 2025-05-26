@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   mostrarFormularioMenu: boolean = false;
   nuevoMenu = { nombre: '', descripcion: '' };
   mostrarMsgGenerarMenu: boolean = false;
+  fotoPerfilUrl: string = 'assets/img/default.jpg';
 
   constructor(private tokenService: HttpTokenService) {}
 
@@ -36,6 +37,14 @@ export class DashboardComponent implements OnInit {
     this.tokenService.getUser().subscribe({
       next: (data) => {
         this.usuario = data.usuario || data.name || 'Usuario';
+        // Obtener la foto de perfil real
+        if (data.foto_perfil && data.foto_perfil.trim() !== '') {
+          this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
+            ? 'http://localhost:8000' + data.foto_perfil
+            : data.foto_perfil;
+        } else {
+          this.fotoPerfilUrl = 'assets/img/default.jpg';
+        }
         console.log(data);
         // Obtener preferencias nutricionales del usuario
         if (data.id) {

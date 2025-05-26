@@ -5,11 +5,22 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { HttpClient } from '@angular/common/http';
 import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpTokenService } from '../../http-token.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CrearRecetaComponent } from '../../components/dialogs/crear-receta.component';
+import { VerRecetaComponent } from '../../components/dialogs/ver-receta.component';
 
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [RouterModule, LogedHeaderComponent, FooterComponent, CommonModule],
+  imports: [
+    RouterModule,
+    LogedHeaderComponent,
+    FooterComponent,
+    CommonModule,
+    CrearRecetaComponent,
+    VerRecetaComponent,
+  ],
   templateUrl: './recetas.component.html',
   styleUrl: './recetas.component.scss',
 })
@@ -17,8 +28,14 @@ export class RecetasComponent implements OnInit {
   recetas: any[] = [];
   receta: any = null;
   x: number = 1;
+  fotoPerfilUrl: string = 'assets/img/default.jpg';
+  recetasMostradas: number = 6;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private tokenService: HttpTokenService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.http.get<any[]>('/api/recetas').subscribe({
@@ -29,6 +46,20 @@ export class RecetasComponent implements OnInit {
       error: (err) => console.error('Error al obtener recetas', err),
     });
     this.getRecetaPorId();
+    this.tokenService.getUser().subscribe({
+      next: (data) => {
+        if (data.foto_perfil && data.foto_perfil.trim() !== '') {
+          this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
+            ? 'http://localhost:8000' + data.foto_perfil
+            : data.foto_perfil;
+        } else {
+          this.fotoPerfilUrl = 'assets/img/default.jpg';
+        }
+      },
+      error: () => {
+        this.fotoPerfilUrl = 'assets/img/default.jpg';
+      },
+    });
   }
 
   getRecetaPorId(): void {
@@ -101,5 +132,34 @@ export class RecetasComponent implements OnInit {
           alert(msg);
         },
       });
+  }
+
+  abrirCrearReceta() {
+    const dialogRef = this.dialog.open(CrearRecetaComponent, {
+      width: '400px',
+      autoFocus: false,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Aquí podrías enviar la receta al backend
+        // this.http.post('/api/recetas', result).subscribe(...)
+        alert('Receta creada (simulado): ' + JSON.stringify(result));
+      }
+    });
+  }
+
+  abrirVerReceta(receta: any) {
+    this.dialog.open(VerRecetaComponent, {
+      width: '600px',
+      data: receta,
+    });
+  }
+
+  mostrarMasRecetas() {
+    this.recetasMostradas += 6;
+  }
+
+  get mostrarBotonMostrarMas(): boolean {
+    return this.recetas.length > this.recetasMostradas;
   }
 }

@@ -1,10 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&display=swap");
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
 
-* {
-  font-family: "Quicksand", sans-serif;
-  padding: 0;
-  margin: 0;
-}
+@include global();
 
 .page-wrapper {
   min-height: 100vh;
@@ -47,6 +44,7 @@ main {
     .card {
       border-radius: 25px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background-color: $bg-light;
 
       img {
         border-top-left-radius: 25px;

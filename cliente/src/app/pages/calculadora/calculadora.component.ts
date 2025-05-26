@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { HttpTokenService } from '../../http-token.service';
 
 @Component({
   selector: 'app-calculadora',
@@ -34,8 +35,13 @@ export class CalculadoraComponent {
   success: string | null = null;
   bmr: number | null = null;
   caloriasMantenimiento: number | null = null;
+  fotoPerfilUrl: string = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private tokenService: HttpTokenService
+  ) {
     this.calcForm = this.fb.group({
       weight: ['', [Validators.required, Validators.min(1)]],
       height: ['', [Validators.required, Validators.min(1)]],
@@ -51,6 +57,16 @@ export class CalculadoraComponent {
     });
     // Calcular valores iniciales
     this.calcularValores();
+
+    // Obtener usuario y foto de perfil
+    this.tokenService.getUser().subscribe({
+      next: (user) => {
+        this.fotoPerfilUrl = user.foto_perfil || 'assets/img/default.jpg';
+      },
+      error: () => {
+        this.fotoPerfilUrl = 'assets/img/default.jpg';
+      },
+    });
   }
 
   calcularValores() {
