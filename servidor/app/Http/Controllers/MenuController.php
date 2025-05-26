@@ -29,6 +29,15 @@ class MenuController extends Controller
                 return response()->json(['error' => 'No se encontró menú para el usuario'], 404);
             }
 
+            // Comprobar si la receta ya está en el menú
+            $existe = \DB::table('menu_receta')
+                ->where('id_menu', $menu->id_menu)
+                ->where('id_receta', $request->receta_id)
+                ->exists();
+            if ($existe) {
+                return response()->json(['message' => 'Esta receta ya está añadida'], 409);
+            }
+
             // Insertar en la tabla pivote menu_receta
             \DB::table('menu_receta')->insert([
                 'id_menu' => $menu->id_menu,
@@ -74,5 +83,14 @@ class MenuController extends Controller
         $menu->fecha_creacion = now();
         $menu->save();
         return response()->json($menu, 201);
+    }
+
+    public function recetasDeMenu($id_menu)
+    {
+        $menu = \App\Models\Menu::with('recetas')->find($id_menu);
+        if (!$menu) {
+            return response()->json(['error' => 'Menú no encontrado'], 404);
+        }
+        return response()->json($menu->recetas);
     }
 }

@@ -25,3 +25,4 @@ Route::middleware(['auth:sanctum'])->get('/preferenciasNutricionales/{id}', [Pre
 Route::middleware(['auth:sanctum'])->post('/menus', [MenuController::class, 'crearMenu']);
 Route::post('/correos', [CorreoController::class, 'verificarCorreo']);
 Route::middleware(['auth:sanctum'])->post('/user/foto-perfil', [UsuarioController::class, 'subirFotoPerfil']);
+Route::middleware(['auth:sanctum'])->get('/menus/{id_menu}/recetas', [MenuController::class, 'recetasDeMenu']);
