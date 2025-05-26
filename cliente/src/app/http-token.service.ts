@@ -96,4 +96,13 @@ export class HttpTokenService {
   verificarCorreo(email: string) {
     return this.http.post<any>(`${baseUrl}/api/correos`, { email });
   }
+
+  subirFotoPerfil(foto: File) {
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('foto', foto);
+    return this.http.post<any>(`${baseUrl}/api/user/foto-perfil`, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }

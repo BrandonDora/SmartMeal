@@ -16,4 +16,14 @@ export class LogedHeaderComponent {
   setHover(route: string | null) {
     this.hover = route;
   }
+
+  get fotoPerfilUrlCompleta(): string {
+    if (this.fotoPerfilUrl && this.fotoPerfilUrl.trim() !== '') {
+      if (this.fotoPerfilUrl.startsWith('/storage/')) {
+        return 'http://localhost:8000' + this.fotoPerfilUrl;
+      }
+      return this.fotoPerfilUrl;
+    }
+    return 'assets/img/default.jpg';
+  }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PreferenciaNutricionalController;
 use App\Http\Controllers\CorreoController;
+use App\Http\Controllers\UsuarioController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -22,3 +23,4 @@ Route::get('/recetas/{id}', [RecetaController::class, 'recetaPorId']);
 Route::middleware(['auth:sanctum'])->get('/preferenciasNutricionales/{id}', [PreferenciaNutricionalController::class, 'showByUser']);
 Route::middleware(['auth:sanctum'])->post('/menus', [MenuController::class, 'crearMenu']);
 Route::post('/correos', [CorreoController::class, 'verificarCorreo']);
+Route::middleware(['auth:sanctum'])->post('/user/foto-perfil', [UsuarioController::class, 'subirFotoPerfil']);
