@@ -12,12 +12,14 @@ class PreferenciaNutricional extends Model
 
     protected $fillable = [
         'user_id',
+        'calorias_mantenimiento',
         'calorias_deseadas',
         'objetivo',
     ];
 
     protected $casts = [
         'user_id' => 'integer',
+        'calorias_mantenimiento' => 'integer',
         'calorias_deseadas' => 'integer',
         'objetivo' => 'string',
     ];

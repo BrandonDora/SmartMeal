@@ -36,13 +36,23 @@ class PreferenciaNutricionalController extends Controller
         // Calorías de mantenimiento
         $calorias_mantenimiento = $tmb * $actividad;
 
+        // Calorías deseadas
+        if ($objetivo === 'subir') {
+            $calorias_deseadas = $calorias_mantenimiento * 1.15;
+        } elseif ($objetivo === 'bajar') {
+            $calorias_deseadas = $calorias_mantenimiento * 0.85;
+        } else {
+            $calorias_deseadas = $calorias_mantenimiento;
+        }
+
         // Guardar en la base de datos
         $user = $request->user();
         if ($user) {
             PreferenciaNutricional::updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'calorias_deseadas' => round($calorias_mantenimiento),
+                    'calorias_mantenimiento' => round($calorias_mantenimiento),
+                    'calorias_deseadas' => round($calorias_deseadas),
                     'objetivo' => $objetivo
                 ]
             );
@@ -60,7 +70,7 @@ class PreferenciaNutricionalController extends Controller
         if ($preferencias) {
             return response()->json([$preferencias]);
         } else {
-            return response()->json([]); // array vacío si no hay prefs
+            return response()->json([]);
         }
     }
 }

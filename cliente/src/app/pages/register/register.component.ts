@@ -35,10 +35,10 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       usuario: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
       password_confirmation: [
         '',
-        [Validators.required, Validators.minLength(6)],
+        [Validators.required, Validators.minLength(5)],
       ],
     });
   }
@@ -61,7 +61,7 @@ export class RegisterComponent {
       this.errMessage = 'Por favor, completa todos los campos.';
       return;
     }
-    // Validación frontend de contraseñas
+    // Validación de contraseñas
     if (
       this.registerForm.get('password')?.value !==
       this.registerForm.get('password_confirmation')?.value
@@ -69,7 +69,7 @@ export class RegisterComponent {
       this.errMessage = 'Las contraseñas no coinciden.';
       return;
     }
-    if (this.registerForm.get('password')?.value.length < 6) {
+    if (this.registerForm.get('password')?.value.length < 5) {
       this.errMessage = 'La contraseña debe tener al menos 5 caracteres.';
       return;
     }

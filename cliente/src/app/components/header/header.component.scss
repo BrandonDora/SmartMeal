@@ -13,6 +13,14 @@ header {
     justify-content: center;
     position: relative;
 
+    a {
+      position: absolute;
+      left: 10px;
+      height: 8vh;
+      display: flex;
+      align-items: center;
+    }
+
     img {
       height: 8vh;
       position: absolute;

@@ -52,9 +52,9 @@ main {
 }
 
 .logout-btn {
-  position: absolute;
+  position: fixed;
   right: 20px;
-  bottom: 10px;
+  bottom: 10%;
   z-index: 1000;
   background: rgba(235, 35, 35, 0.767);
   color: #fff;
@@ -71,4 +71,60 @@ main {
 }
 .logout-btn:hover {
   background: darken(red, 10%);
+}
+
+.btn-success[routerLink="/calculadora"] {
+  background-color: #bbd43e;
+  color: #fff;
+  border-radius: 25px;
+  padding: 10px 32px;
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 2px 8px rgba(187, 212, 62, 0.08);
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+}
+.btn-success[routerLink="/calculadora"]:hover {
+  background: #a3c72e;
+  color: #fff;
+  text-decoration: none;
+}
+
+.goals p,
+.goals span {
+  font-size: 18px;
+}
+
+.custom-calories-progress {
+  width: 100%;
+  background: #f2f2f2;
+  border-radius: 20px;
+  height: 18px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: $verde;
+  border-radius: 20px 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  color: transparent;
+  font-size: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+  min-width: 60px;
+}
+
+.progress-bar-inner.over-goal {
+  background: linear-gradient(90deg, #f87171 0%, #fbbf24 100%);
+}
+
+.progress-label {
+  display: none;
 }

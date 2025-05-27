@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
 
     const { email, password } = this.loginForm.value;
 
-    // Guardar o borrar datos según el checkbox
+    // Guardar o borrar datos escritos en el input según el checkbox
     if (this.rememberMe) {
       localStorage.setItem('rememberEmail', email);
       localStorage.setItem('rememberPassword', password);
@@ -95,7 +95,14 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {
-        this.errMessage = error?.error?.message || 'Error al iniciar sesión';
+        const msg = error?.error?.message?.toLowerCase() || '';
+        if (msg.includes('email not found')) {
+          this.errMessage = 'El correo escrito no existe';
+        } else if (msg.includes('incorrect password')) {
+          this.errMessage = 'Contraseña incorrecta';
+        } else {
+          this.errMessage = error?.error?.message || 'Error al iniciar sesión';
+        }
       },
     });
   }

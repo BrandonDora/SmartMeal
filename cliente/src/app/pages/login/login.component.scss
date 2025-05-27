@@ -4,14 +4,12 @@
 @include global();
 
 .page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  @include body();
 }
 
 main {
-  background-color: #fce8a3;
-  color: #fff;
+  background-color: $bg;
+  color: $blanco;
   flex: 1;
 
   .col-12.col-md-6 {
@@ -36,7 +34,7 @@ main {
   }
 
   .form-container {
-    background-color: #5a7212;
+    background-color: $verde-oscuro;
     border-radius: 20px;
     padding-inline: 80px;
     padding-block: 50px;
@@ -60,7 +58,6 @@ main {
 
       &::placeholder {
         color: #c8c8c8;
-        /* padding-left: 20px; */ // Eliminado para alinear texto y placeholder
       }
 
       &:focus,
@@ -75,7 +72,7 @@ main {
       align-items: center;
       border-radius: 30px;
       overflow: hidden;
-      background-color: #fff;
+      background-color: white;
       padding-left: 15px;
 
       input {
@@ -86,7 +83,6 @@ main {
 
         &::placeholder {
           color: #c8c8c8;
-          /* padding-left: 20px; */ // Eliminado para alinear texto y placeholder
         }
 
         &:focus,
@@ -97,13 +93,13 @@ main {
       }
 
       button {
-        background-color: transparent;
         border: none;
         padding: 10px 20px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: white;
 
         i {
           font-size: 18px;
@@ -111,13 +107,13 @@ main {
         }
 
         &:hover i {
-          color: #000;
+          color: $negro;
         }
       }
     }
 
     .entrar {
-      color: #000;
+      color: $negro;
       border-radius: 20px;
       max-width: 150px;
       padding-block: 10px;
@@ -125,7 +121,7 @@ main {
       display: block;
 
       &::before {
-        color: #000;
+        color: $negro;
       }
     }
 
@@ -141,7 +137,7 @@ main {
         height: 22px;
         border-radius: 6px;
         border: 2px solid $verde;
-        background: #fff;
+        background: $blanco;
         margin-left: 10px;
         margin-right: 5px;
         margin-top: 0;
@@ -154,7 +150,7 @@ main {
         cursor: pointer;
       }
       .form-check-input:checked {
-        background-color: #fff;
+        background-color: $blanco;
         border-color: $verde;
       }
       .form-check-input:checked::after {
@@ -171,7 +167,7 @@ main {
         transform: rotate(45deg);
       }
       label {
-        color: #fff;
+        color: $blanco;
         font-size: 16px;
         margin-left: 0;
         font-weight: 500;
@@ -183,12 +179,39 @@ main {
       text-decoration: none;
       font-size: 14px;
       display: inline-block;
-      color: #fff;
+      color: $blanco;
       text-align: right;
 
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .row.align-items-stretch {
+      flex-direction: column !important;
+    }
+    .col-12.col-md-6 {
+      flex-direction: column;
+      order: 2;
+      width: 100%;
+      position: static;
+
+      img,
+      .image-overlay {
+        order: 2;
+      }
+    }
+    .col-12.col-md-6.position-relative {
+      order: 2;
+    }
+    .col-12.col-md-6.py-5 {
+      order: 1;
+    }
+    .form-container {
+      padding-inline: 20px;
+      margin-inline: 25px;
     }
   }
 }

@@ -1,20 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&display=swap");
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
 
-* {
-  font-family: "Quicksand", sans-serif;
-  padding: 0;
-  margin: 0;
-}
+@include global();
 
 .page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  @include body();
 }
 
 main {
-  background-color: #fce8a3;
-  color: #fff;
+  background-color: $bg;
+  color: $blanco;
   flex: 1;
 
   .col-12.col-md-6 {
@@ -39,7 +34,7 @@ main {
   }
 
   .form-container {
-    background-color: #5a7212;
+    background-color: $verde-oscuro;
     border-radius: 20px;
     padding-inline: 80px;
     padding-block: 50px;
@@ -64,7 +59,6 @@ main {
 
       &::placeholder {
         color: #c8c8c8;
-        /* padding-left: 20px; */ // Eliminado para alinear texto y placeholder
       }
 
       &:focus,
@@ -79,17 +73,16 @@ main {
       align-items: center;
       border-radius: 30px;
       overflow: hidden;
-      background-color: #fff;
+      background-color: $blanco;
 
       input {
         border: none;
         flex: 1;
-        padding: 10px 10px 10px 10px;
+        padding: 10px 10px 10px 25px;
         outline: none;
 
         &::placeholder {
           color: #c8c8c8;
-          /* padding-left: 20px; */ // Eliminado para alinear texto y placeholder
         }
 
         &:focus,
@@ -100,7 +93,7 @@ main {
       }
 
       button {
-        background-color: transparent;
+        background-color: #fff;
         border: none;
         padding: 10px 20px;
         cursor: pointer;
@@ -114,13 +107,13 @@ main {
         }
 
         &:hover i {
-          color: #000;
+          color: $negro;
         }
       }
     }
 
     .entrar {
-      color: #000;
+      color: $negro;
       border-radius: 20px;
       max-width: 150px;
       padding-block: 10px;
@@ -128,19 +121,19 @@ main {
       display: block;
 
       &::before {
-        color: #000;
+        color: $negro;
       }
     }
 
     .form-check {
       input {
-        background-color: #5a7212;
+        background-color: $verde-oscuro;
         margin-left: 20px;
         margin-top: 5px;
       }
 
       label {
-        color: #fff;
+        color: $blanco;
         font-size: 14px;
         margin-left: 10px;
       }
@@ -150,12 +143,39 @@ main {
       text-decoration: none;
       font-size: 14px;
       display: inline-block;
-      color: #fff;
+      color: $blanco;
       text-align: right;
 
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .row.align-items-stretch {
+      flex-direction: column !important;
+    }
+    .col-12.col-md-6 {
+      flex-direction: column;
+      order: 2;
+      width: 100%;
+      position: static;
+
+      img,
+      .image-overlay {
+        order: 2;
+      }
+    }
+    .col-12.col-md-6.position-relative {
+      order: 2;
+    }
+    .col-12.col-md-6.py-5 {
+      order: 1;
+    }
+    .form-container {
+      padding-inline: 20px;
+      margin-inline: 25px;
     }
   }
 }

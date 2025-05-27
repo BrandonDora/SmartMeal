@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-
 import { CambiarFotoComponent } from '../dialogs/cambiar-foto.component';
 
 @Component({

@@ -124,4 +124,12 @@ export class DashboardComponent implements OnInit {
       },
     });
   }
+
+  abrirVerReceta(receta: any) {
+    // Aquí puedes abrir un modal, navegar o mostrar la receta como en recetas.component.ts
+    // Por ejemplo, si tienes un modal de receta reutilizable:
+    // this.dialog.open(VerRecetaComponent, { data: receta });
+    // O simplemente navega a la vista de detalle:
+    // this.router.navigate(['/recetas', receta.id_receta]);
+  }
 }

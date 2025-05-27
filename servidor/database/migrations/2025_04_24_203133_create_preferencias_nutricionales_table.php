@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('preferencias_nutricionales', function (Blueprint $table) {
             $table->id('id_preferencia');
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->integer('calorias_mantenimiento');
             $table->integer('calorias_deseadas');
             $table->string('objetivo');
             $table->timestamps();

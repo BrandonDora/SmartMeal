@@ -20,6 +20,8 @@ return new class extends Migration
             $table->float('grasas')->nullable();
             $table->float('carbohidratos')->nullable();
             $table->string('categoria')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

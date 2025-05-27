@@ -63,7 +63,7 @@
                     >
                       <i
                         class="bi"
-                        [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"
+                        [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"
                       ></i>
                     </button>
                   </div>
@@ -89,12 +89,17 @@
                     >
                       <i
                         class="bi"
-                        [ngClass]="showPasswordConfirm ? 'bi-eye-slash' : 'bi-eye'"
+                        [ngClass]="
+                          showPasswordConfirm ? 'bi-eye' : 'bi-eye-slash'
+                        "
                       ></i>
                     </button>
                   </div>
                 </div>
-                <div *ngIf="errMessage" class="alert alert-danger text-center">
+                <div
+                  *ngIf="errMessage"
+                  class="alert alert-danger text-center mb-2"
+                >
                   {{ errMessage }}
                 </div>
                 <button type="submit" class="entrar btn btn-light w-100">

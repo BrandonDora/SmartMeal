@@ -105,4 +105,32 @@ export class HttpTokenService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+
+  actualizarNombre(nombre: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post<any>(
+      `${baseUrl}/api/user/actualizar-nombre`,
+      { nombre },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
+
+  // Obtener recetas creadas por un usuario
+  getRecetasByUser(userId: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get<any[]>(`${baseUrl}/api/recetas`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    // El filtrado por user_id se hace en el frontend porque el endpoint no lo soporta
+  }
+
+  // Obtener recetas de un menú
+  getRecetasDeMenu(idMenu: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get<any[]>(`${baseUrl}/api/menus/${idMenu}/recetas`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }

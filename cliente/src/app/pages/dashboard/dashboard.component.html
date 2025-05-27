@@ -179,33 +179,35 @@
           </div>
 
           <!-- Tarjetas de Comidas -->
-          <div class="row meals-table">
-            <ng-container *ngIf="recetasMenu.length > 0; else sinRecetas">
-              <div class="col-md-4 mb-4" *ngFor="let receta of recetasMenu">
-                <div class="meal-card">
-                  <img
-                    [src]="receta.imagen || '/../../../assets/img/Desayuno.png'"
-                    [alt]="receta.nombre"
-                    class="meal-img"
-                  />
-                  <div class="meal-info">
-                    <div class="meal-type">{{ receta.nombre }}</div>
-                    <div class="meal-calories">
-                      {{ receta.calorias || 0 }} Kcal
-                    </div>
-                    <div class="meal-time">
-                      <i class="far fa-clock"></i>
-                      {{
-                        receta.tiempo_preparacion
-                          ? receta.tiempo_preparacion + " min"
-                          : ""
-                      }}
-                    </div>
-                    <button class="recipe-btn">Ver Receta</button>
-                  </div>
+          <div class="row recetas">
+            <div
+              class="col-md-4 mb-4 receta-card"
+              *ngFor="let receta of recetasMenu"
+            >
+              <div class="card">
+                <img
+                  [src]="receta.imagen || '/../../../assets/img/Desayuno.png'"
+                  class="card-img-top"
+                  [alt]="receta.nombre"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{ receta.nombre }}</h5>
+                  <p class="card-text">
+                    <small class="text-muted">
+                      <i class="bi bi-clock"></i>
+                      {{ receta.tiempo_preparacion }}
+                      <i class="bi bi-fire ms-2"></i> {{ receta.calorias }} kcal
+                    </small>
+                  </p>
+                  <a
+                    href="#"
+                    class="btn btn-primary"
+                    (click)="$event.preventDefault(); abrirVerReceta(receta)"
+                    >Ver Receta</a
+                  >
                 </div>
               </div>
-            </ng-container>
+            </div>
             <ng-template #sinRecetas>
               <div class="col-12 text-center">
                 <p>No tienes recetas en tu menú.</p>

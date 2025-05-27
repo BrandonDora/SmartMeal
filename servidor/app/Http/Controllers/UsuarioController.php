@@ -28,4 +28,17 @@ class UsuarioController extends Controller
 
         return response()->json(['ruta' => $publicPath], 200);
     }
+
+    public function actualizarNombre(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:50',
+        ]);
+
+        $user = Auth::user();
+        $user->nombre = $request->nombre;
+        $user->save();
+
+        return response()->json(['message' => 'Nombre actualizado correctamente', 'nombre' => $user->nombre], 200);
+    }
 }
