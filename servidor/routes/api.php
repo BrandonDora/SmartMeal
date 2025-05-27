@@ -8,6 +8,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PreferenciaNutricionalController;
 use App\Http\Controllers\CorreoController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\TiempoComidaController;
+use App\Http\Controllers\IngredienteController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -27,3 +29,5 @@ Route::post('/correos', [CorreoController::class, 'verificarCorreo']);
 Route::middleware(['auth:sanctum'])->post('/user/foto-perfil', [UsuarioController::class, 'subirFotoPerfil']);
 Route::middleware(['auth:sanctum'])->get('/menus/{id_menu}/recetas', [MenuController::class, 'recetasDeMenu']);
 Route::middleware(['auth:sanctum'])->post('/user/actualizar-nombre', [UsuarioController::class, 'actualizarNombre']);
+Route::get('/tiempo_comida', [TiempoComidaController::class, 'index']);
+Route::get('/ingredientes', [IngredienteController::class, 'index']);

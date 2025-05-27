@@ -164,7 +164,7 @@ export class RecetasComponent implements OnInit {
 
   abrirCrearReceta() {
     const dialogRef = this.dialog.open(CrearRecetaComponent, {
-      width: '400px',
+      width: '80vw', // Ahora el modal ocupa el 80% del ancho de la ventana
       autoFocus: false,
     });
     dialogRef.afterClosed().subscribe((result) => {

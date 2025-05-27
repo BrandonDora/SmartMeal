@@ -26,7 +26,9 @@
     select {
       margin-top: 8px;
       margin-bottom: 12px;
-      width: 260px;
+      width: 90%;
+      max-width: 600px;
+      min-width: 260px;
       padding: 8px 12px;
       border-radius: 20px;
       border: 1.5px solid $verde;
@@ -91,4 +93,34 @@ button[mat-raised-button] {
   color: red;
   text-align: center;
   margin-top: 10px;
+}
+
+@media (max-width: 700px) {
+  .ingrediente-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    gap: 0 !important;
+  }
+  .ingrediente-select-custom {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+  .cantidad-input-custom {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin-bottom: 12px !important;
+  }
+  .btn-add-ingrediente.btn-absolute {
+    right: -25% !important;
+    left: unset;
+    top: unset !important;
+    bottom: 8px !important;
+    transform: none !important;
+  }
 }

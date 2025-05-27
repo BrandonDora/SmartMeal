@@ -9,42 +9,6 @@ class RecetaSeeder extends Seeder
 {
     public function run(): void
     {
-        $Ensalada = DB::table('recetas')->insertGetId([
-            'nombre'       => 'Ensalada',
-            'descripcion'  => 'Ensalada de lechuga.',
-            'imagen'       => 'http://localhost:8000/storage/recetas/Ensalada.png',
-            'instrucciones'=> 'Lava la lechuga, córtala en trozos y sécala bien. Aliña con aceite de oliva, vinagre y sal al gusto. Mezcla y sirve inmediatamente.',
-            'tiempo_preparacion' => 10,
-            'calorias'     => 420,
-            'proteinas'    => 45,
-            'grasas'       => 5,
-            'carbohidratos'=> 35,
-        ]);
-
-        $Pancake = DB::table('recetas')->insertGetId([
-            'nombre'       => 'Pancakes',
-            'descripcion'  => 'Pancake rico',
-            'imagen'       => 'http://localhost:8000/storage/recetas/Pancakes.png',
-            'instrucciones'=> 'Bate harina, huevo, leche y una pizca de azúcar hasta obtener una masa homogénea. Vierte porciones en sartén caliente engrasada y cocina 2-3 min por lado hasta dorar.',
-            'tiempo_preparacion' => 20,
-            'calorias'     => 380,
-            'proteinas'    => 35,
-            'grasas'       => 15,
-            'carbohidratos'=> 40,
-        ]);
-
-        $Tostada = DB::table('recetas')->insertGetId([
-            'nombre'       => 'Tostadas',
-            'descripcion'  => 'Tostadas con mermelada',
-            'imagen'       => 'http://localhost:8000/storage/recetas/Tostadas.png',
-            'instrucciones'=> 'Tuesta las rebanadas de pan hasta que queden crujientes. Unta mermelada al gusto y sirve de inmediato.',
-            'tiempo_preparacion' => 5,
-            'calorias'     => 280,
-            'proteinas'    => 35,
-            'grasas'       => 15,
-            'carbohidratos'=> 40,
-        ]);
-
         $PolloALaPlancha = DB::table('recetas')->insertGetId([
             'nombre'        => 'Pollo a la plancha',
             'descripcion'   => 'Pechuga de pollo a la plancha con especias.',
@@ -151,6 +115,66 @@ class RecetaSeeder extends Seeder
             'proteinas'     => 7,
             'grasas'        => 6,
             'carbohidratos' => 55,
+        ]);
+
+        $SandwichMixto = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Sándwich mixto',
+            'descripcion'   => 'Sándwich de jamón y queso a la plancha.',
+            'imagen'        => 'http://localhost:8000/storage/recetas/Sandwich_mixto.png',
+            'instrucciones' => 'Unta mantequilla en dos rebanadas de pan, coloca jamón y queso en medio. Dora en sartén a fuego medio 3-4 min por lado hasta que el queso funda.',
+            'tiempo_preparacion' => 10,
+            'calorias'      => 320,
+            'proteinas'     => 18,
+            'grasas'        => 15,
+            'carbohidratos' => 28,
+        ]);
+
+        $YogurGranola = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Yogur con granola',
+            'descripcion'   => 'Yogur natural con granola y un toque de miel.',
+            'imagen'        => 'http://localhost:8000/storage/recetas/Yogur_con_granola.png',
+            'instrucciones' => 'Sirve el yogur en un bol, añade granola crujiente por encima y rocía con miel. Consume inmediatamente.',
+            'tiempo_preparacion' => 5,
+            'calorias'      => 250,
+            'proteinas'     => 8,
+            'grasas'        => 6,
+            'carbohidratos' => 40,
+        ]);
+
+        $EnsaladaFrutas = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Ensalada de frutas',
+            'descripcion'   => 'Mezcla fresca de frutas de temporada.',
+            'imagen'        => 'http://localhost:8000/storage/recetas/Ensalada_de_frutas.png',
+            'instrucciones' => 'Lava y corta en cubos manzana, plátano, fresas y uvas. Mezcla en un bol y añade unas gotas de zumo de limón.',
+            'tiempo_preparacion' => 10,
+            'calorias'      => 180,
+            'proteinas'     => 3,
+            'grasas'        => 1,
+            'carbohidratos' => 45,
+        ]);
+
+        $OmeletteQueso = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Omelette de queso',
+            'descripcion'   => 'Omelette esponjosa rellena de queso.',
+            'imagen'        => 'http://localhost:8000/storage/recetas/Omelette_de_queso.png',
+            'instrucciones' => 'Bate los huevos con sal y pimienta, vierte en sartén caliente. Cuando cuaje ligeramente, añade queso rallado, dobla y cocina 2 min más.',
+            'tiempo_preparacion' => 8,
+            'calorias'      => 275,
+            'proteinas'     => 17,
+            'grasas'        => 20,
+            'carbohidratos' => 2,
+        ]);
+
+        $SmoothieVerde = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Smoothie verde',
+            'descripcion'   => 'Batido de espinacas, plátano y manzana.',
+            'imagen'        => 'http://localhost:8000/storage/recetas/Smoothie_verde.png',
+            'instrucciones' => 'Licúa espinacas frescas, plátano, manzana y agua fría hasta obtener una mezcla homogénea. Sirve al momento.',
+            'tiempo_preparacion' => 7,
+            'calorias'      => 200,
+            'proteinas'     => 4,
+            'grasas'        => 2,
+            'carbohidratos' => 45,
         ]);
 
 
