@@ -19,8 +19,15 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://35.172.64.180:4200', 'http://localhost:4200,http://smartmeal.s3-website-us-east-1.amazonaws.com,https://smartmeal.s3-website-us-east-1.amazonaws.com'
-)],
+    'allowed_origins' => explode(
+        ',',
+        env(
+            'FRONTEND_URLS',
+            'http://localhost:4200,' .
+            'http://smartmeal.s3-website-us-east-1.amazonaws.com,' .
+            'https://smartmeal.s3-website-us-east-1.amazonaws.com'
+        )
+    ),
 
     'allowed_origins_patterns' => [],
 
