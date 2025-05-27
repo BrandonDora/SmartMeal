@@ -21,7 +21,7 @@ export class ListaCompraComponent implements OnInit {
       next: (data) => {
         if (data.foto_perfil && data.foto_perfil.trim() !== '') {
           this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? 'http://localhost:8000' + data.foto_perfil
+            ? 'http://35.172.64.180:8000' + data.foto_perfil
             : data.foto_perfil;
         } else {
           this.fotoPerfilUrl = 'assets/img/default.jpg';

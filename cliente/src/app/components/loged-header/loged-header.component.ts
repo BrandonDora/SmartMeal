@@ -32,7 +32,7 @@ export class LogedHeaderComponent {
   get fotoPerfilUrlCompleta(): string {
     if (this.fotoPerfilUrl && this.fotoPerfilUrl.trim() !== '') {
       if (this.fotoPerfilUrl.startsWith('/storage/')) {
-        return 'http://localhost:8000' + this.fotoPerfilUrl;
+        return 'http://35.172.64.180:8000' + this.fotoPerfilUrl;
       }
       return this.fotoPerfilUrl;
     }

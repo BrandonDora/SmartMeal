@@ -49,7 +49,7 @@ export class PerfilComponent implements OnInit {
   get fotoPerfilUrl(): string {
     if (this.usuario.foto_perfil && this.usuario.foto_perfil.trim() !== '') {
       if (this.usuario.foto_perfil.startsWith('/storage/')) {
-        return 'http://localhost:8000' + this.usuario.foto_perfil;
+        return 'http://35.172.64.180:8000' + this.usuario.foto_perfil;
       }
       return this.usuario.foto_perfil;
     }

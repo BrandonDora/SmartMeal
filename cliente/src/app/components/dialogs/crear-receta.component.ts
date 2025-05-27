@@ -196,23 +196,27 @@ export class CrearRecetaComponent implements OnInit {
 
   ngOnInit() {
     // Cargar ingredientes desde la API
-    this.http.get<any[]>('http://localhost:8000/api/ingredientes').subscribe({
-      next: (data) => {
-        this.ingredientes = data;
-      },
-      error: () => {
-        this.ingredientes = [];
-      },
-    });
+    this.http
+      .get<any[]>('http://35.172.64.180:8000/api/ingredientes')
+      .subscribe({
+        next: (data) => {
+          this.ingredientes = data;
+        },
+        error: () => {
+          this.ingredientes = [];
+        },
+      });
     // Cargar tiempos de comida desde la API
-    this.http.get<any[]>('http://localhost:8000/api/tiempo_comida').subscribe({
-      next: (data) => {
-        this.tiemposComida = data;
-      },
-      error: () => {
-        this.tiemposComida = [];
-      },
-    });
+    this.http
+      .get<any[]>('http://35.172.64.180:8000/api/tiempo_comida')
+      .subscribe({
+        next: (data) => {
+          this.tiemposComida = data;
+        },
+        error: () => {
+          this.tiemposComida = [];
+        },
+      });
   }
 
   onFileSelected(event: Event) {
@@ -270,7 +274,7 @@ export class CrearRecetaComponent implements OnInit {
       ? new HttpHeaders({ Authorization: `Bearer ${token}` })
       : undefined;
     this.http
-      .post<any>('http://localhost:8000/api/recetas', formData, { headers })
+      .post<any>('http://35.172.64.180:8000/api/recetas', formData, { headers })
       .subscribe({
         next: (resp) => {
           // Esperar a que la receta se cree y obtener su id
@@ -288,7 +292,7 @@ export class CrearRecetaComponent implements OnInit {
           };
           this.http
             .post<any>(
-              'http://localhost:8000/api/tiempo_comida',
+              'http://35.172.64.180:8000/api/tiempo_comida',
               dataRelacion,
               { headers }
             )
