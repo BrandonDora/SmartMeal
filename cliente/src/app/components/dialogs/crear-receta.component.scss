@@ -95,6 +95,17 @@ button[mat-raised-button] {
   margin-top: 10px;
 }
 
+.ingrediente-label {
+  background-color: #43a047;
+  color: #fff;
+  border-radius: 25px;
+  padding: 4px 12px;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
 @media (max-width: 700px) {
   .ingrediente-row {
     flex-direction: column !important;

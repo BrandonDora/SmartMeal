@@ -18,11 +18,9 @@ class UsuarioController extends Controller
         $user = Auth::user();
         $file = $request->file('foto');
         $filename = 'user_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $path = \Storage::disk('public')->putFileAs('perfiles', $file, $filename);
-
-        // Ruta pública correcta para acceder desde el frontend
+        // Guardar en la carpeta correcta: storage/app/public/perfiles
+        $file->move(storage_path('app/public/perfiles'), $filename);
         $publicPath = '/storage/perfiles/' . $filename;
-
         $user->foto_perfil = $publicPath;
         $user->save();
 

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             ListaCompraSeeder::class,
             PreferenciaNutricionalSeeder::class,
+            CategoriaSeeder::class,
+            TiempoComidaRecetaSeeder::class,
         ]);
     }
 }

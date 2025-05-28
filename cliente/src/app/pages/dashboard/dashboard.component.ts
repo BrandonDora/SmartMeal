@@ -5,6 +5,7 @@ import { LogedHeaderComponent } from '../../components/loged-header/loged-header
 import { HttpTokenService } from '../../http-token.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,7 +41,7 @@ export class DashboardComponent implements OnInit {
         // Obtener la foto de perfil real
         if (data.foto_perfil && data.foto_perfil.trim() !== '') {
           this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? 'http://35.172.64.180:8000' + data.foto_perfil
+            ? environment.apiUrl.replace(/\/api$/, '') + data.foto_perfil
             : data.foto_perfil;
         } else {
           this.fotoPerfilUrl = 'assets/img/default.jpg';

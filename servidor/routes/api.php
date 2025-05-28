@@ -10,6 +10,8 @@ use App\Http\Controllers\CorreoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\TiempoComidaController;
 use App\Http\Controllers\IngredienteController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\RecetaTiempoComidaController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -21,7 +23,7 @@ Route::middleware(['auth:sanctum'])->get('/menus', [MenuController::class, 'menu
 Route::middleware(['auth:sanctum'])->post('/calculadora', [PreferenciaNutricionalController::class, 'calcular']);
 Route::middleware(['auth:sanctum'])->post('/menuReceta', [MenuController::class, 'menuReceta']);
 Route::middleware(['auth:sanctum'])->get('/menuReceta{id}', [MenuController::class, 'menuReceta']);
-Route::middleware(['auth:sanctum'])->get('/recetas/by-ids', [MenuController::class, 'recetasByIds']);
+Route::middleware(['auth:sanctum'])->get('/recetas/by-ids', [RecetaController::class, 'recetasByIds']);
 Route::get('/recetas/{id}', [RecetaController::class, 'recetaPorId']);
 Route::middleware(['auth:sanctum'])->get('/preferenciasNutricionales/{id}', [PreferenciaNutricionalController::class, 'showByUser']);
 Route::middleware(['auth:sanctum'])->post('/menus', [MenuController::class, 'crearMenu']);
@@ -31,3 +33,5 @@ Route::middleware(['auth:sanctum'])->get('/menus/{id_menu}/recetas', [MenuContro
 Route::middleware(['auth:sanctum'])->post('/user/actualizar-nombre', [UsuarioController::class, 'actualizarNombre']);
 Route::get('/tiempo_comida', [TiempoComidaController::class, 'index']);
 Route::get('/ingredientes', [IngredienteController::class, 'index']);
+Route::get('/categorias', [CategoriaController::class, 'index']);
+Route::get('/receta_tiempo_comida', [RecetaTiempoComidaController::class, 'index']);

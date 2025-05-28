@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { LogedHeaderComponent } from '../../components/loged-header/loged-header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HttpTokenService } from '../../http-token.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-lista-compra',
@@ -21,7 +22,7 @@ export class ListaCompraComponent implements OnInit {
       next: (data) => {
         if (data.foto_perfil && data.foto_perfil.trim() !== '') {
           this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? 'http://35.172.64.180:8000' + data.foto_perfil
+            ? environment.apiUrl.replace(/\/api$/, '') + data.foto_perfil
             : data.foto_perfil;
         } else {
           this.fotoPerfilUrl = 'assets/img/default.jpg';

@@ -7,12 +7,28 @@
         <div class="col">
           <ul class="nav nav-pills">
             <li class="nav-item">
-              <a class="nav-link" href="#">Todo</a>
+              <a
+                class="nav-link"
+                [class.active]="tipoComidaSeleccionado === null"
+                href="#"
+                (click)="$event.preventDefault(); filtrarPorTipoComida(null)"
+                >Todo</a
+              >
             </li>
-            <li class="nav-item"><a class="nav-link" href="#">Desayunos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Almuerzo</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Cena</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Snacks</a></li>
+            <li
+              class="nav-item"
+              *ngFor="let tipo of tiposComida; let isFirst = first"
+            >
+              <a
+                class="nav-link"
+                [class.active]="tipoComidaSeleccionado === tipo.id_tipo"
+                href="#"
+                (click)="
+                  $event.preventDefault(); filtrarPorTipoComida(tipo.id_tipo)
+                "
+                >{{ tipo.nombre }}</a
+              >
+            </li>
           </ul>
         </div>
         <!-- <div class="col-auto">

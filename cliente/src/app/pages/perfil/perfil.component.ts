@@ -11,6 +11,7 @@ import { CambiarNombreComponent } from '../../components/dialogs/cambiar-nombre.
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-perfil',
@@ -49,7 +50,9 @@ export class PerfilComponent implements OnInit {
   get fotoPerfilUrl(): string {
     if (this.usuario.foto_perfil && this.usuario.foto_perfil.trim() !== '') {
       if (this.usuario.foto_perfil.startsWith('/storage/')) {
-        return 'http://35.172.64.180:8000' + this.usuario.foto_perfil;
+        return (
+          environment.apiUrl.replace(/\/api$/, '') + this.usuario.foto_perfil
+        );
       }
       return this.usuario.foto_perfil;
     }

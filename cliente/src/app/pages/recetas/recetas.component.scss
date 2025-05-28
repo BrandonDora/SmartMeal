@@ -15,7 +15,7 @@ main {
 }
 
 .nav-item {
-  background-color: #bbd43e;
+  background-color: $verde;
   border-radius: 25px;
   padding-inline: 20px;
   padding-block: 4px;
@@ -24,6 +24,30 @@ main {
   .nav-link {
     color: #000 !important;
   }
+}
+
+.nav-pills .nav-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: background 0.2s;
+  padding: 7px 0; // Más padding en eje Y
+}
+
+.nav-pills .nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-width: 110px;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: $verde-oscuro !important; // Verde más oscuro
+  color: $blanco !important;
 }
 
 .btn-group {

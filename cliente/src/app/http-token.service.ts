@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
-const baseUrl = 'http://35.172.64.180:8000';
+const baseUrl = environment.apiUrl.replace(/\/$/, '');
 
 @Injectable({
   providedIn: 'root',

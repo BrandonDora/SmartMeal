@@ -32,6 +32,9 @@ export class RecetasComponent implements OnInit {
   x: number = 1;
   fotoPerfilUrl: string = 'assets/img/default.jpg';
   recetasMostradas: number = 6;
+  tiposComida: any[] = [];
+  tipoComidaSeleccionado: number | null = null;
+  recetasOriginales: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -40,10 +43,26 @@ export class RecetasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Cargar tipos de comida
+    this.http.get<any[]>('/api/tiempo_comida').subscribe({
+      next: (data) => {
+        this.tiposComida = data;
+      },
+      error: (err) => console.error('Error al obtener tipos de comida', err),
+    });
+    // Cargar todas las recetas (por defecto)
     this.http.get<any[]>('/api/recetas').subscribe({
       next: (data) => {
-        this.recetas = data;
-        console.log('Todas las recetas:', data);
+        this.recetas = data.map((receta) => {
+          if (receta.imagen && receta.imagen.startsWith('/storage/')) {
+            return {
+              ...receta,
+              imagen: 'http://localhost:8000' + receta.imagen,
+            };
+          }
+          return receta;
+        });
+        this.recetasOriginales = [...this.recetas];
       },
       error: (err) => console.error('Error al obtener recetas', err),
     });
@@ -52,7 +71,7 @@ export class RecetasComponent implements OnInit {
       next: (data) => {
         if (data.foto_perfil && data.foto_perfil.trim() !== '') {
           this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? 'http://35.172.64.180:8000' + data.foto_perfil
+            ? 'http://localhost:8000' + data.foto_perfil
             : data.foto_perfil;
         } else {
           this.fotoPerfilUrl = 'assets/img/default.jpg';
@@ -196,5 +215,48 @@ export class RecetasComponent implements OnInit {
 
   get mostrarBotonMostrarMas(): boolean {
     return this.recetas.length > this.recetasMostradas;
+  }
+
+  filtrarPorTipoComida(id_tipo: number | null) {
+    this.tipoComidaSeleccionado = id_tipo;
+    this.recetasMostradas = 6; // Reiniciar el contador de recetas mostradas
+    if (id_tipo === null) {
+      // Mostrar todas las recetas
+      this.recetas = [...this.recetasOriginales];
+      return;
+    }
+    this.http
+      .get<any[]>(`/api/receta_tiempo_comida?id_tipo=${id_tipo}`)
+      .subscribe({
+        next: (relaciones) => {
+          const ids = relaciones.map((r: any) => r.id_receta);
+          if (!ids.length) {
+            this.recetas = [];
+            return;
+          }
+          // Obtener el token para la petición protegida
+          const token = localStorage.getItem('token');
+          const options = token
+            ? { headers: { Authorization: `Bearer ${token}` } }
+            : {};
+          this.http
+            .get<any[]>(`/api/recetas/by-ids?ids=${ids.join(',')}`, options)
+            .subscribe({
+              next: (recetasFiltradas) => {
+                this.recetas = recetasFiltradas.map((receta) => {
+                  if (receta.imagen && receta.imagen.startsWith('/storage/')) {
+                    return {
+                      ...receta,
+                      imagen: 'http://localhost:8000' + receta.imagen,
+                    };
+                  }
+                  return receta;
+                });
+              },
+              error: () => (this.recetas = []),
+            });
+        },
+        error: () => (this.recetas = []),
+      });
   }
 }

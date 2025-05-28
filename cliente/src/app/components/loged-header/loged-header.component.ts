@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CambiarFotoComponent } from '../dialogs/cambiar-foto.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-loged-header',
@@ -32,7 +33,7 @@ export class LogedHeaderComponent {
   get fotoPerfilUrlCompleta(): string {
     if (this.fotoPerfilUrl && this.fotoPerfilUrl.trim() !== '') {
       if (this.fotoPerfilUrl.startsWith('/storage/')) {
-        return 'http://35.172.64.180:8000' + this.fotoPerfilUrl;
+        return environment.apiUrl.replace(/\/api$/, '') + this.fotoPerfilUrl;
       }
       return this.fotoPerfilUrl;
     }
