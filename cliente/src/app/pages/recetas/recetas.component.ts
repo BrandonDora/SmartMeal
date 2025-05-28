@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearRecetaComponent } from '../../components/dialogs/crear-receta.component';
 import { VerRecetaComponent } from '../../components/dialogs/ver-receta.component';
 import { ModalInfoComponent } from '../../components/dialogs/modal-info.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-recetas',
@@ -44,14 +45,14 @@ export class RecetasComponent implements OnInit {
 
   ngOnInit(): void {
     // Cargar tipos de comida
-    this.http.get<any[]>('/api/tiempo_comida').subscribe({
+    this.http.get<any[]>(environment.apiUrl + '/api/tiempo_comida').subscribe({
       next: (data) => {
         this.tiposComida = data;
       },
       error: (err) => console.error('Error al obtener tipos de comida', err),
     });
     // Cargar todas las recetas (por defecto)
-    this.http.get<any[]>('/api/recetas').subscribe({
+    this.http.get<any[]>(environment.apiUrl + '/api/recetas').subscribe({
       next: (data) => {
         this.recetas = data.map((receta) => {
           if (receta.imagen && receta.imagen.startsWith('/storage/')) {
@@ -84,7 +85,7 @@ export class RecetasComponent implements OnInit {
   }
 
   getRecetaPorId(): void {
-    this.http.get<any>(`/api/recetas/${this.x}`).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/api/recetas/${this.x}`).subscribe({
       next: (data) => {
         this.receta = data;
         console.log('Receta por id:', data);
@@ -98,7 +99,7 @@ export class RecetasComponent implements OnInit {
     const options = token
       ? { headers: { Authorization: `Bearer ${token}` } }
       : {};
-    this.http.get<any>('/api/user', options).subscribe({
+    this.http.get<any>(environment.apiUrl + '/api/user', options).subscribe({
       next: (user) => {
         if (user && user.id) {
           this.comprobarYAnadirRecetaAMenu(user.id, recetaId);
@@ -115,7 +116,7 @@ export class RecetasComponent implements OnInit {
     const options = token
       ? { headers: { Authorization: `Bearer ${token}` } }
       : {};
-    this.http.get<any[]>('/api/menus', options).subscribe({
+    this.http.get<any[]>(environment.apiUrl + '/api/menus', options).subscribe({
       next: (menus) => {
         const menusUsuario = menus.filter((m: any) => m.user_id === usuarioId);
         if (!menusUsuario.length) {
@@ -132,7 +133,7 @@ export class RecetasComponent implements OnInit {
         });
         // Comprobar si la receta ya está en el menú más reciente
         this.http
-          .get<any[]>(`/api/menus/${menuMasReciente.id_menu}/recetas`, options)
+          .get<any[]>(`${environment.apiUrl}/api/menus/${menuMasReciente.id_menu}/recetas`, options)
           .subscribe({
             next: (recetasMenu) => {
               const yaAnadida = recetasMenu.some(
@@ -162,7 +163,7 @@ export class RecetasComponent implements OnInit {
       : {};
     this.http
       .post(
-        '/api/menuReceta',
+        environment.apiUrl + '/api/menuReceta',
         {
           usuario_id: usuarioId,
           receta_id: Number(recetaId),
@@ -189,7 +190,7 @@ export class RecetasComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Aquí podrías enviar la receta al backend
-        // this.http.post('/api/recetas', result).subscribe(...)
+        // this.http.post(environment.apiUrl + '/recetas', result).subscribe(...)
         alert('Receta creada (simulado): ' + JSON.stringify(result));
       }
     });
@@ -226,7 +227,7 @@ export class RecetasComponent implements OnInit {
       return;
     }
     this.http
-      .get<any[]>(`/api/receta_tiempo_comida?id_tipo=${id_tipo}`)
+      .get<any[]>(`${environment.apiUrl}/api/receta_tiempo_comida?id_tipo=${id_tipo}`)
       .subscribe({
         next: (relaciones) => {
           const ids = relaciones.map((r: any) => r.id_receta);
@@ -240,7 +241,7 @@ export class RecetasComponent implements OnInit {
             ? { headers: { Authorization: `Bearer ${token}` } }
             : {};
           this.http
-            .get<any[]>(`/api/recetas/by-ids?ids=${ids.join(',')}`, options)
+            .get<any[]>(`${environment.apiUrl}/api/recetas/by-ids?ids=${ids.join(',')}`, options)
             .subscribe({
               next: (recetasFiltradas) => {
                 this.recetas = recetasFiltradas.map((receta) => {

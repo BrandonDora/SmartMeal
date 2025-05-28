@@ -1,10 +1,7 @@
 export const environment = {
   production: false,
   /**
-   * Aquí puedes usar la misma ruta relativa ‘/api’ porque
-   * cuando levantas con `ng serve --proxy-config …`
-   * el proxy redirige automáticamente.
+   * Usa la ruta relativa '/api' para desarrollo local con proxy y para despliegue estático.
    */
   apiUrl: 'http://localhost:8000',
-  // apiUrl: '/api',
 };
