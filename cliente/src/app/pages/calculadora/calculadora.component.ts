@@ -12,6 +12,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { HttpTokenService } from '../../http-token.service';
+import { ModalExitoComponent } from '../../components/dialogs/modal-exito.component';
 
 @Component({
   selector: 'app-calculadora',
@@ -23,6 +24,7 @@ import { HttpTokenService } from '../../http-token.service';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
+    ModalExitoComponent,
   ],
   templateUrl: './calculadora.component.html',
   styleUrl: './calculadora.component.scss',
@@ -36,6 +38,7 @@ export class CalculadoraComponent {
   bmr: number | null = null;
   caloriasMantenimiento: number | null = null;
   fotoPerfilUrl: string = '';
+  mostrarModalExito: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -100,18 +103,11 @@ export class CalculadoraComponent {
     const body = { ...this.calcForm.value };
     // Ya se calculan los valores automáticamente
 
-    const token = localStorage.getItem('token');
-    const options = token
-      ? { headers: { Authorization: `Bearer ${token}` } }
-      : {};
-    this.http.post<any>('/api/calculadora', body, options).subscribe({
+    this.tokenService.calcularPreferencias(body).subscribe({
       next: (res) => {
         this.resultado = res;
         this.loading = false;
-        this.success = 'Información guardada correctamente';
-        setTimeout(() => {
-          this.success = null;
-        }, 3500);
+        this.mostrarModalExito = true;
       },
       error: (err) => {
         this.error = err?.error?.message || 'Error al calcular.';
@@ -119,5 +115,8 @@ export class CalculadoraComponent {
         this.success = null;
       },
     });
+  }
+  cerrarModalExito() {
+    this.mostrarModalExito = false;
   }
 }

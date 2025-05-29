@@ -55,7 +55,13 @@ export class RecetasComponent implements OnInit {
     this.http.get<any[]>(environment.apiUrl + '/api/recetas').subscribe({
       next: (data) => {
         this.recetas = data.map((receta) => {
-          if (receta.imagen && receta.imagen.startsWith('/storage/')) {
+          if (receta.imagen && !receta.imagen.startsWith('http') && !receta.imagen.startsWith('/storage/')) {
+            // Si la imagen es solo el nombre del archivo, añade la ruta completa
+            return {
+              ...receta,
+              imagen: 'http://localhost:8000/storage/recetas/' + receta.imagen,
+            };
+          } else if (receta.imagen && receta.imagen.startsWith('/storage/')) {
             return {
               ...receta,
               imagen: 'http://localhost:8000' + receta.imagen,
@@ -85,13 +91,15 @@ export class RecetasComponent implements OnInit {
   }
 
   getRecetaPorId(): void {
-    this.http.get<any>(`${environment.apiUrl}/api/recetas/${this.x}`).subscribe({
-      next: (data) => {
-        this.receta = data;
-        console.log('Receta por id:', data);
-      },
-      error: (err) => console.error('Error al obtener receta por id', err),
-    });
+    this.http
+      .get<any>(`${environment.apiUrl}/api/recetas/${this.x}`)
+      .subscribe({
+        next: (data) => {
+          this.receta = data;
+          console.log('Receta por id:', data);
+        },
+        error: (err) => console.error('Error al obtener receta por id', err),
+      });
   }
 
   onAnadirReceta(recetaId: number) {
@@ -133,7 +141,10 @@ export class RecetasComponent implements OnInit {
         });
         // Comprobar si la receta ya está en el menú más reciente
         this.http
-          .get<any[]>(`${environment.apiUrl}/api/menus/${menuMasReciente.id_menu}/recetas`, options)
+          .get<any[]>(
+            `${environment.apiUrl}/api/menus/${menuMasReciente.id_menu}/recetas`,
+            options
+          )
           .subscribe({
             next: (recetasMenu) => {
               const yaAnadida = recetasMenu.some(
@@ -227,7 +238,9 @@ export class RecetasComponent implements OnInit {
       return;
     }
     this.http
-      .get<any[]>(`${environment.apiUrl}/api/receta_tiempo_comida?id_tipo=${id_tipo}`)
+      .get<any[]>(
+        `${environment.apiUrl}/api/receta_tiempo_comida?id_tipo=${id_tipo}`
+      )
       .subscribe({
         next: (relaciones) => {
           const ids = relaciones.map((r: any) => r.id_receta);
@@ -241,7 +254,10 @@ export class RecetasComponent implements OnInit {
             ? { headers: { Authorization: `Bearer ${token}` } }
             : {};
           this.http
-            .get<any[]>(`${environment.apiUrl}/api/recetas/by-ids?ids=${ids.join(',')}`, options)
+            .get<any[]>(
+              `${environment.apiUrl}/api/recetas/by-ids?ids=${ids.join(',')}`,
+              options
+            )
             .subscribe({
               next: (recetasFiltradas) => {
                 this.recetas = recetasFiltradas.map((receta) => {

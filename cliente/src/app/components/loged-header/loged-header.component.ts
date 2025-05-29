@@ -15,7 +15,21 @@ import { environment } from '../../../environments/environment';
 export class LogedHeaderComponent {
   @Input() fotoPerfilUrl: string = 'assets/img/default.jpg';
   hover: string | null = null;
-  constructor(public router: Router, private dialog: MatDialog) {}
+  mostrarMenu = false;
+  isMobile = false;
+  navItems = [
+    { label: 'Mi Plan', link: '/dashboard' },
+    { label: 'Recetas', link: '/recetas' },
+    { label: 'Calculadora', link: '/calculadora' },
+    { label: 'Lista de Compras', link: '/listaCompra' },
+  ];
+
+  constructor(public router: Router, private dialog: MatDialog) {
+    // Detectar si es móvil
+    this.checkMobile();
+    window.addEventListener('resize', () => this.checkMobile());
+  }
+
   setHover(route: string | null) {
     this.hover = route;
   }
@@ -38,5 +52,12 @@ export class LogedHeaderComponent {
       return this.fotoPerfilUrl;
     }
     return 'assets/img/default.jpg';
+  }
+
+  checkMobile() {
+    this.isMobile = window.innerWidth <= 700;
+    if (!this.isMobile) {
+      this.mostrarMenu = false;
+    }
   }
 }

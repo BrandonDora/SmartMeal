@@ -134,4 +134,24 @@ export class HttpTokenService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+
+  calcularPreferencias(body: any) {
+    const token = localStorage.getItem('token');
+    return this.http.post<any>(`${baseUrl}/api/calculadora`, body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
+  // Obtener receta_ingrediente por array de id_receta
+  getRecetaIngredientesByRecetaIds(recetaIds: number[]) {
+    return this.http.post<any[]>(
+      `${baseUrl}/api/receta-ingredientes/by-recetas`,
+      { receta_ids: recetaIds }
+    );
+  }
+
+  // Obtener ingredientes por array de id_ingrediente
+  getIngredientesByIds(ids: number[]) {
+    return this.http.post<any[]>(`${baseUrl}/api/ingredientes/by-ids`, { ids });
+  }
 }

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PreferenciaNutricionalSeeder::class,
             CategoriaSeeder::class,
             TiempoComidaRecetaSeeder::class,
+            RecetaIngredienteSeeder::class,
         ]);
     }
 }

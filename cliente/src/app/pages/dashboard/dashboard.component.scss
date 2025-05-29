@@ -160,11 +160,13 @@ main {
     }
   }
 
-  .d-flex.justify-content-center.gap-3.mt-3 {
+  // Generaliza los estilos de los botones de acción para que funcionen en cualquier contenedor .d-flex.justify-content-center.gap-3 dentro de main
+  .d-flex.justify-content-center.gap-3 {
     width: 60%;
     margin: 0 auto 32px auto;
 
-    a.btn {
+    a.btn,
+    button.btn {
       background: #bbd43e;
       color: #fff;
       border-radius: 25px;
@@ -177,7 +179,8 @@ main {
       display: inline-block;
     }
 
-    a.btn:hover {
+    a.btn:hover,
+    button.btn:hover {
       background: #a3c72e;
       color: #fff;
       text-decoration: none;
@@ -293,4 +296,36 @@ main {
       }
     }
   }
+
+  button.btn-outline-danger.float-end {
+    border-radius: 25px;
+    padding: 5px 20px;
+    border: solid 1px #e74c3c;
+    color: #e74c3c;
+    background: transparent;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+  }
+  button.btn-outline-danger.float-end:hover {
+    background-color: #e74c3c;
+    color: #fff;
+  }
+}
+
+.modal.fade[tabindex="-1"] {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  z-index: 2000;
+}
+.modal-dialog {
+  margin: 0 auto;
+}
+.modal-content {
+  border-radius: 25px !important;
+}
+.modal-content .btn {
+  border-radius: 25px !important;
+  padding: 10px 32px !important;
 }

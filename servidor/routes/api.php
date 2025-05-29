@@ -12,6 +12,7 @@ use App\Http\Controllers\TiempoComidaController;
 use App\Http\Controllers\IngredienteController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\RecetaTiempoComidaController;
+use App\Http\Controllers\RecetaIngredienteController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -35,3 +36,5 @@ Route::get('/tiempo_comida', [TiempoComidaController::class, 'index']);
 Route::get('/ingredientes', [IngredienteController::class, 'index']);
 Route::get('/categorias', [CategoriaController::class, 'index']);
 Route::get('/receta_tiempo_comida', [RecetaTiempoComidaController::class, 'index']);
+Route::post('/receta-ingredientes/by-recetas', [RecetaIngredienteController::class, 'getByRecetaIds']);
+Route::post('/ingredientes/by-ids', [IngredienteController::class, 'getByIds']);

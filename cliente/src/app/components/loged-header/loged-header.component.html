@@ -3,7 +3,27 @@
     <a routerLink="/dashboard">
       <img src="assets/img/SmartMeal_Logo.png" alt="Logo de SmartMeal" />
     </a>
-    <div class="container-fluid" id="navbar">
+    <!-- Botón hamburguesa para móvil -->
+    <button
+      class="navbar-toggler d-md-none ms-auto"
+      type="button"
+      (click)="mostrarMenu = true"
+      aria-label="Abrir menú"
+      *ngIf="!mostrarMenu || !isMobile"
+    >
+      <span class="navbar-toggler-icon small">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+    <!-- Menú normal para escritorio -->
+    <div
+      class="container-fluid"
+      id="navbar"
+      [class.d-none]="mostrarMenu && isMobile"
+      [class.d-md-flex]="!isMobile"
+    >
       <ul>
         <li>
           <a
@@ -58,6 +78,40 @@
           >
         </li>
       </ul>
+    </div>
+    <!-- Menú lateral para móvil -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      [ngClass]="{ show: mostrarMenu && isMobile }"
+      [style.visibility]="mostrarMenu && isMobile ? 'visible' : 'hidden'"
+      style="z-index: 2000"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menú</h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Cerrar"
+          (click)="mostrarMenu = false"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="list-group mobile-nav-list">
+          <li class="list-group-item" *ngFor="let item of navItems">
+            <a
+              [routerLink]="item.link"
+              (click)="mostrarMenu = false"
+              [ngClass]="{
+                'mobile-selected': router.url.startsWith(item.link)
+              }"
+              class="mobile-nav-link"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="user-container">
       <a routerLink="/perfil">
