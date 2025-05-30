@@ -1,0 +1,88 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+@include global();
+
+.dialog-content {
+  background: $bg-light;
+  padding: 32px 24px 18px 24px;
+  min-width: 300px;
+  max-width: 400px;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(187, 212, 62, 0.1);
+
+  h2[mat-dialog-title] {
+    color: $verde;
+    font-weight: normal;
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+
+  select.form-select {
+    margin-top: 8px;
+    margin-bottom: 18px;
+    width: 100%;
+    max-width: 350px;
+    min-width: 180px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1.5px solid $verde;
+    font-size: 1.08rem;
+    text-align: center;
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .mat-dialog-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+}
+
+button[mat-button] {
+  background: rgba(235, 35, 35, 0.767);
+  color: #fff;
+  border-radius: 25px;
+  font-weight: bold;
+  padding: 8px 32px;
+  box-shadow: 0 2px 8px rgba(187, 212, 62, 0.08);
+  border: none;
+  transition: background 0.2s, color 0.2s;
+  &:hover {
+    background: #c62828;
+    color: #fff;
+  }
+}
+
+button[mat-flat-button] {
+  background: $verde;
+  color: #fff;
+  border-radius: 25px;
+  font-weight: bold;
+  padding: 8px 32px;
+  box-shadow: 0 2px 8px rgba(187, 212, 62, 0.08);
+  border: none;
+  transition: background 0.2s, color 0.2s;
+  &:hover {
+    background: darken($verde, 10%);
+    color: #fff;
+  }
+}
+
+@media (max-width: 500px) {
+  .dialog-content {
+    min-width: 0;
+    max-width: 100vw;
+    padding: 10px 4vw 8px 4vw;
+  }
+  select.form-select {
+    min-width: 0;
+    max-width: 100vw;
+  }
+}

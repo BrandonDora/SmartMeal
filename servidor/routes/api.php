@@ -38,3 +38,5 @@ Route::get('/categorias', [CategoriaController::class, 'index']);
 Route::get('/receta_tiempo_comida', [RecetaTiempoComidaController::class, 'index']);
 Route::post('/receta-ingredientes/by-recetas', [RecetaIngredienteController::class, 'getByRecetaIds']);
 Route::post('/ingredientes/by-ids', [IngredienteController::class, 'getByIds']);
+Route::middleware(['auth:sanctum'])->delete('/menus/{id_menu}', [MenuController::class, 'destroy']);
+Route::get('/recetas-por-categoria', [RecetaController::class, 'recetasPorCategoria']);

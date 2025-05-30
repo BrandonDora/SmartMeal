@@ -16,8 +16,11 @@
 
       <!-- Contenedor cuando NO hay menús -->
       <div *ngIf="menus.length === 0">
-        <div class="container-fluid empty-menu-box mb-3">
-          <h2 class="text-center">¡Sin recetas!</h2>
+        <div
+          class="container-fluid empty-menu-box mb-3"
+          style="max-width: 95%; margin: 40px auto 0 auto"
+        >
+          <h2 class="text-center">¡Sin menús!</h2>
         </div>
         <ng-container *ngIf="prefs.length === 0">
           <div class="container-fluid empty-menu-box">
@@ -55,9 +58,10 @@
             <div class="nutrition-card">
               <div class="nutrition-label">Calorías</div>
               <div class="nutrition-wrapper">
-                <p class="nutrition-value">0</p>
+                <p class="nutrition-value">{{ proceso.calorias }}</p>
                 <p class="nutrition-goal">
                   /{{ totalesMenu.calorias | number : "1.0-0" }}
+                  <span class="unidad">kcal</span>
                 </p>
               </div>
               <div class="progress">
@@ -65,10 +69,11 @@
                   class="progress-bar"
                   role="progressbar"
                   [style.width]="
-                    (totalesMenu.calorias > 0 && prefs?.calorias_objetivo
-                      ? (0 / totalesMenu.calorias) * 100
+                    (totalesMenu.calorias > 0
+                      ? (proceso.calorias / totalesMenu.calorias) * 100
                       : 0) + '%'
                   "
+                  [style.background]="'#bbd43e'"
                 ></div>
               </div>
             </div>
@@ -79,9 +84,10 @@
             <div class="nutrition-card">
               <div class="nutrition-label">Proteínas</div>
               <div class="nutrition-wrapper">
-                <p class="nutrition-value">0</p>
+                <p class="nutrition-value">{{ proceso.proteinas }}</p>
                 <p class="nutrition-goal">
                   /{{ totalesMenu.proteinas | number : "1.0-0" }}
+                  <span class="unidad">g</span>
                 </p>
               </div>
               <div class="progress">
@@ -89,10 +95,11 @@
                   class="progress-bar"
                   role="progressbar"
                   [style.width]="
-                    (totalesMenu.proteinas > 0 && prefs?.proteinas_objetivo
-                      ? (0 / totalesMenu.proteinas) * 100
+                    (totalesMenu.proteinas > 0
+                      ? (proceso.proteinas / totalesMenu.proteinas) * 100
                       : 0) + '%'
                   "
+                  [style.background]="'#bbd43e'"
                 ></div>
               </div>
             </div>
@@ -103,9 +110,10 @@
             <div class="nutrition-card">
               <div class="nutrition-label">Carbohidratos</div>
               <div class="nutrition-wrapper">
-                <p class="nutrition-value">0</p>
+                <p class="nutrition-value">{{ proceso.carbohidratos }}</p>
                 <p class="nutrition-goal">
                   /{{ totalesMenu.carbohidratos | number : "1.0-0" }}
+                  <span class="unidad">g</span>
                 </p>
               </div>
               <div class="progress">
@@ -113,11 +121,12 @@
                   class="progress-bar"
                   role="progressbar"
                   [style.width]="
-                    (totalesMenu.carbohidratos > 0 &&
-                    prefs?.carbohidratos_objetivo
-                      ? (0 / totalesMenu.carbohidratos) * 100
+                    (totalesMenu.carbohidratos > 0
+                      ? (proceso.carbohidratos / totalesMenu.carbohidratos) *
+                        100
                       : 0) + '%'
                   "
+                  [style.background]="'#bbd43e'"
                 ></div>
               </div>
             </div>
@@ -128,9 +137,10 @@
             <div class="nutrition-card">
               <div class="nutrition-label">Grasas</div>
               <div class="nutrition-wrapper">
-                <p class="nutrition-value">0</p>
+                <p class="nutrition-value">{{ proceso.grasas }}</p>
                 <p class="nutrition-goal">
                   /{{ totalesMenu.grasas | number : "1.0-0" }}
+                  <span class="unidad">g</span>
                 </p>
               </div>
               <div class="progress">
@@ -138,10 +148,11 @@
                   class="progress-bar"
                   role="progressbar"
                   [style.width]="
-                    (totalesMenu.grasas > 0 && prefs?.grasas_objetivo
-                      ? (0 / totalesMenu.grasas) * 100
+                    (totalesMenu.grasas > 0
+                      ? (proceso.grasas / totalesMenu.grasas) * 100
                       : 0) + '%'
                   "
+                  [style.background]="'#bbd43e'"
                 ></div>
               </div>
             </div>
@@ -153,54 +164,108 @@
 
         <div class="tabs-container">
           <!-- Pestañas -->
-          <div class="d-flex mb-4 plan-bar">
+          <!-- <div class="d-flex mb-4 plan-bar">
             <button class="tab-button active">Diario</button>
             <button class="tab-button">Semanal</button>
             <button class="tab-button">Personalizado</button>
-          </div>
+          </div> -->
 
-          <!-- Tarjetas de Comidas -->
-          <div class="row recetas">
-            <div
-              class="col-md-4 mb-4 receta-card"
-              *ngFor="let receta of recetasMenu"
-            >
-              <div class="card">
-                <img
-                  [src]="receta.imagen"
-                  class="card-img-top"
-                  [alt]="receta.nombre"
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{{ receta.nombre }}</h5>
-                  <p class="card-text">
-                    <small class="text-muted">
-                      <i class="bi bi-clock"></i>
-                      {{ receta.tiempo_preparacion }}
-                      <i class="bi bi-fire ms-2"></i> {{ receta.calorias }} kcal
-                    </small>
-                  </p>
-                  <a
-                    href="#"
-                    class="btn btn-primary"
-                    (click)="$event.preventDefault(); abrirVerReceta(receta)"
-                    >Ver Receta</a
+          <!-- Recetas agrupadas por menú -->
+          <ng-container *ngFor="let menu of menusConRecetas">
+            <div class="menu-group mb-5 position-relative">
+              <button
+                class="btn-activar-menu"
+                type="button"
+                [ngClass]="{ activo: menu.id_menu === menuActivo }"
+                (click)="activarMenu(menu.id_menu)"
+              >
+                {{ menu.id_menu === menuActivo ? "Activado" : "Activar" }}
+              </button>
+              <button
+                class="btn-eliminar-menu"
+                type="button"
+                (click)="abrirModalEliminarMenu(menu)"
+              >
+                Eliminar
+              </button>
+              <h1 class="menu-title text-center">{{ menu.nombre }}</h1>
+              <div
+                class="row recetas"
+                [ngClass]="{ 'recetas-vacio': menu.recetas.length === 0 }"
+              >
+                <ng-container *ngIf="menu.recetas.length > 0; else sinRecetas">
+                  <div
+                    class="col-md-4 mb-4 receta-card"
+                    *ngFor="let receta of menu.recetas"
                   >
-                  <button
-                    class="btn btn-outline-danger float-end"
-                    (click)="abrirModalTerminar(receta)"
-                  >
-                    Terminar
-                  </button>
-                </div>
+                    <div class="card">
+                      <img
+                        [src]="receta.imagen"
+                        class="card-img-top"
+                        [alt]="receta.nombre"
+                      />
+                      <div class="card-body">
+                        <h5 class="card-title">{{ receta.nombre }}</h5>
+                        <p class="card-text">
+                          <small class="text-muted">
+                            <i class="bi bi-clock"></i>
+                            {{ receta.tiempo_preparacion }}
+                            <i class="bi bi-fire ms-2"></i>
+                            {{ receta.calorias }} kcal
+                          </small>
+                        </p>
+                        <a
+                          href="#"
+                          class="btn btn-primary"
+                          (click)="
+                            $event.preventDefault(); abrirVerReceta(receta)
+                          "
+                          >Ver Receta</a
+                        >
+                        <button
+                          class="btn btn-outline-danger float-end"
+                          *ngIf="
+                            !esRecetaTerminada(receta) &&
+                            menu.id_menu === menuActivo
+                          "
+                          (click)="abrirModalTerminar(receta)"
+                        >
+                          Terminar
+                        </button>
+                        <button
+                          class="btn btn-terminado float-end"
+                          *ngIf="esRecetaTerminada(receta)"
+                          disabled
+                        >
+                          Terminado
+                        </button>
+                        <button
+                          class="btn btn-outline-danger float-end"
+                          *ngIf="
+                            !esRecetaTerminada(receta) &&
+                            menu.id_menu !== menuActivo
+                          "
+                          disabled
+                          style="opacity: 0.5; cursor: not-allowed"
+                        >
+                          Terminar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-template #sinRecetas>
+                  <div class="recetas-vacio-text text-center py-3">
+                    <h4 class="mb-2">Todavía no hay recetas</h4>
+                    <p class="mb-3">Añade recetas a tu menú &rarr;</p>
+                    <a routerLink="/recetas" class="btn btn-success btn-verde"
+                      >Ir a recetas</a
+                    >
+                  </div>
+                </ng-template>
               </div>
             </div>
-            <ng-template #sinRecetas>
-              <div class="col-12 text-center">
-                <p>No tienes recetas en tu menú.</p>
-              </div>
-            </ng-template>
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -228,6 +293,15 @@
       >
         Generar menú
       </button>
+      <!-- Botón para desactivar menú, solo si hay menú activo -->
+      <button
+        *ngIf="menuActivo"
+        type="button"
+        class="btn btn-warning ms-2"
+        (click)="abrirModalDesactivarMenu()"
+      >
+        Desactivar menú
+      </button>
     </div>
   </main>
 
@@ -246,13 +320,139 @@
           class="bi bi-exclamation-triangle text-danger"
           style="font-size: 2.5rem"
         ></i>
-        <h4 class="mt-3">¿Estás seguro que quieres terminar la receta?</h4>
+        <h4 class="mt-3">¿Estás seguro de que quieres terminar esta receta?</h4>
         <div class="d-flex justify-content-center gap-3 mt-4">
           <button class="btn btn-secondary" (click)="cerrarModalTerminar()">
             Cancelar
           </button>
-          <button class="btn btn-danger" (click)="cerrarModalTerminar()">
+          <button class="btn btn-danger" (click)="terminarReceta()">
             Terminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para cambiar menú activo -->
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [class.show]="mostrarModalCambioMenu"
+    [style.display]="mostrarModalCambioMenu ? 'block' : 'none'"
+    style="background: rgba(0, 0, 0, 0.4)"
+    *ngIf="mostrarModalCambioMenu"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4">
+        <i
+          class="bi bi-exclamation-triangle text-warning"
+          style="font-size: 2.5rem"
+        ></i>
+        <h4 class="mt-3">¿Estás seguro que quieres cambiar de menú?</h4>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button class="btn btn-secondary" (click)="cancelarCambioMenu()">
+            Cancelar
+          </button>
+          <button class="btn btn-success" (click)="confirmarCambioMenu()">
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 1: Confirmar eliminación -->
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [class.show]="mostrarModalEliminarMenu"
+    [style.display]="mostrarModalEliminarMenu ? 'block' : 'none'"
+    style="background: rgba(0, 0, 0, 0.4)"
+    *ngIf="mostrarModalEliminarMenu"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4">
+        <i
+          class="bi bi-exclamation-triangle text-danger"
+          style="font-size: 2.5rem"
+        ></i>
+        <h4 class="mt-3">
+          ¿Estás seguro de que quieres eliminar el menú
+          <b>{{ nombreMenuPendienteEliminar }}</b
+          >?
+        </h4>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button class="btn btn-secondary" (click)="cancelarEliminarMenu()">
+            No
+          </button>
+          <button
+            class="btn btn-danger"
+            (click)="confirmarPrimerPasoEliminarMenu()"
+          >
+            Sí
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Confirmar eliminación definitiva -->
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [class.show]="mostrarModalEliminarMenuPaso2"
+    [style.display]="mostrarModalEliminarMenuPaso2 ? 'block' : 'none'"
+    style="background: rgba(0, 0, 0, 0.4)"
+    *ngIf="mostrarModalEliminarMenuPaso2"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4">
+        <i
+          class="bi bi-exclamation-triangle text-danger"
+          style="font-size: 2.5rem"
+        ></i>
+        <h4 class="mt-3">Si borras el menú no podrás recuperarlo</h4>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button
+            class="btn btn-secondary"
+            (click)="cancelarEliminarMenuPaso2()"
+          >
+            Cancelar
+          </button>
+          <button class="btn btn-danger" (click)="eliminarMenuDefinitivo()">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación para desactivar menú -->
+  <div
+    class="modal fade"
+    tabindex="-1"
+    [class.show]="mostrarModalDesactivarMenu"
+    [style.display]="mostrarModalDesactivarMenu ? 'block' : 'none'"
+    style="background: rgba(0, 0, 0, 0.4)"
+    *ngIf="mostrarModalDesactivarMenu"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4">
+        <i
+          class="bi bi-exclamation-triangle text-warning"
+          style="font-size: 2.5rem"
+        ></i>
+        <h4 class="mt-3">¿Estás seguro de desactivar el menú?</h4>
+        <p class="mb-0">Se perderá el progreso</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button
+            class="btn btn-secondary"
+            (click)="cerrarModalDesactivarMenu()"
+          >
+            Cancelar
+          </button>
+          <button class="btn btn-success btn-verde" (click)="desactivarMenu()">
+            Desactivar
           </button>
         </div>
       </div>

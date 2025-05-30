@@ -47,15 +47,26 @@ main {
         justify-content: flex-start;
 
         .nutrition-value {
+          font-size: 1.3rem;
           font-weight: bold;
+          color: #111;
+          text-shadow: none;
+          animation: none;
         }
-      }
 
-      .progress {
-        height: 10px;
+        .progress {
+          height: 18px;
+          background: #f3f4f6;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 1px 4px #0001;
 
-        .progress-bar {
-          background-color: #bbd43e !important;
+          .progress-bar {
+            background: #bbd43e;
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+          }
         }
       }
     }
@@ -67,9 +78,11 @@ main {
   }
 
   .tabs-container {
-    background-color: #fffeeb !important;
-    margin: 0 40px;
+    background-color: #fce8a3 !important; // Un tono más oscuro que #fffeeb
     border-radius: 20px;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
 
     .plan-bar {
       padding-top: 20px;
@@ -296,6 +309,39 @@ main {
       }
     }
   }
+  .recetas-vacio {
+    min-height: 120px;
+    background: #fffeeb;
+    border-radius: 25px;
+    margin: 0 0 24px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0 !important;
+  }
+
+  .recetas-vacio-text {
+    min-height: 120px;
+    padding: 1.5rem 0 1.5rem 0 !important;
+
+    .btn-success,
+    .btn-verde {
+      background: #bbd43e;
+      color: #fff;
+      border-radius: 25px;
+      font-weight: bold;
+      padding: 8px 32px;
+      border: none;
+      box-shadow: 0 2px 8px rgba(187, 212, 62, 0.08);
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-success:hover,
+    .btn-verde:hover {
+      background: #a3c72e;
+      color: #fff;
+    }
+  }
 
   button.btn-outline-danger.float-end {
     border-radius: 25px;
@@ -309,6 +355,80 @@ main {
   button.btn-outline-danger.float-end:hover {
     background-color: #e74c3c;
     color: #fff;
+  }
+
+  .menu-title {
+    padding-top: 20px;
+  }
+
+  .menu-group {
+    background: #fffeeb;
+    box-shadow: none;
+    border-radius: 28px;
+    margin: 0 32px 32px 32px;
+    position: relative;
+    transition: box-shadow 0.2s, transform 0.2s;
+
+    &:hover {
+      box-shadow: 0 12px 40px 0 rgba(90, 114, 18, 0.22),
+        0 4px 16px 0 rgba(0, 0, 0, 0.1);
+      // Elimina el transform para que no crezca
+      // transform: scale(1.015);
+    }
+  }
+  .btn-activar-menu {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    background: #5a7212;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 8px 32px;
+    box-shadow: 0 2px 8px rgba(90, 114, 18, 0.08);
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    z-index: 2;
+
+    &:hover {
+      background: #46600e;
+      color: #fff;
+    }
+
+    &.activo {
+      background: #fff;
+      color: #5a7212;
+      border: 2px solid #5a7212;
+    }
+  }
+  .btn-eliminar-menu {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 8px 32px;
+    box-shadow: 0 2px 8px rgba(235, 35, 35, 0.08);
+    transition: background 0.2s, color 0.2s;
+    z-index: 2;
+
+    &:hover {
+      background: #b71c1c;
+      color: #fff;
+    }
+  }
+
+  .btn-terminado {
+    background: #e53935 !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: bold;
+    border-radius: 25px !important;
+    padding: 8px 32px !important;
+    cursor: default;
   }
 }
 
@@ -328,4 +448,30 @@ main {
 .modal-content .btn {
   border-radius: 25px !important;
   padding: 10px 32px !important;
+  font-weight: bold;
+  border: none;
+}
+.modal-content .btn.btn-secondary {
+  background: #e53935 !important;
+  color: #fff !important;
+}
+.modal-content .btn.btn-secondary:hover {
+  background: #b71c1c !important;
+  color: #fff !important;
+}
+.modal-content .btn.btn-danger {
+  background: #bbd43e !important;
+  color: #fff !important;
+}
+.modal-content .btn.btn-danger:hover {
+  background: #a3c72e !important;
+  color: #fff !important;
+}
+.modal-content .btn.btn-success {
+  background: #bbd43e !important;
+  color: #fff !important;
+}
+.modal-content .btn.btn-success:hover {
+  background: #a3c72e !important;
+  color: #fff !important;
 }

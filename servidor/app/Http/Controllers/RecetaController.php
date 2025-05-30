@@ -95,4 +95,19 @@ class RecetaController extends Controller
         $recetas = Receta::whereIn('id_receta', $ids)->get();
         return response()->json($recetas);
     }
+
+    // Obtener recetas por categoría (puede ser varias por receta)
+    public function recetasPorCategoria(Request $request)
+    {
+        $categoriaId = $request->query('categoria_id');
+        if (!$categoriaId) {
+            return response()->json([], 200);
+        }
+        $recetas = \DB::table('receta_categoria')
+            ->join('recetas', 'receta_categoria.receta_id', '=', 'recetas.id_receta')
+            ->where('receta_categoria.categoria_id', $categoriaId)
+            ->select('recetas.*')
+            ->get();
+        return response()->json($recetas);
+    }
 }

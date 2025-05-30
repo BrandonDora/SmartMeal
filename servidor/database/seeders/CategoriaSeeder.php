@@ -13,38 +13,28 @@ class CategoriaSeeder extends Seeder
      */
     public function run(): void
     {
+        // Desactiva las restricciones de claves foráneas para truncar sin errores
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('receta_categoria')->truncate();
+        DB::table('categorias')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         DB::table('categorias')->insert([
-            ['nombre' => 'Vegetariano'],
-            ['nombre' => 'Vegano'],
-            ['nombre' => 'Sin gluten'],
-            ['nombre' => 'Lácteos'],
-            ['nombre' => 'Postres'],
-            ['nombre' => 'Desayuno'],
-            ['nombre' => 'Brunch'],
-            ['nombre' => 'Almuerzo'],
-            ['nombre' => 'Cena'],
-            ['nombre' => 'Entrantes'],
-            ['nombre' => 'Aperitivos'],
-            ['nombre' => 'Sopas'],
-            ['nombre' => 'Cremas'],
-            ['nombre' => 'Ensaladas'],
-            ['nombre' => 'Bebidas'],
-            ['nombre' => 'Jugos'],
-            ['nombre' => 'Cócteles'],
-            ['nombre' => 'Rápido'],
-            ['nombre' => 'Saludable'],
-            ['nombre' => 'Tradicional'],
-            ['nombre' => 'Internacional'],
-            ['nombre' => 'Mariscos'],
-            ['nombre' => 'Pastas'],
             ['nombre' => 'Carnes'],
             ['nombre' => 'Pescados'],
-            ['nombre' => 'Repostería'],
-            ['nombre' => 'Panadería'],
-            ['nombre' => 'Snacks'],
-            ['nombre' => 'Salsas'],
-            ['nombre' => 'Barbacoa'],
+            ['nombre' => 'Verduras'],
+            ['nombre' => 'Huevos'],
+            ['nombre' => 'Pastas'],
+            ['nombre' => 'Arroces'],
+            ['nombre' => 'Sopas y Cremas'],
+            ['nombre' => 'Ensaladas'],
+            ['nombre' => 'Bebidas'],
+            ['nombre' => 'Postres'],
+            ['nombre' => 'Vegano'],
+            ['nombre' => 'Vegetariano'],
+            ['nombre' => 'Desayuno'],
+            ['nombre' => 'Mariscos'],
+            ['nombre' => 'Internacional'],
         ]);
-
     }
 }

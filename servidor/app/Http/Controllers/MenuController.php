@@ -21,15 +21,16 @@ class MenuController extends Controller
             $request->validate([
                 'usuario_id' => 'required|integer',
                 'receta_id' => 'required|integer',
+                'menu_id' => 'required|integer', // <-- validamos que venga el menú
             ]);
 
-            // Buscar el menú del usuario
-            $menu = \App\Models\Menu::where('user_id', $request->usuario_id)->first();
+            // Buscar el menú por el id recibido
+            $menu = \App\Models\Menu::where('id_menu', $request->menu_id)->first();
             if (!$menu) {
-                return response()->json(['error' => 'No se encontró menú para el usuario'], 404);
+                return response()->json(['error' => 'No se encontró menú con ese id'], 404);
             }
 
-            // Comprobar si la receta ya está en el menú
+            // Comprobar si la receta ya está en el menú seleccionado
             $existe = \DB::table('menu_receta')
                 ->where('id_menu', $menu->id_menu)
                 ->where('id_receta', $request->receta_id)
@@ -92,5 +93,16 @@ class MenuController extends Controller
             return response()->json(['error' => 'Menú no encontrado'], 404);
         }
         return response()->json($menu->recetas);
+    }
+    
+    public function destroy(Request $request, $id_menu)
+    {
+        $user = $request->user();
+        $menu = Menu::where('id_menu', $id_menu)->where('user_id', $user->id)->first();
+        if (!$menu) {
+            return response()->json(['error' => 'Menú no encontrado'], 404);
+        }
+        $menu->delete();
+        return response()->json(['message' => 'Menú eliminado correctamente']);
     }
 }

@@ -45,6 +45,7 @@ export class CrearMenuModalComponent {
     if (this.nuevoMenu.nombre.trim()) {
       this.crear.emit({ ...this.nuevoMenu });
       this.nuevoMenu = { nombre: '' };
+      // window.location.reload(); // Quitado: el refresco debe hacerse en el padre
     }
   }
 

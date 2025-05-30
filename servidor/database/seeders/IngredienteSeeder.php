@@ -10,637 +10,182 @@ class IngredienteSeeder extends Seeder
     public function run(): void
     {
         DB::table('ingredientes')->insert([
+            // Ingredientes para las 14 recetas
             [
                 'nombre'        => 'Pechuga de pollo',
-                'unidad'        => 'unidad',
-                'calorias'      => 165,    // por unidad (≈150 g)
-                'proteinas'     => 31,
-                'grasas'        => 3.6,
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Arroz integral',
                 'unidad'        => 'gramos',
-                'calorias'      => 3.64,   // por g
-                'proteinas'     => 0.026,
-                'grasas'        => 0.009,
-                'carbohidratos' => 0.23,
+                'calorias'      => 1.65,   // por gramo (165 kcal/100g)
+                'proteinas'     => 0.31,   // por gramo (31g/100g)
+                'grasas'        => 0.036,  // por gramo (3.6g/100g)
+                'carbohidratos' => 0,      // por gramo
             ],
             [
-                'nombre'        => 'Brócoli',
-                'unidad'        => 'unidad',
-                'calorias'      => 34,     // por unidad (≈100 g)
-                'proteinas'     => 2.8,
-                'grasas'        => 0.4,
-                'carbohidratos' => 7,
+                'nombre'        => 'Patata',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.77,   // por gramo (77 kcal/100g)
+                'proteinas'     => 0.02,   // por gramo (2g/100g)
+                'grasas'        => 0.001,  // por gramo (0.1g/100g)
+                'carbohidratos' => 0.17,   // por gramo (17g/100g)
             ],
             [
                 'nombre'        => 'Huevo',
                 'unidad'        => 'unidad',
-                'calorias'      => 72,
+                'calorias'      => 72,     // por unidad (mediano)
                 'proteinas'     => 6.3,
                 'grasas'        => 5.0,
                 'carbohidratos' => 0.4,
             ],
             [
-                'nombre'        => 'Leche entera',
-                'unidad'        => 'ml',
-                'calorias'      => 0.61,   // por ml
-                'proteinas'     => 0.032,
-                'grasas'        => 0.033,
-                'carbohidratos' => 0.048,
-            ],
-            [
-                'nombre'        => 'Harina de trigo',
+                'nombre'        => 'Cebolla',
                 'unidad'        => 'gramos',
-                'calorias'      => 3.64,
-                'proteinas'     => 0.10,
-                'grasas'        => 0.01,
-                'carbohidratos' => 0.76,
-            ],
-            [
-                'nombre'        => 'Azúcar',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.87,
-                'proteinas'     => 0,
-                'grasas'        => 0,
-                'carbohidratos' => 1.00,
-            ],
-            [
-                'nombre'        => 'Tomate',
-                'unidad'        => 'unidad',
-                'calorias'      => 22,     // por unidad (≈100 g)
-                'proteinas'     => 1.1,
-                'grasas'        => 0.2,
-                'carbohidratos' => 4.8,
-            ],
-            [
-                'nombre'        => 'Lechuga',
-                'unidad'        => 'unidad',
-                'calorias'      => 15,     // por unidad (hoja grande o cogollo)
-                'proteinas'     => 1.4,
-                'grasas'        => 0.2,
-                'carbohidratos' => 2.9,
-            ],
-            [
-                'nombre'        => 'Zanahoria',
-                'unidad'        => 'unidad',
-                'calorias'      => 25,     // por unidad (≈60 g)
-                'proteinas'     => 0.6,
-                'grasas'        => 0.1,
-                'carbohidratos' => 6,
-            ],
-            [
-                'nombre'        => 'Patata',
-                'unidad'        => 'unidad',
-                'calorias'      => 77,     // por unidad (≈100 g)
-                'proteinas'     => 2,
-                'grasas'        => 0.1,
-                'carbohidratos' => 17,
+                'calorias'      => 0.4,    // por gramo (40 kcal/100g)
+                'proteinas'     => 0.011,  // por gramo (1.1g/100g)
+                'grasas'        => 0.001,  // por gramo (0.1g/100g)
+                'carbohidratos' => 0.09,   // por gramo (9g/100g)
             ],
             [
                 'nombre'        => 'Aceite de oliva',
                 'unidad'        => 'ml',
-                'calorias'      => 8.84,   // por ml (≈884 cal/100 ml)
+                'calorias'      => 8.84,   // por ml (884 kcal/100ml)
                 'proteinas'     => 0,
-                'grasas'        => 1.00,   // ≈1 g grasa por ml
+                'grasas'        => 1.0,    // por ml (1g/ml)
                 'carbohidratos' => 0,
             ],
             [
                 'nombre'        => 'Salmón',
                 'unidad'        => 'gramos',
-                'calorias'      => 2.08,
-                'proteinas'     => 0.20,
-                'grasas'        => 0.13,
+                'calorias'      => 2.08,   // por gramo (208 kcal/100g)
+                'proteinas'     => 0.20,   // por gramo (20g/100g)
+                'grasas'        => 0.13,   // por gramo (13g/100g)
                 'carbohidratos' => 0,
             ],
             [
-                'nombre'        => 'Atún en lata',
+                'nombre'        => 'Arroz',
                 'unidad'        => 'gramos',
-                'calorias'      => 1.16,
-                'proteinas'     => 0.26,
-                'grasas'        => 0.01,
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Garbanzos cocidos',
-                'unidad'        => 'gramos',
-                'calorias'      => 1.64,
-                'proteinas'     => 0.09,
-                'grasas'        => 0.026,
-                'carbohidratos' => 0.274,
-            ],
-            [
-                'nombre'        => 'Queso cheddar',
-                'unidad'        => 'gramos',
-                'calorias'      => 4.03,
-                'proteinas'     => 0.25,
-                'grasas'        => 0.33,
-                'carbohidratos' => 0.013,
-            ],
-            [
-                'nombre'        => 'Manzana',
-                'unidad'        => 'unidad',
-                'calorias'      => 95,
-                'proteinas'     => 0.5,
-                'grasas'        => 0.3,
-                'carbohidratos' => 25,
-            ],
-            [
-                'nombre'        => 'Plátano',
-                'unidad'        => 'unidad',
-                'calorias'      => 105,
-                'proteinas'     => 1.3,
-                'grasas'        => 0.4,
-                'carbohidratos' => 27,
-            ],
-            [
-                'nombre'        => 'Yogur natural',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.59,
-                'proteinas'     => 0.10,
-                'grasas'        => 0.004,
-                'carbohidratos' => 0.04,
-            ],
-            [
-                'nombre'        => 'Avena',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.89,
-                'proteinas'     => 0.17,
-                'grasas'        => 0.07,
-                'carbohidratos' => 0.66,
-            ],
-            [
-                'nombre'        => 'Mantequilla',
-                'unidad'        => 'gramos',
-                'calorias'      => 7.17,
-                'proteinas'     => 0.005,
-                'grasas'        => 0.81,
-                'carbohidratos' => 0.001,
-            ],
-            [
-                'nombre'        => 'Espinacas',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.23,
-                'proteinas'     => 0.029,
-                'grasas'        => 0.004,
-                'carbohidratos' => 0.036,
-            ],
-            [
-                'nombre'        => 'Cebolla',
-                'unidad'        => 'unidad',
-                'calorias'      => 44,
-                'proteinas'     => 1.2,
-                'grasas'        => 0.1,
-                'carbohidratos' => 10,
-            ],
-            [
-                'nombre'        => 'Pasta integral',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.5,
-                'proteinas'     => 0.12,
-                'grasas'        => 0.013,
-                'carbohidratos' => 0.74,
-            ],
-            [
-                'nombre'        => 'Lentejas cocidas',
-                'unidad'        => 'gramos',
-                'calorias'      => 1.16,
-                'proteinas'     => 0.09,
-                'grasas'        => 0.004,
-                'carbohidratos' => 0.20,
-            ],
-            [
-                'nombre'        => 'Pimiento rojo',
-                'unidad'        => 'unidad',
-                'calorias'      => 31,
-                'proteinas'     => 1.0,
-                'grasas'        => 0.3,
-                'carbohidratos' => 6,
-            ],
-            [
-                'nombre'        => 'Calabacín',
-                'unidad'        => 'unidad',
-                'calorias'      => 33,
-                'proteinas'     => 2.4,
-                'grasas'        => 0.6,
-                'carbohidratos' => 6.1,
-            ],
-            [
-                'nombre'        => 'Pera',
-                'unidad'        => 'unidad',
-                'calorias'      => 57,
-                'proteinas'     => 0.4,
-                'grasas'        => 0.1,
-                'carbohidratos' => 15,
-            ],
-            [
-                'nombre'        => 'Naranja',
-                'unidad'        => 'unidad',
-                'calorias'      => 62,
-                'proteinas'     => 1.2,
-                'grasas'        => 0.2,
-                'carbohidratos' => 15.4,
-            ],
-            [
-                'nombre'        => 'Almendras',
-                'unidad'        => 'gramos',
-                'calorias'      => 5.76,
-                'proteinas'     => 0.21,
-                'grasas'        => 0.50,
-                'carbohidratos' => 0.22,
-            ],
-            [
-                'nombre'        => 'Nueces',
-                'unidad'        => 'gramos',
-                'calorias'      => 6.54,
-                'proteinas'     => 0.15,
-                'grasas'        => 0.65,
-                'carbohidratos' => 0.14,
-            ],
-            [
-                'nombre'        => 'Pan integral',
-                'unidad'        => 'gramos',
-                'calorias'      => 2.5,
-                'proteinas'     => 0.09,
-                'grasas'        => 0.03,
-                'carbohidratos' => 0.47,
-            ],
-            [
-                'nombre'        => 'Jamón cocido',
-                'unidad'        => 'gramos',
-                'calorias'      => 1.13,
-                'proteinas'     => 0.19,
-                'grasas'        => 0.03,
-                'carbohidratos' => 0.01,
-            ],
-            [
-                'nombre'        => 'Pavo',
-                'unidad'        => 'gramos',
-                'calorias'      => 1.04,
-                'proteinas'     => 0.22,
-                'grasas'        => 0.01,
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Merluza',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.82,
-                'proteinas'     => 0.18,
-                'grasas'        => 0.01,
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Galleta María',
-                'unidad'        => 'unidad',
-                'calorias'      => 28,
-                'proteinas'     => 0.5,
-                'grasas'        => 1.0,
-                'carbohidratos' => 5.2,
-            ],
-            [
-                'nombre'        => 'Chocolate negro',
-                'unidad'        => 'gramos',
-                'calorias'      => 5.46,
-                'proteinas'     => 0.05,
-                'grasas'        => 0.32,
-                'carbohidratos' => 0.61,
-            ],
-            [
-                'nombre'        => 'Miel',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.04,
-                'proteinas'     => 0.003,
-                'grasas'        => 0,
-                'carbohidratos' => 0.82,
-            ],
-            [
-                'nombre'        => 'Agua',
-                'unidad'        => 'ml',
-                'calorias'      => 0,
-                'proteinas'     => 0,
-                'grasas'        => 0,
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Cerveza',
-                'unidad'        => 'ml',
-                'calorias'      => 0.43,
-                'proteinas'     => 0.004,
-                'grasas'        => 0,
-                'carbohidratos' => 0.03,
-            ],
-            [
-                'nombre'        => 'Vino tinto',
-                'unidad'        => 'ml',
-                'calorias'      => 0.85,
-                'proteinas'     => 0,
-                'grasas'        => 0,
-                'carbohidratos' => 0.027,
-            ],
-            [
-                'nombre'        => 'Queso fresco',
-                'unidad'        => 'gramos',
-                'calorias'      => 1.45,
-                'proteinas'     => 0.10,
-                'grasas'        => 0.08,
-                'carbohidratos' => 0.03,
-            ],
-            [
-                'nombre'        => 'Tofu',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.76,
-                'proteinas'     => 0.08,
-                'grasas'        => 0.048,
-                'carbohidratos' => 0.015,
-            ],
-            [
-                'nombre'        => 'Pepino',
-                'unidad'        => 'unidad',
-                'calorias'      => 16,
-                'proteinas'     => 0.7,
-                'grasas'        => 0.1,
-                'carbohidratos' => 3.6,
-            ],
-            [
-                'nombre'        => 'Caldo de pollo',
-                'unidad'        => 'ml',
-                'calorias'      => 0.05,
-                'proteinas'     => 0.008,
-                'grasas'        => 0.002,
-                'carbohidratos' => 0.004,
-            ],
-            [
-                'nombre'        => 'Calabaza',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.26,
-                'proteinas'     => 0.01,
-                'grasas'        => 0.001,
-                'carbohidratos' => 0.065,
-            ],
-            [
-                'nombre'        => 'Mozzarella',
-                'unidad'        => 'gramos',
-                'calorias'      => 2.8,
-                'proteinas'     => 0.18,
-                'grasas'        => 0.17,
-                'carbohidratos' => 0.013,
-            ],
-            [
-                'nombre'        => 'Albahaca',
-                'unidad'        => 'gramos',
-                'calorias'      => 2.3,
-                'proteinas'     => 0.032,
-                'grasas'        => 0.006,
-                'carbohidratos' => 0.048,
-            ],
-            [
-                'nombre'        => 'Couscous',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.76,
-                'proteinas'     => 0.13,
-                'grasas'        => 0.006,
-                'carbohidratos' => 0.77,
-            ],
-            [
-                'nombre'        => 'Calabacín',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.17,
-                'proteinas'     => 0.012,
-                'grasas'        => 0.002,
-                'carbohidratos' => 0.03,
-            ],
-            [
-                'nombre'        => 'Queso crema',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.42,
-                'proteinas'     => 0.06,
-                'grasas'        => 0.34,
-                'carbohidratos' => 0.04,
-            ],
-            [
-                'nombre'        => 'Galleta',
-                'unidad'        => 'gramos',
-                'calorias'      => 4.8,
-                'proteinas'     => 0.07,
-                'grasas'        => 0.18,
-                'carbohidratos' => 0.72,
-            ],
-            [
-                'nombre'        => 'Pepino',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.16,
-                'proteinas'     => 0.007,
-                'grasas'        => 0.001,
-                'carbohidratos' => 0.036,
-            ],
-            [
-                'nombre'        => 'Perejil',
-                'unidad'        => 'gramos',
-                'calorias'      => 0.36,
-                'proteinas'     => 0.03,
-                'grasas'        => 0.008,
-                'carbohidratos' => 0.06,
-            ],
-            [
-                'nombre'        => 'Zumo de limón',
-                'unidad'        => 'ml',
-                'calorias'      => 0.22,
-                'proteinas'     => 0.004,
-                'grasas'        => 0.001,
-                'carbohidratos' => 0.07,
-            ],
-            [
-                'nombre'        => 'Jamón cocido',
-                'unidad'        => 'gramos',
-                'calorias'      => 1.13,
-                'proteinas'     => 0.19,
-                'grasas'        => 0.03,
-                'carbohidratos' => 0.01,
-            ],
-                        [
-                'nombre'        => 'Pechuga de pollo',
-                'unidad'        => 'unidad',
-                'calorias'      => 165,    // 1 unidad ≈ 150 g
-                'proteinas'     => 31,
-                'grasas'        => 3.6,
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Arroz integral',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.64,   // por g
-                'proteinas'     => 0.026,
-                'grasas'        => 0.009,
-                'carbohidratos' => 0.23,
-            ],
-            [
-                'nombre'        => 'Brócoli',
-                'unidad'        => 'unidad',      // 1 ramillete ≈ 150 g
-                'calorias'      => 51,            // 34 cal/100 g × 1.5
-                'proteinas'     => 4.2,           // 2.8 g/100 g × 1.5
-                'grasas'        => 0.6,           // 0.4 g/100 g × 1.5
-                'carbohidratos' => 10.5,          // 7 g/100 g × 1.5
-            ],
-            [
-                'nombre'        => 'Huevo',
-                'unidad'        => 'unidad',
-                'calorias'      => 72,
-                'proteinas'     => 6.3,
-                'grasas'        => 5.0,
-                'carbohidratos' => 0.4,
-            ],
-            [
-                'nombre'        => 'Leche entera',
-                'unidad'        => 'ml',
-                'calorias'      => 0.61,   // por ml
-                'proteinas'     => 0.032,
-                'grasas'        => 0.033,
-                'carbohidratos' => 0.048,
-            ],
-            [
-                'nombre'        => 'Harina de trigo',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.64,
-                'proteinas'     => 0.10,
-                'grasas'        => 0.01,
-                'carbohidratos' => 0.76,
-            ],
-            [
-                'nombre'        => 'Azúcar',
-                'unidad'        => 'gramos',
-                'calorias'      => 3.87,
-                'proteinas'     => 0,
-                'grasas'        => 0,
-                'carbohidratos' => 1.00,
+                'calorias'      => 1.3,    // por gramo (130 kcal/100g cocido)
+                'proteinas'     => 0.025,  // por gramo (2.5g/100g)
+                'grasas'        => 0.002,  // por gramo (0.2g/100g)
+                'carbohidratos' => 0.28,   // por gramo (28g/100g)
             ],
             [
                 'nombre'        => 'Tomate',
-                'unidad'        => 'unidad',      // 1 tomate mediano ≈ 123 g
-                'calorias'      => 27,            // 22 cal/100 g × 1.23
-                'proteinas'     => 1.4,           // 1.1 g/100 g × 1.23
-                'grasas'        => 0.2,
-                'carbohidratos' => 5.9,           // 4.8 g/100 g × 1.23
-            ],
-            [
-                'nombre'        => 'Lechuga',
-                'unidad'        => 'unidad',      // 1 cogollo ≈ 600 g
-                'calorias'      => 90,            // 15 cal/100 g × 6
-                'proteinas'     => 8.4,           // 1.4 g/100 g × 6
-                'grasas'        => 1.2,           // 0.2 g/100 g × 6
-                'carbohidratos' => 17.4,          // 2.9 g/100 g × 6
-            ],
-            [
-                'nombre'        => 'Zanahoria',
-                'unidad'        => 'unidad',      // 1 mediana ≈ 61 g
-                'calorias'      => 25,            // típico calorías por unidad
-                'proteinas'     => 1.0,           // aproximado
-                'grasas'        => 0.1,
-                'carbohidratos' => 6,
-            ],
-            [
-                'nombre'        => 'Patata',
-                'unidad'        => 'unidad',      // 1 mediana ≈ 150 g
-                'calorias'      => 115,           // 77 cal/100 g × 1.5
-                'proteinas'     => 3.0,           // 2 g/100 g × 1.5
-                'grasas'        => 0.2,           // 0.1 g/100 g × 1.5
-                'carbohidratos' => 25.5,          // 17 g/100 g × 1.5
-            ],
-            [
-                'nombre'        => 'Aceite de oliva',
-                'unidad'        => 'ml',
-                'calorias'      => 8.84,   // por ml
-                'proteinas'     => 0,
-                'grasas'        => 1.00,   // ≈1 g de grasa por ml
-                'carbohidratos' => 0,
-            ],
-            [
-                'nombre'        => 'Salmón',
                 'unidad'        => 'gramos',
-                'calorias'      => 2.08,
-                'proteinas'     => 0.20,
-                'grasas'        => 0.13,
+                'calorias'      => 0.18,   // por gramo (18 kcal/100g)
+                'proteinas'     => 0.009,  // por gramo (0.9g/100g)
+                'grasas'        => 0.002,  // por gramo (0.2g/100g)
+                'carbohidratos' => 0.039,  // por gramo (3.9g/100g)
+            ],
+            [
+                'nombre'        => 'Pepino',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.16,   // por gramo (16 kcal/100g)
+                'proteinas'     => 0.006,  // por gramo (0.6g/100g)
+                'grasas'        => 0.001,  // por gramo (0.1g/100g)
+                'carbohidratos' => 0.036,  // por gramo (3.6g/100g)
+            ],
+            [
+                'nombre'        => 'Pimiento',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.31,   // por gramo (31 kcal/100g)
+                'proteinas'     => 0.01,   // por gramo (1g/100g)
+                'grasas'        => 0.003,  // por gramo (0.3g/100g)
+                'carbohidratos' => 0.06,   // por gramo (6g/100g)
+            ],
+            [
+                'nombre'        => 'Carne picada de ternera',
+                'unidad'        => 'gramos',
+                'calorias'      => 2.5,    // por gramo (250 kcal/100g)
+                'proteinas'     => 0.26,   // por gramo (26g/100g)
+                'grasas'        => 0.20,   // por gramo (20g/100g)
                 'carbohidratos' => 0,
             ],
             [
-                'nombre'        => 'Atún en lata',
+                'nombre'        => 'Pasta',
                 'unidad'        => 'gramos',
-                'calorias'      => 1.16,
-                'proteinas'     => 0.26,
-                'grasas'        => 0.01,
-                'carbohidratos' => 0,
+                'calorias'      => 1.3,    // por gramo (130 kcal/100g cocida)
+                'proteinas'     => 0.05,   // por gramo (5g/100g)
+                'grasas'        => 0.01,   // por gramo (1g/100g)
+                'carbohidratos' => 0.25,   // por gramo (25g/100g)
+            ],
+            [
+                'nombre'        => 'Plátano',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.89,   // por gramo (89 kcal/100g)
+                'proteinas'     => 0.011,  // por gramo (1.1g/100g)
+                'grasas'        => 0.003,  // por gramo (0.3g/100g)
+                'carbohidratos' => 0.23,   // por gramo (23g/100g)
+            ],
+            [
+                'nombre'        => 'Frutos rojos',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.5,    // por gramo (50 kcal/100g)
+                'proteinas'     => 0.007,  // por gramo (0.7g/100g)
+                'grasas'        => 0.002,  // por gramo (0.2g/100g)
+                'carbohidratos' => 0.12,   // por gramo (12g/100g)
+            ],
+            [
+                'nombre'        => 'Yogur',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.59,   // por gramo (59 kcal/100g)
+                'proteinas'     => 0.10,   // por gramo (10g/100g)
+                'grasas'        => 0.034,  // por gramo (3.4g/100g)
+                'carbohidratos' => 0.045,  // por gramo (4.5g/100g)
+            ],
+            [
+                'nombre'        => 'Quinoa',
+                'unidad'        => 'gramos',
+                'calorias'      => 1.2,    // por gramo (120 kcal/100g cocida)
+                'proteinas'     => 0.04,   // por gramo (4g/100g)
+                'grasas'        => 0.02,   // por gramo (2g/100g)
+                'carbohidratos' => 0.21,   // por gramo (21g/100g)
             ],
             [
                 'nombre'        => 'Garbanzos cocidos',
                 'unidad'        => 'gramos',
-                'calorias'      => 1.64,
-                'proteinas'     => 0.09,
-                'grasas'        => 0.026,
-                'carbohidratos' => 0.274,
-            ],
-            [
-                'nombre'        => 'Queso cheddar',
-                'unidad'        => 'gramos',
-                'calorias'      => 4.03,
-                'proteinas'     => 0.25,
-                'grasas'        => 0.33,
-                'carbohidratos' => 0.013,
+                'calorias'      => 1.64,   // por gramo (164 kcal/100g)
+                'proteinas'     => 0.09,   // por gramo (9g/100g)
+                'grasas'        => 0.026,  // por gramo (2.6g/100g)
+                'carbohidratos' => 0.274,  // por gramo (27.4g/100g)
             ],
             [
                 'nombre'        => 'Manzana',
-                'unidad'        => 'unidad',      // 1 mediana ≈ 182 g
-                'calorias'      => 95,
-                'proteinas'     => 0.5,
-                'grasas'        => 0.3,
-                'carbohidratos' => 25,
-            ],
-            [
-                'nombre'        => 'Plátano',
-                'unidad'        => 'unidad',      // 1 mediano ≈ 118 g
-                'calorias'      => 105,
-                'proteinas'     => 1.3,
-                'grasas'        => 0.4,
-                'carbohidratos' => 27,
-            ],
-            [
-                'nombre'        => 'Yogur natural',
                 'unidad'        => 'gramos',
-                'calorias'      => 0.59,
-                'proteinas'     => 0.10,
-                'grasas'        => 0.004,
-                'carbohidratos' => 0.04,
+                'calorias'      => 0.52,   // por gramo (52 kcal/100g)
+                'proteinas'     => 0.003,  // por gramo (0.3g/100g)
+                'grasas'        => 0.001,  // por gramo (0.1g/100g)
+                'carbohidratos' => 0.14,   // por gramo (14g/100g)
             ],
             [
-                'nombre'        => 'Avena',
+                'nombre'        => 'Fresa',
                 'unidad'        => 'gramos',
-                'calorias'      => 3.89,
-                'proteinas'     => 0.17,
-                'grasas'        => 0.07,
-                'carbohidratos' => 0.66,
+                'calorias'      => 0.32,   // por gramo (32 kcal/100g)
+                'proteinas'     => 0.006,  // por gramo (0.6g/100g)
+                'grasas'        => 0.003,  // por gramo (0.3g/100g)
+                'carbohidratos' => 0.08,   // por gramo (8g/100g)
             ],
             [
-                'nombre'        => 'Mantequilla',
+                'nombre'        => 'Uva',
                 'unidad'        => 'gramos',
-                'calorias'      => 7.17,
-                'proteinas'     => 0.005,
-                'grasas'        => 0.81,
-                'carbohidratos' => 0.001,
+                'calorias'      => 0.69,   // por gramo (69 kcal/100g)
+                'proteinas'     => 0.007,  // por gramo (0.7g/100g)
+                'grasas'        => 0.001,  // por gramo (0.1g/100g)
+                'carbohidratos' => 0.18,   // por gramo (18g/100g)
             ],
             [
-                'nombre'        => 'Espinacas',
+                'nombre'        => 'Queso',
                 'unidad'        => 'gramos',
-                'calorias'      => 0.23,
-                'proteinas'     => 0.029,
-                'grasas'        => 0.004,
-                'carbohidratos' => 0.036,
+                'calorias'      => 4.02,   // por gramo (402 kcal/100g)
+                'proteinas'     => 0.25,   // por gramo (25g/100g)
+                'grasas'        => 0.33,   // por gramo (33g/100g)
+                'carbohidratos' => 0.013,  // por gramo (1.3g/100g)
             ],
             [
-                'nombre'        => 'Cebolla',
-                'unidad'        => 'unidad',      // 1 mediana ≈ 110 g
-                'calorias'      => 48,            // 44 cal/100 g × 1.1
-                'proteinas'     => 1.3,           // 1.2 g/100 g × 1.1
-                'grasas'        => 0.1,
-                'carbohidratos' => 11,            // 10 g/100 g × 1.1
+                'nombre'        => 'Espinaca',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.23,   // por gramo (23 kcal/100g)
+                'proteinas'     => 0.029,  // por gramo (2.9g/100g)
+                'grasas'        => 0.004,  // por gramo (0.4g/100g)
+                'carbohidratos' => 0.036,  // por gramo (3.6g/100g)
             ],
         ]);
     }

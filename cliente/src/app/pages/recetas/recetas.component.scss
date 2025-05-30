@@ -61,6 +61,50 @@ main {
   }
 }
 
+.btn-group[role="group"] {
+  gap: 0.18rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.btn-group[role="group"] .btn {
+  border-radius: 1.7rem !important;
+  font-size: 0.93rem;
+  padding: 0.32rem 0.7rem;
+  min-width: 80px;
+  max-width: 120px;
+  background: #f7f7fa;
+  color: #7a7a7a;
+  border: none;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.btn-group[role="group"] .btn.active,
+.btn-group[role="group"] .btn:active,
+.btn-group[role="group"] .btn:focus {
+  background: #bbd43e !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px 0 rgba(187, 212, 62, 0.15);
+}
+
+.btn-group[role="group"] .btn:hover {
+  background: #e6e6e6;
+  color: #5a5a5a;
+}
+
+@media (max-width: 900px) {
+  .btn-group[role="group"] .btn {
+    font-size: 0.9rem;
+    min-width: 65px;
+    max-width: 90px;
+    padding: 0.28rem 0.5rem;
+  }
+}
+
 .recetas {
   .receta-card {
     padding: 20px;

@@ -154,4 +154,11 @@ export class HttpTokenService {
   getIngredientesByIds(ids: number[]) {
     return this.http.post<any[]>(`${baseUrl}/api/ingredientes/by-ids`, { ids });
   }
+
+  eliminarMenu(idMenu: number) {
+    const token = localStorage.getItem('token');
+    return this.http.delete<any>(`${baseUrl}/api/menus/${idMenu}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }

@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearRecetaComponent } from '../../components/dialogs/crear-receta.component';
 import { VerRecetaComponent } from '../../components/dialogs/ver-receta.component';
 import { ModalInfoComponent } from '../../components/dialogs/modal-info.component';
+import { ElegirMenuComponent } from '../../components/dialogs/elegir-menu.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -23,6 +24,7 @@ import { environment } from '../../../environments/environment';
     CrearRecetaComponent,
     VerRecetaComponent,
     ModalInfoComponent,
+    ElegirMenuComponent,
   ],
   templateUrl: './recetas.component.html',
   styleUrl: './recetas.component.scss',
@@ -36,6 +38,8 @@ export class RecetasComponent implements OnInit {
   tiposComida: any[] = [];
   tipoComidaSeleccionado: number | null = null;
   recetasOriginales: any[] = [];
+  categorias: any[] = [];
+  categoriaSeleccionada: number | null = null;
 
   constructor(
     private http: HttpClient,
@@ -55,7 +59,11 @@ export class RecetasComponent implements OnInit {
     this.http.get<any[]>(environment.apiUrl + '/api/recetas').subscribe({
       next: (data) => {
         this.recetas = data.map((receta) => {
-          if (receta.imagen && !receta.imagen.startsWith('http') && !receta.imagen.startsWith('/storage/')) {
+          if (
+            receta.imagen &&
+            !receta.imagen.startsWith('http') &&
+            !receta.imagen.startsWith('/storage/')
+          ) {
             // Si la imagen es solo el nombre del archivo, añade la ruta completa
             return {
               ...receta,
@@ -88,6 +96,13 @@ export class RecetasComponent implements OnInit {
         this.fotoPerfilUrl = 'assets/img/default.jpg';
       },
     });
+    // Cargar categorías desde la API
+    this.http.get<any[]>(environment.apiUrl + '/api/categorias').subscribe({
+      next: (data) => {
+        this.categorias = data;
+      },
+      error: (err) => console.error('Error al obtener categorías', err),
+    });
   }
 
   getRecetaPorId(): void {
@@ -110,7 +125,41 @@ export class RecetasComponent implements OnInit {
     this.http.get<any>(environment.apiUrl + '/api/user', options).subscribe({
       next: (user) => {
         if (user && user.id) {
-          this.comprobarYAnadirRecetaAMenu(user.id, recetaId);
+          // Obtener menús del usuario y abrir modal para elegir
+          this.http
+            .get<any[]>(environment.apiUrl + '/api/menus', options)
+            .subscribe({
+              next: (menus) => {
+                // Acepta user_id, usuario_id o userId
+                const menusUsuario = menus.filter(
+                  (m: any) =>
+                    m.user_id == user.id ||
+                    m.usuario_id == user.id ||
+                    m.userId == user.id
+                );
+                if (!menusUsuario.length) {
+                  this.mostrarModalInfo(
+                    'Aún no tienes ningún menú, por favor crea uno'
+                  );
+                  return;
+                }
+                // Abrir modal para elegir menú
+                const dialogRef = this.dialog.open(ElegirMenuComponent, {
+                  width: '350px',
+                  data: { menus: menusUsuario },
+                });
+                dialogRef.afterClosed().subscribe((menuIdElegido) => {
+                  if (menuIdElegido) {
+                    // Aquí se añade la receta al menú seleccionado
+                    this.postMenuReceta(menuIdElegido, recetaId, user.id);
+                  }
+                });
+              },
+              error: () =>
+                this.mostrarModalInfo(
+                  'Error al comprobar los menús del usuario.'
+                ),
+            });
         } else {
           this.mostrarModalInfo('No se ha encontrado el usuario.');
         }
@@ -178,6 +227,7 @@ export class RecetasComponent implements OnInit {
         {
           usuario_id: usuarioId,
           receta_id: Number(recetaId),
+          menu_id: Number(menuId), // <-- Enviamos el menú seleccionado
         },
         options
       )
@@ -261,7 +311,22 @@ export class RecetasComponent implements OnInit {
             .subscribe({
               next: (recetasFiltradas) => {
                 this.recetas = recetasFiltradas.map((receta) => {
-                  if (receta.imagen && receta.imagen.startsWith('/storage/')) {
+                  if (
+                    receta.imagen &&
+                    !receta.imagen.startsWith('http') &&
+                    !receta.imagen.startsWith('/storage/')
+                  ) {
+                    // Si la imagen es solo el nombre del archivo, añade la ruta completa
+                    return {
+                      ...receta,
+                      imagen:
+                        'http://localhost:8000/storage/recetas/' +
+                        receta.imagen,
+                    };
+                  } else if (
+                    receta.imagen &&
+                    receta.imagen.startsWith('/storage/')
+                  ) {
                     return {
                       ...receta,
                       imagen: 'http://localhost:8000' + receta.imagen,
@@ -272,6 +337,43 @@ export class RecetasComponent implements OnInit {
               },
               error: () => (this.recetas = []),
             });
+        },
+        error: () => (this.recetas = []),
+      });
+  }
+
+  filtrarPorCategoria(id_categoria: number | null) {
+    this.categoriaSeleccionada = id_categoria;
+    this.recetasMostradas = 6;
+    if (id_categoria === null) {
+      this.recetas = [...this.recetasOriginales];
+      return;
+    }
+    this.http
+      .get<any[]>(
+        `${environment.apiUrl}/api/recetas-por-categoria?categoria_id=${id_categoria}`
+      )
+      .subscribe({
+        next: (data) => {
+          this.recetas = data.map((receta) => {
+            if (
+              receta.imagen &&
+              !receta.imagen.startsWith('http') &&
+              !receta.imagen.startsWith('/storage/')
+            ) {
+              return {
+                ...receta,
+                imagen:
+                  'http://localhost:8000/storage/recetas/' + receta.imagen,
+              };
+            } else if (receta.imagen && receta.imagen.startsWith('/storage/')) {
+              return {
+                ...receta,
+                imagen: 'http://localhost:8000' + receta.imagen,
+              };
+            }
+            return receta;
+          });
         },
         error: () => (this.recetas = []),
       });

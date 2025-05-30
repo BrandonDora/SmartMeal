@@ -39,12 +39,23 @@
       <div class="row mb-4">
         <div class="col">
           <div class="btn-group" role="group">
-            <button type="button">Vegetales</button>
-            <button type="button">Carne</button>
-            <button type="button">Pescado</button>
-            <button type="button">Legumbres</button>
-            <button type="button">Pasta</button>
-            <button type="button">Postres</button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              [class.active]="categoriaSeleccionada === null"
+              (click)="filtrarPorCategoria(null)"
+            >
+              Todas
+            </button>
+            <button
+              *ngFor="let categoria of categorias"
+              type="button"
+              class="btn btn-outline-secondary"
+              [class.active]="categoriaSeleccionada === categoria.id_categoria"
+              (click)="filtrarPorCategoria(categoria.id_categoria)"
+            >
+              {{ categoria.nombre }}
+            </button>
           </div>
         </div>
       </div>
