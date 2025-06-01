@@ -52,6 +52,12 @@
   outline: none !important;
 }
 
+.form-select:focus-visible,
+.select-categoria-menu:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .form-select {
   appearance: auto !important;
   -webkit-appearance: auto !important;
@@ -103,4 +109,33 @@
 }
 .select-categoria-menu option[disabled] {
   color: #aaa !important;
+}
+.categoria-label {
+  background: #eaf7d6;
+  border: 1.5px solid #bbd43e;
+  color: #5a7212;
+  border-radius: 18px;
+  padding: 6px 14px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.categoria-label .btn {
+  margin-left: 6px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.categoria-label .btn:hover {
+  background: #b71c1c;
 }

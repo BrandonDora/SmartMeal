@@ -9,7 +9,28 @@ class RecetaController extends Controller
 {
     public function recetas()
     {
-        $recetas = Receta::all();
+        // Cargar recetas con categorías y tiempos de comida
+        $recetas = Receta::with([
+            'categorias:id_categoria,nombre',
+            'tiemposComida:id_tipo,nombre'
+        ])->get();
+        // Formatear para que cada receta tenga 'categorias' y 'tiempos_comida' como arrays
+        $recetas = $recetas->map(function($receta) {
+            $arr = $receta->toArray();
+            $arr['categorias'] = $receta->categorias->map(function($cat) {
+                return [
+                    'id_categoria' => $cat->id_categoria,
+                    'nombre' => $cat->nombre
+                ];
+            })->values();
+            $arr['tiempos_comida'] = $receta->tiemposComida->map(function($tc) {
+                return [
+                    'id_tipo' => $tc->id_tipo,
+                    'nombre' => $tc->nombre
+                ];
+            })->values();
+            return $arr;
+        });
         return response()->json($recetas);
     }
 
@@ -37,8 +58,8 @@ class RecetaController extends Controller
             'tiempo_preparacion' => 'required|numeric|min:1',
             'imagen' => 'nullable|image|max:4096',
             'ingredientes' => 'required|json',
-            'categoria' => 'required|integer|exists:categorias,id_categoria',
-            'tiempo_comida' => 'required|integer|exists:tiempo_comida,id_tipo',
+            'categorias' => 'required|json',
+            'tiempos_comida' => 'required|json',
         ]);
 
         // Obtener el usuario autenticado por el token
@@ -60,29 +81,70 @@ class RecetaController extends Controller
 
         $receta->save();
 
-        // Guardar ingredientes en receta_ingrediente
+        // Calcular valores nutricionales totales y guardar ingredientes en receta_ingrediente SIN duplicados
+        $totalCalorias = 0;
+        $totalCarbohidratos = 0;
+        $totalGrasas = 0;
+        $totalProteinas = 0;
+
         $ingredientes = json_decode($request->ingredientes, true);
+        $ingredientesUnicos = [];
         foreach ($ingredientes as $item) {
-            if (isset($item['ingredienteId'], $item['cantidad'])) {
-                \DB::table('receta_ingrediente')->insert([
+            $ingredienteId = $item['id'] ?? $item['ingredienteId'] ?? null;
+            $cantidad = $item['cantidad'] ?? null;
+            if ($ingredienteId && $cantidad && !isset($ingredientesUnicos[$ingredienteId])) {
+                // Guardar en tabla pivote solo si no existe ya esa combinación
+                $existe = \DB::table('receta_ingrediente')
+                    ->where('id_receta', $receta->id_receta)
+                    ->where('id_ingrediente', $ingredienteId)
+                    ->exists();
+                if (!$existe) {
+                    \DB::table('receta_ingrediente')->insert([
+                        'id_receta' => $receta->id_receta,
+                        'id_ingrediente' => $ingredienteId,
+                        'cantidad' => $cantidad,
+                    ]);
+                }
+                // Marcar como añadido
+                $ingredientesUnicos[$ingredienteId] = true;
+                // Obtener datos nutricionales del ingrediente
+                $ing = \App\Models\Ingrediente::find($ingredienteId);
+                if ($ing) {
+                    $totalCalorias += ($ing->calorias ?? 0) * $cantidad;
+                    $totalCarbohidratos += ($ing->carbohidratos ?? 0) * $cantidad;
+                    $totalGrasas += ($ing->grasas ?? 0) * $cantidad;
+                    $totalProteinas += ($ing->proteinas ?? 0) * $cantidad;
+                }
+            }
+        }
+        // Guardar los totales en la receta
+        $receta->calorias = $totalCalorias;
+        $receta->carbohidratos = $totalCarbohidratos;
+        $receta->grasas = $totalGrasas;
+        $receta->proteinas = $totalProteinas;
+        $receta->save();
+
+        // Guardar tiempos de comida (array)
+        $tiemposComida = json_decode($request->tiempos_comida, true);
+        if (is_array($tiemposComida)) {
+            foreach ($tiemposComida as $id_tipo) {
+                \DB::table('receta_tiempo_comida')->insert([
                     'id_receta' => $receta->id_receta,
-                    'id_ingrediente' => $item['ingredienteId'],
-                    'cantidad' => $item['cantidad'],
+                    'id_tipo' => $id_tipo,
                 ]);
             }
         }
 
-        // Guardar tiempo de comida en receta_tiempo_comida
-        \DB::table('receta_tiempo_comida')->insert([
-            'id_receta' => $receta->id_receta,
-            'id_tipo' => $request->tiempo_comida,
-        ]);
-
-        // Guardar categoría en receta_categoria
-        \DB::table('receta_categoria')->insert([
-            'receta_id' => $receta->id_receta,
-            'categoria_id' => $request->categoria,
-        ]);
+        // Guardar categorías (array)
+        $categorias = json_decode($request->categorias, true);
+        if (is_array($categorias)) {
+            foreach ($categorias as $categoria_id) {
+                \DB::table('receta_categoria')->insert([
+                    'receta_id' => $receta->id_receta,
+                    'categoria_id' => $categoria_id,
+                ]);
+            }
+        }
 
         return response()->json(['message' => 'Receta creada', 'receta' => $receta], 201);
     }

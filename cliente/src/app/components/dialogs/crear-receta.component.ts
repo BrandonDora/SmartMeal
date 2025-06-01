@@ -22,7 +22,6 @@ import { environment } from '../../../environments/environment';
           [(ngModel)]="nombre"
           required
           maxlength="100"
-          style="margin-bottom: 12px;"
         />
         <textarea
           class="form-control"
@@ -31,14 +30,8 @@ import { environment } from '../../../environments/environment';
           [(ngModel)]="descripcion"
           required
           maxlength="300"
-          style="margin-bottom: 12px;"
         ></textarea>
-        <input
-          type="file"
-          accept="image/*"
-          (change)="onFileSelected($event)"
-          style="margin-bottom: 12px;"
-        />
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
         <textarea
           class="form-control"
           placeholder="Instrucciones"
@@ -46,79 +39,72 @@ import { environment } from '../../../environments/environment';
           [(ngModel)]="instrucciones"
           required
           maxlength="1000"
-          style="margin-bottom: 12px;"
         ></textarea>
 
-        <!-- Repeater de ingredientes -->
-        <div id="ingredientes-repeater">
-          <div
-            class="d-flex flex-column align-items-center"
-            style="width: 477px; margin-bottom: 8px; gap: 2px;"
+        <!-- Selección de ingredientes -->
+        <div
+          class="d-flex align-items-center"
+          style="gap: 8px; margin-bottom: 12px;"
+        >
+          <!-- Select de ingrediente -->
+          <select
+            [(ngModel)]="ingredienteSeleccionado"
+            name="ingredienteSelect"
+            class="form-select select-ingrediente"
+            required
+            style="width: 200px; min-width: 200px; max-width: 200px; height: 44px; margin: 0; text-align: center; font-size: 1rem; padding: 2px 6px;"
+            (change)="actualizarUnidadIngrediente()"
           >
-            <div
-              class="d-flex align-items-center"
-              style="gap: 2px; width: 100%;"
-            >
-              <!-- Select de ingrediente -->
-              <select
-                [(ngModel)]="ingrediente"
-                name="ingredienteSelect"
-                class="form-select select-ingrediente"
-                required
-                style="width: 200px; min-width: 200px; max-width: 200px; height: 44px; margin: 0; text-align: center; font-size: 1rem; padding: 2px 6px;"
-              >
-                <option [ngValue]="null" disabled selected>
-                  --Ingrediente--
-                </option>
-                <option *ngFor="let ing of ingredientes" [ngValue]="ing.id">
-                  {{ ing.nombre }}
-                </option>
-              </select>
-              <!-- Cantidad -->
-              <input
-                [(ngModel)]="cantidadIngrediente"
-                name="cantidadIngredienteInput"
-                type="number"
-                min="0"
-                step="any"
-                placeholder="Cantidad"
-                class="form-control input-cantidad"
-                required
-                style="width: 200px; min-width: 200px; max-width: 200px; height: 44px; margin: 0; text-align: center; display: inline-block; font-size: 1rem; padding: 2px 6px;"
-              />
-              <button
-                type="button"
-                (click)="agregarIngredienteLabel()"
-                class="btn btn-primary btn-add-ingrediente rounded-circle d-flex justify-content-center align-items-center"
-                style="width: 32px; height: 32px; padding: 0; font-size: 1.1rem; z-index: 2;"
-                title="Añadir ingrediente"
-              >
-                <i class="bi bi-plus"></i>
-              </button>
-            </div>
-            <!-- Etiquetas de ingredientes añadidos -->
-            <div class="mt-2 d-flex flex-wrap" style="gap: 8px;">
-              <span
-                *ngFor="let item of getIngredientesValidos(); let i = index"
-                class="ingrediente-label d-flex align-items-center"
-                style="gap: 4px;"
-              >
-                {{ obtenerNombreIngrediente(item.ingredienteId) }} ({{
-                  item.cantidad
-                }})
+            <option [ngValue]="null" disabled selected>--Ingrediente--</option>
+            <option *ngFor="let ing of ingredientes" [ngValue]="ing.id">
+              {{ ing.nombre }}
+            </option>
+          </select>
+          <!-- Cantidad -->
+          <input
+            [(ngModel)]="cantidadSeleccionada"
+            name="cantidadIngredienteInput"
+            type="number"
+            min="0"
+            step="any"
+            [placeholder]="
+              'Cantidad' +
+              (ingredienteUnidad ? ' (' + ingredienteUnidad + ')' : '')
+            "
+            class="form-control input-cantidad"
+            required
+            style="width: 200px; min-width: 200px; max-width: 200px; height: 44px; margin: 0; text-align: center; display: inline-block; font-size: 1rem; padding: 2px 6px;"
+          />
+          <button
+            type="button"
+            (click)="agregarIngredienteLabel()"
+            class="btn btn-primary btn-add-ingrediente rounded-circle d-flex justify-content-center align-items-center"
+            style="width: 32px; height: 32px; padding: 0; font-size: 1.1rem; z-index: 2;"
+            title="Añadir ingrediente"
+          >
+            <i class="bi bi-plus"></i>
+          </button>
+        </div>
 
-                <button
-                  type="button"
-                  class="btn btn-danger btn-sm ms-1 p-0 d-flex align-items-center justify-content-center"
-                  style="width: 22px; height: 22px; font-size: 1rem; border-radius: 50%;"
-                  title="Eliminar ingrediente"
-                  (click)="eliminarIngrediente(i)"
-                >
-                  <i class="bi bi-x"></i>
-                </button>
-              </span>
-            </div>
-          </div>
+        <!-- Etiquetas de ingredientes añadidos -->
+        <div class="mt-2 d-flex flex-wrap" style="gap: 8px;">
+          <span
+            *ngFor="let item of getIngredientesValidos(); let i = index"
+            class="ingrediente-label d-flex align-items-center"
+            style="gap: 4px;"
+          >
+            {{ obtenerNombreIngrediente(item.id) }} ({{ item.cantidad }})
+
+            <button
+              type="button"
+              class="btn btn-danger btn-sm ms-1 p-0 d-flex align-items-center justify-content-center"
+              style="width: 22px; height: 22px; font-size: 1rem; border-radius: 50%;"
+              title="Eliminar ingrediente"
+              (click)="eliminarIngredienteLabel(item.id)"
+            >
+              <i class="bi bi-x"></i>
+            </button>
+          </span>
         </div>
 
         <!-- Select de tiempo_comida -->
@@ -128,6 +114,7 @@ import { environment } from '../../../environments/environment';
           [(ngModel)]="tiempo_comida"
           required
           style="margin-bottom: 12px;"
+          (change)="onTiempoComidaSeleccionado()"
         >
           <option [ngValue]="null" disabled selected>
             Selecciona el momento de la comida
@@ -137,6 +124,27 @@ import { environment } from '../../../environments/environment';
           </option>
         </select>
 
+        <!-- Etiquetas de tiempos de comida añadidos -->
+        <div class="mt-2 d-flex flex-wrap" style="gap: 8px;">
+          <span
+            *ngFor="let item of tiempoComidaSeleccionados"
+            class="tiempo-comida-label d-flex align-items-center"
+            style="gap: 4px;"
+          >
+            {{ obtenerNombreTiempoComida(item) }}
+
+            <button
+              type="button"
+              class="btn btn-danger btn-sm ms-1 p-0 d-flex align-items-center justify-content-center"
+              style="width: 22px; height: 22px; font-size: 1rem; border-radius: 50%;"
+              title="Eliminar tiempo de comida"
+              (click)="eliminarTiempoComida(item)"
+            >
+              <i class="bi bi-x"></i>
+            </button>
+          </span>
+        </div>
+
         <!-- Select de categoría (dinámico) -->
         <select
           class="form-select"
@@ -144,6 +152,7 @@ import { environment } from '../../../environments/environment';
           [(ngModel)]="categoria"
           required
           style="margin-bottom: 18px;"
+          (change)="onCategoriaSeleccionada()"
         >
           <option [ngValue]="null" disabled selected>
             Selecciona una categoría
@@ -152,6 +161,27 @@ import { environment } from '../../../environments/environment';
             {{ cat.nombre }}
           </option>
         </select>
+
+        <!-- Etiquetas de categorías añadidas -->
+        <div class="mt-2 d-flex flex-wrap" style="gap: 8px;">
+          <span
+            *ngFor="let item of categoriasSeleccionadas"
+            class="categoria-label d-flex align-items-center"
+            style="gap: 4px;"
+          >
+            {{ obtenerNombreCategoria(item) }}
+
+            <button
+              type="button"
+              class="btn btn-danger btn-sm ms-1 p-0 d-flex align-items-center justify-content-center"
+              style="width: 22px; height: 22px; font-size: 1rem; border-radius: 50%;"
+              title="Eliminar categoría"
+              (click)="eliminarCategoria(item)"
+            >
+              <i class="bi bi-x"></i>
+            </button>
+          </span>
+        </div>
 
         <!-- Tiempo de preparación (al final) -->
         <input
@@ -195,21 +225,25 @@ export class CrearRecetaComponent implements OnInit {
   imagen: File | null = null;
   errorMsg = '';
   loading = false;
-  ingrediente: number | null = null;
-  cantidadIngrediente: number | null = null;
-  ingredientes: Array<{ id: number; nombre: string }> = [];
+  ingredienteSeleccionado: number | null = null;
+  cantidadSeleccionada: number | null = null;
+  ingredientes: Array<{ id: number; nombre: string; unidad?: string }> = [];
   tiempo_comida: number | null = null;
   tiemposComida: Array<{ id: number; nombre: string }> = [];
   mostrarErrorCampos = false;
 
-  // Ingredientes para la receta (repeater)
-  ingredientesReceta: Array<{
-    ingredienteId: number | null;
-    cantidad: number | null;
-  }> = [];
+  // Ingredientes seleccionados para la receta
+  ingredientesSeleccionados: Array<{ id: number; cantidad: number }> = [];
 
   // Nueva propiedad para las categorías
   categorias: Array<{ id_categoria: number; nombre: string }> = [];
+
+  // Nueva propiedad para la unidad del ingrediente seleccionado
+  ingredienteUnidad: string = '';
+
+  // Cambios para selección múltiple de categorías y momentos de comida
+  categoriasSeleccionadas: number[] = [];
+  tiempoComidaSeleccionados: number[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<CrearRecetaComponent>,
@@ -224,10 +258,14 @@ export class CrearRecetaComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          // Ordenar ingredientes alfabéticamente por nombre
-          this.ingredientes = data.sort((a, b) =>
-            a.nombre.localeCompare(b.nombre)
-          );
+          // Ordenar ingredientes alfabéticamente por nombre y mapear unidad
+          this.ingredientes = data
+            .map((i) => ({
+              id: i.id,
+              nombre: i.nombre,
+              unidad: i.unidad || '',
+            }))
+            .sort((a, b) => a.nombre.localeCompare(b.nombre));
         },
         error: () => {
           this.ingredientes = [];
@@ -272,44 +310,81 @@ export class CrearRecetaComponent implements OnInit {
     }
   }
 
-  agregarIngrediente() {
-    this.ingredientesReceta.push({ ingredienteId: null, cantidad: null });
-  }
-
-  eliminarIngrediente(i: number) {
-    this.ingredientesReceta.splice(i, 1);
-  }
-
   agregarIngredienteLabel() {
-    if (this.ingrediente && this.cantidadIngrediente) {
-      // Evitar duplicados del mismo ingrediente
-      const existe = this.ingredientesReceta.some(
-        (item) => item.ingredienteId === this.ingrediente
-      );
-      if (!existe) {
-        this.ingredientesReceta.push({
-          ingredienteId: this.ingrediente,
-          cantidad: this.cantidadIngrediente,
-        });
-      }
-      this.ingrediente = null;
-      this.cantidadIngrediente = null;
+    if (
+      this.ingredienteSeleccionado &&
+      this.cantidadSeleccionada &&
+      !this.ingredientesSeleccionados.some(
+        (i) => i.id === this.ingredienteSeleccionado
+      )
+    ) {
+      this.ingredientesSeleccionados.push({
+        id: this.ingredienteSeleccionado,
+        cantidad: this.cantidadSeleccionada,
+      });
+      this.ingredienteSeleccionado = null;
+      this.cantidadSeleccionada = null;
     }
   }
 
-  verificarCamposYCrear() {
-    // Validar que todos los ingredientes tengan ingredienteId y cantidad
-    const ingredientesValidos = this.ingredientesReceta.every(
-      (item) => item.ingredienteId && item.cantidad
+  eliminarIngredienteLabel(id: number) {
+    this.ingredientesSeleccionados = this.ingredientesSeleccionados.filter(
+      (i) => i.id !== id
     );
+  }
+
+  // Métodos para añadir y eliminar categorías
+  onCategoriaSeleccionada() {
+    if (
+      this.categoria &&
+      !this.categoriasSeleccionadas.includes(this.categoria)
+    ) {
+      this.categoriasSeleccionadas.push(this.categoria);
+    }
+    this.categoria = null;
+  }
+  eliminarCategoria(catId: number) {
+    this.categoriasSeleccionadas = this.categoriasSeleccionadas.filter(
+      (id) => id !== catId
+    );
+  }
+  obtenerNombreCategoria(id: number): string {
+    const cat = this.categorias.find((c) => c.id_categoria === id);
+    return cat ? cat.nombre : '';
+  }
+
+  // Métodos para añadir y eliminar momentos de comida
+  onTiempoComidaSeleccionado() {
+    if (
+      this.tiempo_comida &&
+      !this.tiempoComidaSeleccionados.includes(this.tiempo_comida)
+    ) {
+      this.tiempoComidaSeleccionados.push(this.tiempo_comida);
+    }
+    this.tiempo_comida = null;
+  }
+  eliminarTiempoComida(id: number) {
+    this.tiempoComidaSeleccionados = this.tiempoComidaSeleccionados.filter(
+      (tid) => tid !== id
+    );
+  }
+  obtenerNombreTiempoComida(id: number): string {
+    const t = this.tiemposComida.find((tc) => tc.id === id);
+    return t ? t.nombre : '';
+  }
+
+  verificarCamposYCrear() {
+    const ingredientesValidos =
+      this.ingredientesSeleccionados.length > 0 &&
+      this.ingredientesSeleccionados.every((item) => item.id && item.cantidad);
     if (
       !this.nombre ||
       !this.descripcion ||
       !this.instrucciones ||
       !this.tiempo_preparacion ||
       !ingredientesValidos ||
-      this.tiempo_comida === null ||
-      this.categoria === null
+      this.tiempoComidaSeleccionados.length === 0 ||
+      this.categoriasSeleccionadas.length === 0
     ) {
       this.mostrarErrorCampos = true;
       return;
@@ -329,10 +404,16 @@ export class CrearRecetaComponent implements OnInit {
     if (this.imagen) {
       formData.append('imagen', this.imagen);
     }
-    // Adjuntar ingredientes como JSON
-    formData.append('ingredientes', JSON.stringify(this.ingredientesReceta));
-    formData.append('categoria', String(Number(this.categoria)));
-    formData.append('tiempo_comida', String(Number(this.tiempo_comida)));
+    // Adjuntar ingredientes como JSON (id y cantidad)
+    formData.append(
+      'ingredientes',
+      JSON.stringify(this.ingredientesSeleccionados)
+    );
+    formData.append('categorias', JSON.stringify(this.categoriasSeleccionadas));
+    formData.append(
+      'tiempos_comida',
+      JSON.stringify(this.tiempoComidaSeleccionados)
+    );
     // Adjuntar el user_id
     const user = JSON.parse(localStorage.getItem('user') || 'null');
     if (user && user.id) {
@@ -362,9 +443,9 @@ export class CrearRecetaComponent implements OnInit {
       <div class="modal fade show" style="display:block; background:rgba(0,0,0,0.5)">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content text-center p-4">
-            <i class="bi bi-check-circle-fill text-success" style="font-size:3rem"></i>
+            <i class="bi bi-check-circle-fill" style="color:#5a7212; font-size:3rem"></i>
             <h4 class="mt-3">Receta Creada</h4>
-            <button class="btn btn-success mt-3" id="cerrar-modal-exito">Cerrar</button>
+            <button class="btn btn-success mt-3" id="cerrar-modal-exito" style="background:#5a7212 !important; border-radius:22px !important; border:none !important; color:#fff !important; font-weight:bold; padding:8px 32px;">Cerrar</button>
           </div>
         </div>
       </div>
@@ -388,8 +469,18 @@ export class CrearRecetaComponent implements OnInit {
   }
 
   getIngredientesValidos() {
-    return this.ingredientesReceta.filter(
-      (i) => i.ingredienteId !== null && i.cantidad !== null
-    );
+    return this.ingredientesSeleccionados;
+  }
+
+  // Nuevo método para actualizar la unidad al seleccionar ingrediente
+  actualizarUnidadIngrediente() {
+    if (this.ingredienteSeleccionado) {
+      const ing = this.ingredientes.find(
+        (i) => i.id === this.ingredienteSeleccionado
+      );
+      this.ingredienteUnidad = ing ? ing.unidad || '' : '';
+    } else {
+      this.ingredienteUnidad = '';
+    }
   }
 }

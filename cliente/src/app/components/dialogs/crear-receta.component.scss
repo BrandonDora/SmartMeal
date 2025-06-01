@@ -5,35 +5,46 @@
 
 .dialog-content {
   padding: 15px;
+  max-width: 480px;
+  margin: 0 auto;
 
   .titulo-dialogo {
     color: $verde;
     font-weight: normal;
     text-align: center;
     font-size: 1.4rem;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 5px;
 
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      margin-bottom: 8px;
+    }
+    select {
+      margin-bottom: 0 !important;
+    }
     input[type="text"],
     input[type="number"],
     textarea,
     select {
-      margin-top: 8px;
-      margin-bottom: 12px;
+      margin-top: 4px;
       width: 90%;
       max-width: 600px;
       min-width: 260px;
-      padding: 8px 12px;
-      border-radius: 20px;
+      padding: 5px 10px;
+      border-radius: 16px;
       border: 1.5px solid $verde;
-      font-size: 1.1rem;
+      font-size: 1rem;
       text-align: center;
+      height: 34px;
+      min-height: unset;
       &:focus,
       &:focus-visible {
         outline: none;
@@ -41,21 +52,23 @@
       }
     }
     textarea {
-      min-height: 60px;
+      min-height: 40px;
       resize: vertical;
+      height: 60px;
     }
     input[type="file"] {
-      margin-bottom: 12px;
-      width: 260px;
+      margin-bottom: 8px;
+      width: 220px;
       border: none;
+      height: unset;
     }
   }
 
   .mat-dialog-actions {
-    margin-top: 24px;
+    margin-top: 18px;
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 10px;
   }
 }
 
@@ -95,15 +108,72 @@ button[mat-raised-button] {
   margin-top: 10px;
 }
 
-.ingrediente-label {
-  background-color: #43a047;
-  color: #fff;
-  border-radius: 25px;
-  padding: 4px 12px;
-  font-size: 0.95rem;
-  display: inline-flex;
+.ingrediente-label,
+.categoria-label,
+.tiempo-comida-label {
+  background: #eaf7d6;
+  border: 1.5px solid #bbd43e;
+  color: #5a7212;
+  border-radius: 18px;
+  padding: 6px 14px;
+  font-size: 1rem;
+  display: flex;
   align-items: center;
+  gap: 6px;
+  font-weight: 500;
   margin-bottom: 4px;
+}
+
+.ingrediente-label .btn,
+.categoria-label .btn,
+.tiempo-comida-label .btn {
+  margin-left: 6px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.ingrediente-label .btn:hover,
+.categoria-label .btn:hover,
+.tiempo-comida-label .btn:hover {
+  background: #b71c1c;
+}
+
+.select-ingrediente,
+.input-cantidad {
+  height: 35px !important;
+  min-height: 28px !important;
+  font-size: 0.97rem !important;
+  padding: 2px 8px !important;
+}
+
+.btn-add-ingrediente {
+  background: $verde !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  font-size: 1.1rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(187, 212, 62, 0.08);
+  transition: background 0.2s, color 0.2s;
+  &:hover {
+    background: darken($verde, 10%) !important;
+    color: #fff !important;
+  }
 }
 
 @media (max-width: 700px) {
@@ -134,4 +204,8 @@ button[mat-raised-button] {
     bottom: 8px !important;
     transform: none !important;
   }
+}
+
+.d-flex.align-items-center {
+  margin-bottom: 2px !important;
 }

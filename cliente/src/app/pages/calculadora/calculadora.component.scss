@@ -231,7 +231,7 @@ textarea:focus {
 }
 
 :host ::ng-deep .modal-exito .modal-content {
-  color: #222 !important;
+  color: #000 !important;
 }
 
 @media (max-width: 900px) {
@@ -251,8 +251,7 @@ textarea:focus {
 
 @media (max-width: 600px) {
   .calculator-container {
-    width: 100% !important;
-    margin-left: 10% !important;
-    margin-right: 10% !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
   }
 }

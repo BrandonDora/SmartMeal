@@ -85,6 +85,45 @@ class RecetaIngredienteSeeder extends Seeder
             ['id_receta' => 14, 'id_ingrediente' => 21, 'cantidad' => 50],  // 50g espinaca
             ['id_receta' => 14, 'id_ingrediente' => 12, 'cantidad' => 80],  // 80g plátano
             ['id_receta' => 14, 'id_ingrediente' => 18, 'cantidad' => 80],  // 80g manzana
+
+            // Cuscús de cordero Halal
+            ['id_receta' => 15, 'id_ingrediente' => 22, 'cantidad' => 120], // 120g cordero Halal
+            ['id_receta' => 15, 'id_ingrediente' => 23, 'cantidad' => 60],  // 60g cuscús
+            ['id_receta' => 15, 'id_ingrediente' => 4,  'cantidad' => 40],  // 40g cebolla
+            ['id_receta' => 15, 'id_ingrediente' => 24, 'cantidad' => 50],  // 50g calabacín
+            ['id_receta' => 15, 'id_ingrediente' => 25, 'cantidad' => 30],  // 30g zanahoria
+            ['id_receta' => 15, 'id_ingrediente' => 5,  'cantidad' => 15],  // 15ml aceite de oliva
+
+            // Tajine de pollo Halal
+            ['id_receta' => 16, 'id_ingrediente' => 1,  'cantidad' => 120], // 120g pechuga de pollo (Halal)
+            ['id_receta' => 16, 'id_ingrediente' => 4,  'cantidad' => 40],  // 40g cebolla
+            ['id_receta' => 16, 'id_ingrediente' => 5,  'cantidad' => 15],  // 15ml aceite de oliva
+            ['id_receta' => 16, 'id_ingrediente' => 26, 'cantidad' => 30],  // 30g ciruelas pasas
+            ['id_receta' => 16, 'id_ingrediente' => 27, 'cantidad' => 20],  // 20g almendras
+            ['id_receta' => 16, 'id_ingrediente' => 28, 'cantidad' => 5],   // 5g jengibre
+
+            // Falafel vegano
+            ['id_receta' => 17, 'id_ingrediente' => 16, 'cantidad' => 120], // 120g garbanzos cocidos
+            ['id_receta' => 17, 'id_ingrediente' => 4,  'cantidad' => 30],  // 30g cebolla
+            ['id_receta' => 17, 'id_ingrediente' => 29, 'cantidad' => 10],  // 10g perejil
+            ['id_receta' => 17, 'id_ingrediente' => 5,  'cantidad' => 10],  // 10ml aceite de oliva
+            ['id_receta' => 17, 'id_ingrediente' => 31, 'cantidad' => 15],  // 15g tahini
+
+            // Ensalada tabulé
+            ['id_receta' => 18, 'id_ingrediente' => 32, 'cantidad' => 60],  // 60g bulgur
+            ['id_receta' => 18, 'id_ingrediente' => 7,  'cantidad' => 50],  // 50g tomate
+            ['id_receta' => 18, 'id_ingrediente' => 8,  'cantidad' => 30],  // 30g pepino
+            ['id_receta' => 18, 'id_ingrediente' => 4,  'cantidad' => 20],  // 20g cebolla
+            ['id_receta' => 18, 'id_ingrediente' => 29, 'cantidad' => 10],  // 10g perejil
+            ['id_receta' => 18, 'id_ingrediente' => 30, 'cantidad' => 5],   // 5g menta
+            ['id_receta' => 18, 'id_ingrediente' => 5,  'cantidad' => 10],  // 10ml aceite de oliva
+
+            // Shakshuka
+            ['id_receta' => 19, 'id_ingrediente' => 4,  'cantidad' => 40],  // 40g cebolla
+            ['id_receta' => 19, 'id_ingrediente' => 9,  'cantidad' => 40],  // 40g pimiento
+            ['id_receta' => 19, 'id_ingrediente' => 7,  'cantidad' => 200], // 200g tomate
+            ['id_receta' => 19, 'id_ingrediente' => 3,  'cantidad' => 2],   // 2 huevos
+            ['id_receta' => 19, 'id_ingrediente' => 5,  'cantidad' => 10],  // 10ml aceite de oliva
         ]);
     }
 }

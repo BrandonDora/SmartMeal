@@ -1,5 +1,8 @@
 <div class="page-wrapper">
-  <app-loged-header [fotoPerfilUrl]="fotoPerfilUrl"></app-loged-header>
+  <app-loged-header
+    [fotoPerfilUrl]="fotoPerfilUrl"
+    (buscarRecetaHeader)="busquedaReceta = $event; onBuscarReceta()"
+  ></app-loged-header>
 
   <main>
     <div class="container-fluid mt-4">

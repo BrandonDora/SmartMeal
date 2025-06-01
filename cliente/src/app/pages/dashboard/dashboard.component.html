@@ -18,7 +18,7 @@
       <app-generar-menu-modal
         *ngIf="mostrarGenerarMenuModal"
         [categorias]="categorias"
-        (generar)="onGenerarMenu()"
+        (generar)="onGenerarMenu($event)"
         (cancelar)="cerrarGenerarMenuModal()"
       ></app-generar-menu-modal>
 
@@ -33,7 +33,7 @@
         <ng-container *ngIf="prefs.length === 0">
           <div class="container-fluid empty-menu-box">
             <p class="text-center">
-              Para empezar a crear tu menú te recomendamos añadir marcar tu meta
+              Para empezar a crear tu menú te recomendamos marcar tu meta
               calculando tus calorías de mantenimiento.<br />
               <a routerLink="/calculadora" class="btn btn-primary mt-3"
                 >Ir a Calculadora</a
@@ -180,6 +180,7 @@
                 type="button"
                 [ngClass]="{ activo: menu.id_menu === menuActivo }"
                 (click)="activarMenu(menu.id_menu)"
+                [disabled]="menuActivo !== null && menu.id_menu !== menuActivo"
               >
                 {{ menu.id_menu === menuActivo ? "Activado" : "Activar" }}
               </button>
@@ -227,7 +228,7 @@
                         <button
                           class="btn btn-outline-danger float-end"
                           *ngIf="
-                            !esRecetaTerminada(receta) &&
+                            !esRecetaTerminada(receta, menu.id_menu) &&
                             menu.id_menu === menuActivo
                           "
                           (click)="abrirModalTerminar(receta)"
@@ -236,7 +237,7 @@
                         </button>
                         <button
                           class="btn btn-terminado float-end"
-                          *ngIf="esRecetaTerminada(receta)"
+                          *ngIf="esRecetaTerminada(receta, menu.id_menu)"
                           disabled
                         >
                           Terminado
@@ -244,7 +245,7 @@
                         <button
                           class="btn btn-outline-danger float-end"
                           *ngIf="
-                            !esRecetaTerminada(receta) &&
+                            !esRecetaTerminada(receta, menu.id_menu) &&
                             menu.id_menu !== menuActivo
                           "
                           disabled
@@ -303,14 +304,6 @@
         "
       >
         Generar menú
-      </button>
-      <button
-        *ngIf="menuActivo"
-        type="button"
-        class="btn btn-warning ms-2"
-        (click)="abrirModalDesactivarMenu()"
-      >
-        Desactivar menú
       </button>
     </div>
   </main>
@@ -461,7 +454,10 @@
           >
             Cancelar
           </button>
-          <button class="btn btn-success btn-verde" (click)="desactivarMenu()">
+          <button
+            class="btn btn-success btn-verde"
+            (click)="confirmarDesactivarMenu()"
+          >
             Desactivar
           </button>
         </div>

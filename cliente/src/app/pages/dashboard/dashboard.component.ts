@@ -136,34 +136,22 @@ export class DashboardComponent implements OnInit {
               recetas = await new Promise((resolve, reject) => {
                 this.tokenService.getRecetasByIds(ids).subscribe({
                   next: (recetas) => {
-                    // Procesar la ruta de la imagen igual que en recetas.component.ts
+                    // Unificar lógica de imagen igual que en recetas.component.ts
                     const recetasProcesadas = recetas.map((receta: any) => {
-                      if (
-                        receta.imagen &&
-                        !receta.imagen.startsWith('http') &&
-                        !receta.imagen.startsWith('/storage/')
-                      ) {
-                        return {
-                          ...receta,
-                          imagen:
-                            'http://localhost:8000/storage/recetas/' +
-                            receta.imagen,
-                        };
+                      let imagen = receta.imagen;
+                      if (!imagen || imagen.trim() === '') {
+                        imagen =
+                          'http://35.172.64.180:8000/storage/recetas/default.png';
                       } else if (
-                        receta.imagen &&
-                        receta.imagen.startsWith('/storage/')
+                        !imagen.startsWith('http') &&
+                        !imagen.startsWith('/storage/')
                       ) {
-                        return {
-                          ...receta,
-                          imagen: 'http://localhost:8000' + receta.imagen,
-                        };
-                      } else if (!receta.imagen) {
-                        return {
-                          ...receta,
-                          imagen: 'assets/img/Desayuno.png',
-                        };
+                        imagen =
+                          'http://35.172.64.180:8000/storage/recetas/' + imagen;
+                      } else if (imagen.startsWith('/storage/')) {
+                        imagen = 'http://localhost:8000' + imagen;
                       }
-                      return receta;
+                      return { ...receta, imagen };
                     });
                     resolve(recetasProcesadas);
                   },
@@ -290,7 +278,13 @@ export class DashboardComponent implements OnInit {
       totales.grasas += ing.grasas * ri.cantidad;
       totales.carbohidratos += ing.carbohidratos * ri.cantidad;
     }
-    this.totalesMenu = totales;
+    // Redondear los totales
+    this.totalesMenu = {
+      calorias: Math.round(totales.calorias),
+      proteinas: Math.round(totales.proteinas),
+      grasas: Math.round(totales.grasas),
+      carbohidratos: Math.round(totales.carbohidratos),
+    };
     // Imprimir por consola los valores de cada receta
     for (const ri of recetaIngredientes) {
       const ing = ingredientes.find(
@@ -317,31 +311,18 @@ export class DashboardComponent implements OnInit {
             next: (recetas) => {
               // Procesar la ruta de la imagen igual que en recetas.component.ts
               this.recetasMenu = recetas.map((receta: any) => {
-                if (
-                  receta.imagen &&
-                  !receta.imagen.startsWith('http') &&
-                  !receta.imagen.startsWith('/storage/')
-                ) {
-                  return {
-                    ...receta,
-                    imagen:
-                      'http://localhost:8000/storage/recetas/' + receta.imagen,
-                  };
+                let imagen = receta.imagen;
+                if (!imagen || imagen.trim() === '') {
+                  imagen = 'http://localhost:8000/storage/recetas/default.png';
                 } else if (
-                  receta.imagen &&
-                  receta.imagen.startsWith('/storage/')
+                  !imagen.startsWith('http') &&
+                  !imagen.startsWith('/storage/')
                 ) {
-                  return {
-                    ...receta,
-                    imagen: 'http://localhost:8000' + receta.imagen,
-                  };
-                } else if (!receta.imagen) {
-                  return {
-                    ...receta,
-                    imagen: 'assets/img/Desayuno.png',
-                  };
+                  imagen = 'http://localhost:8000/storage/recetas/' + imagen;
+                } else if (imagen.startsWith('/storage/')) {
+                  imagen = 'http://localhost:8000' + imagen;
                 }
-                return receta;
+                return { ...receta, imagen };
               });
               console.log('RECETAS DEL MENÚ:', this.recetasMenu);
               this.calcularTotalesMenu(idMenu); // <-- Llama al cálculo de totales
@@ -469,21 +450,44 @@ export class DashboardComponent implements OnInit {
       this.procesoPorMenu[menuId].proteinas += receta.proteinas || 0;
       this.procesoPorMenu[menuId].carbohidratos += receta.carbohidratos || 0;
       this.procesoPorMenu[menuId].grasas += receta.grasas || 0;
+      // Redondear los valores de progreso
+      this.procesoPorMenu[menuId].calorias = Math.round(
+        this.procesoPorMenu[menuId].calorias
+      );
+      this.procesoPorMenu[menuId].proteinas = Math.round(
+        this.procesoPorMenu[menuId].proteinas
+      );
+      this.procesoPorMenu[menuId].carbohidratos = Math.round(
+        this.procesoPorMenu[menuId].carbohidratos
+      );
+      this.procesoPorMenu[menuId].grasas = Math.round(
+        this.procesoPorMenu[menuId].grasas
+      );
       localStorage.setItem('progresoMenu', JSON.stringify(this.procesoPorMenu));
       this.proceso = { ...this.procesoPorMenu[menuId] };
     }
     this.cerrarModalTerminar();
   }
 
-  esRecetaTerminada(receta: any): boolean {
-    if (this.menuActivo === null) return false;
+  esRecetaTerminada(receta: any, menuId?: number): boolean {
+    // Si no se pasa menuId, usa el menú activo (retrocompatibilidad)
+    const idMenu = menuId !== undefined ? menuId : this.menuActivo;
+    if (idMenu === null) return false;
     return (
-      this.recetasTerminadas[this.menuActivo] &&
-      this.recetasTerminadas[this.menuActivo].includes(receta.id_receta)
+      this.recetasTerminadas[idMenu] &&
+      this.recetasTerminadas[idMenu].includes(receta.id_receta)
     );
   }
 
   activarMenu(id_menu: number) {
+    // Solo reiniciar barras visuales, NO progreso ni recetas terminadas aquí
+    this.proceso = this.procesoPorMenu[id_menu] || {
+      calorias: 0,
+      proteinas: 0,
+      carbohidratos: 0,
+      grasas: 0,
+    };
+
     if (this.menuActivo === id_menu) {
       this.mostrarModalDesactivarMenu = true;
       return;
@@ -491,13 +495,6 @@ export class DashboardComponent implements OnInit {
     this.menuActivo = id_menu;
     localStorage.setItem('menuActivo', String(id_menu));
     this.calcularTotalesMenu(id_menu);
-    // Al cambiar de menú, cargar progreso y recetas terminadas de ese menú
-    this.proceso = this.procesoPorMenu[id_menu] || {
-      calorias: 0,
-      proteinas: 0,
-      carbohidratos: 0,
-      grasas: 0,
-    };
   }
 
   abrirModalDesactivarMenu() {
@@ -509,28 +506,33 @@ export class DashboardComponent implements OnInit {
   }
 
   desactivarMenu() {
-    // Al desactivar, resetea progreso y recetas terminadas SOLO del menú activo
-    this.menuActivo = null;
-    localStorage.removeItem('menuActivo');
-    this.totalesMenu = {
-      calorias: 0,
-      proteinas: 0,
-      grasas: 0,
-      carbohidratos: 0,
-    };
-    this.proceso = {
-      calorias: 0,
-      proteinas: 0,
-      carbohidratos: 0,
-      grasas: 0,
-    };
-    this.recetasTerminadas = [];
+    // Solo cerrar el modal, NO resetear nada aquí
     this.cerrarModalDesactivarMenu();
   }
 
   confirmarDesactivarMenu() {
+    // Al confirmar, resetea progreso y recetas terminadas de TODOS los menús
+    // Incluido el menú activo (el más importante)
+    // Reinicia también los valores nutricionales
+    // Recorrer todos los menús conocidos
+    for (const menu of this.menus) {
+      this.procesoPorMenu[menu.id_menu] = {
+        calorias: 0,
+        proteinas: 0,
+        carbohidratos: 0,
+        grasas: 0,
+      };
+      this.recetasTerminadas[menu.id_menu] = [];
+    }
+    localStorage.setItem('progresoMenu', JSON.stringify(this.procesoPorMenu));
+    localStorage.setItem(
+      'recetasTerminadas',
+      JSON.stringify(this.recetasTerminadas)
+    );
+    // Desactivar menú activo
     this.menuActivo = null;
     localStorage.removeItem('menuActivo');
+    // Reiniciar totales y progreso visual
     this.totalesMenu = {
       calorias: 0,
       proteinas: 0,
@@ -543,7 +545,11 @@ export class DashboardComponent implements OnInit {
       carbohidratos: 0,
       grasas: 0,
     };
+    // Cerrar modal
     this.mostrarModalDesactivarMenu = false;
+    // Forzar refresco visual de Angular
+    this.menus = [...this.menus];
+    this.menusConRecetas = [...this.menusConRecetas];
   }
 
   confirmarCambioMenu() {
@@ -637,9 +643,70 @@ export class DashboardComponent implements OnInit {
     this.mostrarMsgGenerarMenu = false;
   }
 
-  onGenerarMenu(): void {
-    // Aquí iría la lógica para generar el menú
-    this.mostrarGenerarMenuModal = false;
-    this.mostrarMsgGenerarMenu = false;
+  onGenerarMenu(event: { nombre: string; categoria: number[] }): void {
+    if (
+      !event ||
+      !event.nombre ||
+      !event.categoria ||
+      event.categoria.length === 0
+    ) {
+      this.cerrarGenerarMenuModal();
+      return;
+    }
+    const token = localStorage.getItem('token');
+    this.http
+      .post<any>(
+        environment.apiUrl.replace(/\/$/, '') + '/api/generar-menu-categorias',
+        {
+          nombre: event.nombre,
+          categorias: event.categoria,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .subscribe({
+        next: (resp) => {
+          // Refrescar menús tras crear
+          this.tokenService.getMenus().subscribe({
+            next: async (menus) => {
+              this.menus = menus;
+              this.menusConRecetas = [];
+              if (menus && menus.length > 0) {
+                for (const menu of menus) {
+                  const recetas = await new Promise<any[]>((resolve) => {
+                    this.tokenService.getMenuRecetas(menu.id_menu).subscribe({
+                      next: (ids: number[]) => {
+                        if (ids && ids.length > 0) {
+                          this.tokenService.getRecetasByIds(ids).subscribe({
+                            next: (recetas) => resolve(recetas),
+                            error: () => resolve([]),
+                          });
+                        } else {
+                          resolve([]);
+                        }
+                      },
+                      error: () => resolve([]),
+                    });
+                  });
+                  this.menusConRecetas.push({
+                    id_menu: menu.id_menu,
+                    nombre: menu.nombre,
+                    recetas,
+                  });
+                }
+              }
+              this.menus = [...this.menus];
+              this.menusConRecetas = [...this.menusConRecetas];
+            },
+            error: () => {},
+          });
+          this.cerrarGenerarMenuModal();
+        },
+        error: (err) => {
+          alert('Error al generar menú');
+          this.cerrarGenerarMenuModal();
+        },
+      });
   }
 }

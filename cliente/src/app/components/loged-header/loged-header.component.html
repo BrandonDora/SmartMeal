@@ -1,8 +1,46 @@
 <header>
-  <div class="d-flex align-items-center py-4">
-    <a routerLink="/dashboard">
-      <img src="assets/img/SmartMeal_Logo.png" alt="Logo de SmartMeal" />
-    </a>
+  <div class="d-flex header-center-align py-4">
+    <div class="logo-container">
+      <a routerLink="/dashboard">
+        <img src="assets/img/SmartMeal_Logo.png" alt="Logo de SmartMeal" />
+      </a>
+    </div>
+    <div class="buscador-wrapper">
+      <!-- Buscador de recetas SOLO visible en la página de recetas -->
+      <form
+        *ngIf="router.url.startsWith('/recetas')"
+        class="buscador-recetas-header"
+        (submit)="$event.preventDefault()"
+      >
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control input-sm rounded-pill shadow-sm border-0 px-3 py-2"
+            placeholder="Buscar por nombre..."
+            [(ngModel)]="busquedaReceta"
+            (input)="buscarRecetaHeader.emit(busquedaReceta)"
+            name="busquedaReceta"
+            style="background: #fffbe6; font-size: 1rem; color: #222"
+          />
+          <button
+            *ngIf="busquedaReceta"
+            class="btn btn-outline-secondary rounded-circle ms-2"
+            type="button"
+            (click)="busquedaReceta = ''; buscarRecetaHeader.emit('')"
+            title="Limpiar búsqueda"
+            style="
+              width: 36px;
+              height: 36px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </form>
+    </div>
     <!-- Botón hamburguesa para móvil -->
     <button
       class="navbar-toggler d-md-none ms-auto"
@@ -79,44 +117,44 @@
         </li>
       </ul>
     </div>
-    <!-- Menú lateral para móvil -->
-    <div
-      class="offcanvas offcanvas-end"
-      tabindex="-1"
-      [ngClass]="{ show: mostrarMenu && isMobile }"
-      [style.visibility]="mostrarMenu && isMobile ? 'visible' : 'hidden'"
-      style="z-index: 2000"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Menú</h5>
-        <button
-          type="button"
-          class="btn-close"
-          aria-label="Cerrar"
-          (click)="mostrarMenu = false"
-        ></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="list-group mobile-nav-list">
-          <li class="list-group-item" *ngFor="let item of navItems">
-            <a
-              [routerLink]="item.link"
-              (click)="mostrarMenu = false"
-              [ngClass]="{
-                'mobile-selected': router.url.startsWith(item.link)
-              }"
-              class="mobile-nav-link"
-            >
-              {{ item.label }}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
     <div id="user-container">
       <a routerLink="/perfil">
         <img id="user" [src]="fotoPerfilUrlCompleta" alt="Imagen de usuario" />
       </a>
+    </div>
+  </div>
+  <!-- Menú lateral para móvil -->
+  <div
+    class="offcanvas offcanvas-end"
+    tabindex="-1"
+    [ngClass]="{ show: mostrarMenu && isMobile }"
+    [style.visibility]="mostrarMenu && isMobile ? 'visible' : 'hidden'"
+    style="z-index: 2000"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Menú</h5>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Cerrar"
+        (click)="mostrarMenu = false"
+      ></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-group mobile-nav-list">
+        <li class="list-group-item" *ngFor="let item of navItems">
+          <a
+            [routerLink]="item.link"
+            (click)="mostrarMenu = false"
+            [ngClass]="{
+              'mobile-selected': router.url.startsWith(item.link)
+            }"
+            class="mobile-nav-link"
+          >
+            {{ item.label }}
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </header>

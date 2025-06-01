@@ -22,19 +22,16 @@ class CategoriaSeeder extends Seeder
         DB::table('categorias')->insert([
             ['nombre' => 'Carnes'],
             ['nombre' => 'Pescados'],
-            ['nombre' => 'Verduras'],
             ['nombre' => 'Huevos'],
             ['nombre' => 'Pastas'],
             ['nombre' => 'Arroces'],
-            ['nombre' => 'Sopas y Cremas'],
             ['nombre' => 'Ensaladas'],
             ['nombre' => 'Bebidas'],
             ['nombre' => 'Postres'],
             ['nombre' => 'Vegano'],
             ['nombre' => 'Vegetariano'],
-            ['nombre' => 'Desayuno'],
-            ['nombre' => 'Mariscos'],
             ['nombre' => 'Internacional'],
+            ['nombre' => 'Halal'], // Nueva categoría
         ]);
     }
 }

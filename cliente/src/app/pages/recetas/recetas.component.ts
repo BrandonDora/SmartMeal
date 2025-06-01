@@ -12,6 +12,7 @@ import { VerRecetaComponent } from '../../components/dialogs/ver-receta.componen
 import { ModalInfoComponent } from '../../components/dialogs/modal-info.component';
 import { ElegirMenuComponent } from '../../components/dialogs/elegir-menu.component';
 import { environment } from '../../../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-recetas',
@@ -21,6 +22,7 @@ import { environment } from '../../../environments/environment';
     LogedHeaderComponent,
     FooterComponent,
     CommonModule,
+    FormsModule,
     CrearRecetaComponent,
     VerRecetaComponent,
     ModalInfoComponent,
@@ -40,6 +42,7 @@ export class RecetasComponent implements OnInit {
   recetasOriginales: any[] = [];
   categorias: any[] = [];
   categoriaSeleccionada: number | null = null;
+  busquedaReceta: string = '';
 
   constructor(
     private http: HttpClient,
@@ -59,23 +62,18 @@ export class RecetasComponent implements OnInit {
     this.http.get<any[]>(environment.apiUrl + '/api/recetas').subscribe({
       next: (data) => {
         this.recetas = data.map((receta) => {
-          if (
-            receta.imagen &&
-            !receta.imagen.startsWith('http') &&
-            !receta.imagen.startsWith('/storage/')
+          let imagen = receta.imagen;
+          if (!imagen || imagen.trim() === '') {
+            imagen = 'http://localhost:8000/storage/recetas/default.png';
+          } else if (
+            !imagen.startsWith('http') &&
+            !imagen.startsWith('/storage/')
           ) {
-            // Si la imagen es solo el nombre del archivo, añade la ruta completa
-            return {
-              ...receta,
-              imagen: 'http://localhost:8000/storage/recetas/' + receta.imagen,
-            };
-          } else if (receta.imagen && receta.imagen.startsWith('/storage/')) {
-            return {
-              ...receta,
-              imagen: 'http://localhost:8000' + receta.imagen,
-            };
+            imagen = 'http://localhost:8000/storage/recetas/' + imagen;
+          } else if (imagen.startsWith('/storage/')) {
+            imagen = 'http://localhost:8000' + imagen;
           }
-          return receta;
+          return { ...receta, imagen };
         });
         this.recetasOriginales = [...this.recetas];
       },
@@ -245,7 +243,8 @@ export class RecetasComponent implements OnInit {
 
   abrirCrearReceta() {
     const dialogRef = this.dialog.open(CrearRecetaComponent, {
-      width: '80vw', // Ahora el modal ocupa el 80% del ancho de la ventana
+      width: '500px', // Ancho clásico, más compacto
+      maxWidth: '90vw',
       autoFocus: false,
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -281,101 +280,73 @@ export class RecetasComponent implements OnInit {
 
   filtrarPorTipoComida(id_tipo: number | null) {
     this.tipoComidaSeleccionado = id_tipo;
-    this.recetasMostradas = 6; // Reiniciar el contador de recetas mostradas
-    if (id_tipo === null) {
-      // Mostrar todas las recetas
-      this.recetas = [...this.recetasOriginales];
-      return;
-    }
-    this.http
-      .get<any[]>(
-        `${environment.apiUrl}/api/receta_tiempo_comida?id_tipo=${id_tipo}`
-      )
-      .subscribe({
-        next: (relaciones) => {
-          const ids = relaciones.map((r: any) => r.id_receta);
-          if (!ids.length) {
-            this.recetas = [];
-            return;
-          }
-          // Obtener el token para la petición protegida
-          const token = localStorage.getItem('token');
-          const options = token
-            ? { headers: { Authorization: `Bearer ${token}` } }
-            : {};
-          this.http
-            .get<any[]>(
-              `${environment.apiUrl}/api/recetas/by-ids?ids=${ids.join(',')}`,
-              options
-            )
-            .subscribe({
-              next: (recetasFiltradas) => {
-                this.recetas = recetasFiltradas.map((receta) => {
-                  if (
-                    receta.imagen &&
-                    !receta.imagen.startsWith('http') &&
-                    !receta.imagen.startsWith('/storage/')
-                  ) {
-                    // Si la imagen es solo el nombre del archivo, añade la ruta completa
-                    return {
-                      ...receta,
-                      imagen:
-                        'http://localhost:8000/storage/recetas/' +
-                        receta.imagen,
-                    };
-                  } else if (
-                    receta.imagen &&
-                    receta.imagen.startsWith('/storage/')
-                  ) {
-                    return {
-                      ...receta,
-                      imagen: 'http://localhost:8000' + receta.imagen,
-                    };
-                  }
-                  return receta;
-                });
-              },
-              error: () => (this.recetas = []),
-            });
-        },
-        error: () => (this.recetas = []),
-      });
+    this.aplicarFiltrosAcumulados();
   }
 
   filtrarPorCategoria(id_categoria: number | null) {
     this.categoriaSeleccionada = id_categoria;
-    this.recetasMostradas = 6;
-    if (id_categoria === null) {
-      this.recetas = [...this.recetasOriginales];
-      return;
+    this.aplicarFiltrosAcumulados();
+  }
+
+  aplicarFiltrosAcumulados() {
+    let recetasFiltradas = [...this.recetasOriginales];
+    // Filtrar por categoría si está seleccionada
+    if (this.categoriaSeleccionada !== null) {
+      recetasFiltradas = recetasFiltradas.filter((receta) =>
+        Array.isArray(receta.categorias)
+          ? receta.categorias.some(
+              (c: any) => c.id_categoria === this.categoriaSeleccionada
+            )
+          : receta.id_categoria === this.categoriaSeleccionada
+      );
     }
-    this.http
-      .get<any[]>(
-        `${environment.apiUrl}/api/recetas-por-categoria?categoria_id=${id_categoria}`
-      )
-      .subscribe({
-        next: (data) => {
-          this.recetas = data.map((receta) => {
-            if (
-              receta.imagen &&
-              !receta.imagen.startsWith('http') &&
-              !receta.imagen.startsWith('/storage/')
-            ) {
-              return {
-                ...receta,
-                imagen:
-                  'http://localhost:8000/storage/recetas/' + receta.imagen,
-              };
-            } else if (receta.imagen && receta.imagen.startsWith('/storage/')) {
-              return {
-                ...receta,
-                imagen: 'http://localhost:8000' + receta.imagen,
-              };
-            }
-            return receta;
-          });
-        },
-        error: () => (this.recetas = []),
-      });
+    // Filtrar por tiempo de comida si está seleccionado
+    if (this.tipoComidaSeleccionado !== null) {
+      recetasFiltradas = recetasFiltradas.filter((receta) =>
+        receta.tiempos_comida?.some?.(
+          (t: any) => t.id_tipo === this.tipoComidaSeleccionado
+        )
+      );
+    }
+    // Filtrar por búsqueda si hay texto
+    const texto = this.busquedaReceta.trim().toLowerCase();
+    if (texto.length > 0) {
+      recetasFiltradas = recetasFiltradas.filter((receta) =>
+        receta.nombre.toLowerCase().includes(texto)
+      );
+    }
+    this.recetas = recetasFiltradas;
+    this.recetasMostradas = 6;
+  }
+
+  // Nuevo método para filtrar recetas por nombre
+  onBuscarReceta() {
+    const texto = this.busquedaReceta.trim().toLowerCase();
+    let recetasFiltradas = [...this.recetasOriginales];
+    // Aplicar filtros existentes
+    if (this.tipoComidaSeleccionado !== null) {
+      recetasFiltradas = recetasFiltradas.filter((receta) =>
+        receta.tiempos_comida?.some?.(
+          (t: any) => t.id_tipo === this.tipoComidaSeleccionado
+        )
+      );
+    }
+    if (this.categoriaSeleccionada !== null) {
+      recetasFiltradas = recetasFiltradas.filter((receta) =>
+        Array.isArray(receta.categorias)
+          ? receta.categorias.some(
+              (c: any) => c.id_categoria === this.categoriaSeleccionada
+            )
+          : receta.id_categoria === this.categoriaSeleccionada
+      );
+    }
+    // Filtrar por nombre
+    if (texto.length > 0) {
+      recetasFiltradas = recetasFiltradas.filter((receta) =>
+        receta.nombre.toLowerCase().includes(texto)
+      );
+    }
+    this.recetas = recetasFiltradas;
+    this.recetasMostradas = 6;
   }
 }

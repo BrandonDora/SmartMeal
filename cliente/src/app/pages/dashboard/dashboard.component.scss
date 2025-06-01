@@ -400,6 +400,15 @@ main {
       color: #5a7212;
       border: 2px solid #5a7212;
     }
+
+    &:disabled {
+      background: #eaf2dd !important; /* pálido del #5a7212 */
+      color: #5a7212 !important; /* mismo verde que el activo */
+      opacity: 1;
+      cursor: not-allowed;
+      box-shadow: none;
+      border: 1.5px solid #c6d3a2;
+    }
   }
   .btn-eliminar-menu {
     position: absolute;

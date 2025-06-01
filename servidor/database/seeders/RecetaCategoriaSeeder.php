@@ -16,19 +16,24 @@ class RecetaCategoriaSeeder extends Seeder
         $relaciones = [
             // id_receta => [id_categoria, ...]
             1 => [1], // Pollo a la plancha: Carnes
-            2 => [4, 10, 13], // Tortilla de patatas: Huevos, Postres, Desayuno
-            3 => [2, 14], // Salmón al horno: Pescados, Mariscos
-            4 => [8, 3], // Gazpacho: Ensaladas, Verduras
-            5 => [6, 14, 15], // Paella mixta: Arroces, Mariscos, Internacional
-            6 => [5, 1, 15], // Spaghetti Bolognese: Pastas, Carnes, Internacional
-            7 => [9, 10, 12, 11], // Smoothie de frutas: Bebidas, Postres, Desayuno, Vegano
-            8 => [1, 3, 11], // Hamburguesa vegana: Carnes, Verduras, Vegano
-            9 => [10, 12], // Arroz con leche: Postres, Desayuno
-            10 => [10, 12], // Sándwich mixto: Postres, Desayuno
-            11 => [10, 12], // Yogur con granola: Postres, Desayuno
-            12 => [8, 3, 12], // Ensalada de frutas: Ensaladas, Verduras, Desayuno
-            13 => [4, 10, 12], // Omelette de queso: Huevos, Postres, Desayuno
-            14 => [9, 3, 11], // Smoothie verde: Bebidas, Verduras, Vegano
+            2 => [3, 8], // Tortilla de patatas: Huevos, Postres
+            3 => [2], // Salmón al horno: Pescados
+            4 => [6], // Gazpacho: Ensaladas
+            5 => [5, 11], // Paella mixta: Arroces, Internacional
+            6 => [4, 1, 11], // Spaghetti Bolognese: Pastas, Carnes, Internacional
+            7 => [7, 8, 9], // Smoothie de frutas: Bebidas, Postres, Vegano
+            8 => [1, 9], // Hamburguesa vegana: Carnes, Vegano
+            9 => [8], // Arroz con leche: Postres
+            10 => [8], // Sándwich mixto: Postres
+            11 => [8], // Yogur con granola: Postres
+            12 => [6, 8], // Ensalada de frutas: Ensaladas, Postres
+            13 => [3, 8], // Omelette de queso: Huevos, Postres
+            14 => [7, 9], // Smoothie verde: Bebidas, Vegano
+            15 => [12], // Cuscús de cordero Halal: Halal
+            16 => [12], // Tajine de pollo Halal: Halal
+            17 => [9], // Falafel vegano: Vegano
+            18 => [6, 9], // Ensalada tabulé: Ensaladas, Vegano
+            19 => [3], // Shakshuka: Huevos
         ];
 
         foreach ($relaciones as $id_receta => $categorias) {

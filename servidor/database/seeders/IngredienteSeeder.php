@@ -187,6 +187,94 @@ class IngredienteSeeder extends Seeder
                 'grasas'        => 0.004,  // por gramo (0.4g/100g)
                 'carbohidratos' => 0.036,  // por gramo (3.6g/100g)
             ],
+            [
+                'nombre'        => 'Cordero Halal',
+                'unidad'        => 'gramos',
+                'calorias'      => 2.94,   // 294 kcal/100g
+                'proteinas'     => 0.25,   // 25g/100g
+                'grasas'        => 0.21,   // 21g/100g
+                'carbohidratos' => 0,
+            ],
+            [
+                'nombre'        => 'Cuscús',
+                'unidad'        => 'gramos',
+                'calorias'      => 1.12,   // 112 kcal/100g cocido
+                'proteinas'     => 0.036,  // 3.6g/100g
+                'grasas'        => 0.002,  // 0.2g/100g
+                'carbohidratos' => 0.23,   // 23g/100g
+            ],
+            [
+                'nombre'        => 'Calabacín',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.17,   // 17 kcal/100g
+                'proteinas'     => 0.012,  // 1.2g/100g
+                'grasas'        => 0.002,  // 0.2g/100g
+                'carbohidratos' => 0.03,   // 3g/100g
+            ],
+            [
+                'nombre'        => 'Zanahoria',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.41,   // 41 kcal/100g
+                'proteinas'     => 0.009,  // 0.9g/100g
+                'grasas'        => 0.002,  // 0.2g/100g
+                'carbohidratos' => 0.10,   // 10g/100g
+            ],
+            [
+                'nombre'        => 'Ciruelas pasas',
+                'unidad'        => 'gramos',
+                'calorias'      => 2.4,    // 240 kcal/100g
+                'proteinas'     => 0.022,  // 2.2g/100g
+                'grasas'        => 0.003,  // 0.3g/100g
+                'carbohidratos' => 0.64,   // 64g/100g
+            ],
+            [
+                'nombre'        => 'Almendras',
+                'unidad'        => 'gramos',
+                'calorias'      => 5.76,   // 576 kcal/100g
+                'proteinas'     => 0.21,   // 21g/100g
+                'grasas'        => 0.49,   // 49g/100g
+                'carbohidratos' => 0.22,   // 22g/100g
+            ],
+            [
+                'nombre'        => 'Jengibre',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.8,    // 80 kcal/100g
+                'proteinas'     => 0.018,  // 1.8g/100g
+                'grasas'        => 0.008,  // 0.8g/100g
+                'carbohidratos' => 0.18,   // 18g/100g
+            ],
+            [
+                'nombre'        => 'Bulgur',
+                'unidad'        => 'gramos',
+                'calorias'      => 3.42,   // 342 kcal/100g
+                'proteinas'     => 0.12,   // 12g/100g
+                'grasas'        => 0.01,   // 1g/100g
+                'carbohidratos' => 0.76,   // 76g/100g
+            ],
+            [
+                'nombre'        => 'Perejil',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.36,   // 36 kcal/100g
+                'proteinas'     => 0.03,   // 3g/100g
+                'grasas'        => 0.008,  // 0.8g/100g
+                'carbohidratos' => 0.06,   // 6g/100g
+            ],
+            [
+                'nombre'        => 'Menta',
+                'unidad'        => 'gramos',
+                'calorias'      => 0.44,   // 44 kcal/100g
+                'proteinas'     => 0.03,   // 3g/100g
+                'grasas'        => 0.008,  // 0.8g/100g
+                'carbohidratos' => 0.08,   // 8g/100g
+            ],
+            [
+                'nombre'        => 'Tahini',
+                'unidad'        => 'gramos',
+                'calorias'      => 5.95,   // 595 kcal/100g
+                'proteinas'     => 0.17,   // 17g/100g
+                'grasas'        => 0.54,   // 54g/100g
+                'carbohidratos' => 0.21,   // 21g/100g
+            ],
         ]);
     }
 }

@@ -1,19 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CambiarFotoComponent } from '../dialogs/cambiar-foto.component';
 import { environment } from '../../../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-loged-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, CambiarFotoComponent],
+  imports: [RouterModule, CommonModule, CambiarFotoComponent, FormsModule],
   templateUrl: './loged-header.component.html',
   styleUrl: './loged-header.component.scss',
 })
 export class LogedHeaderComponent {
   @Input() fotoPerfilUrl: string = 'assets/img/default.jpg';
+  @Output() buscarRecetaHeader = new EventEmitter<string>();
+  busquedaReceta: string = '';
   hover: string | null = null;
   mostrarMenu = false;
   isMobile = false;
@@ -59,5 +62,9 @@ export class LogedHeaderComponent {
     if (!this.isMobile) {
       this.mostrarMenu = false;
     }
+  }
+
+  buscarReceta() {
+    this.buscarRecetaHeader.emit(this.busquedaReceta);
   }
 }

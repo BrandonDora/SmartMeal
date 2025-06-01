@@ -30,6 +30,11 @@ class Receta extends Model
         return $this->belongsToMany(Menu::class, 'menu_receta', 'id_receta', 'id_menu');
     }
 
+    public function categorias()
+    {
+        return $this->belongsToMany(\App\Models\Categoria::class, 'receta_categoria', 'receta_id', 'categoria_id');
+    }
+
     public static function all($columns = ['*'])
     {
         // Usando Eloquent

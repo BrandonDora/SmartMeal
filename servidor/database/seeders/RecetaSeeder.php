@@ -176,5 +176,65 @@ class RecetaSeeder extends Seeder
             'grasas'        => 1,
             'carbohidratos' => 31,
         ]);
+
+        $CuscusDeCordero = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Cuscús de cordero Halal',
+            'descripcion'   => 'Cuscús tradicional con cordero certificado Halal, verduras y especias.',
+            'imagen'        => 'Cuscus_cordero_halal.png',
+            'instrucciones' => 'Dora el cordero en aceite de oliva, añade cebolla, zanahoria y calabacín. Incorpora especias (comino, cúrcuma), cubre con caldo y cocina hasta que la carne esté tierna. Sirve sobre cuscús hidratado.',
+            'tiempo_preparacion' => 60,
+            'calorias'      => 540,
+            'proteinas'     => 32,
+            'grasas'        => 18,
+            'carbohidratos' => 62,
+        ]);
+
+        $TajinePollo = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Tajine de pollo Halal',
+            'descripcion'   => 'Pollo certificado Halal guisado con ciruelas, almendras y especias marroquíes.',
+            'imagen'        => 'Tajine_pollo_halal.png',
+            'instrucciones' => 'Dora el pollo en aceite de oliva, añade cebolla, ajo, jengibre, canela y cúrcuma. Incorpora ciruelas y almendras, cubre con caldo y cocina a fuego lento hasta que el pollo esté tierno y la salsa espese.',
+            'tiempo_preparacion' => 75,
+            'calorias'      => 610,
+            'proteinas'     => 38,
+            'grasas'        => 22,
+            'carbohidratos' => 68,
+        ]);
+
+        $FalafelVegano = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Falafel vegano',
+            'descripcion'   => 'Bocaditos de garbanzos y especias, fritos y servidos con salsa tahini.',
+            'imagen'        => 'Falafel_vegano.png',
+            'instrucciones' => 'Tritura garbanzos cocidos con ajo, cebolla, perejil, cilantro, comino y sal. Forma bolas y fríe en aceite caliente hasta dorar. Sirve con salsa tahini.',
+            'tiempo_preparacion' => 40,
+            'calorias'      => 320,
+            'proteinas'     => 13,
+            'grasas'        => 14,
+            'carbohidratos' => 38,
+        ]);
+
+        $EnsaladaTabule = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Ensalada tabulé',
+            'descripcion'   => 'Ensalada fresca de bulgur, tomate, pepino, perejil y menta.',
+            'imagen'        => 'Ensalada_tabule.png',
+            'instrucciones' => 'Hidrata el bulgur en agua fría. Mezcla con tomate, pepino, cebolla, perejil, menta, zumo de limón y aceite de oliva. Sirve frío.',
+            'tiempo_preparacion' => 25,
+            'calorias'      => 210,
+            'proteinas'     => 5,
+            'grasas'        => 7,
+            'carbohidratos' => 33,
+        ]);
+
+        $Shakshuka = DB::table('recetas')->insertGetId([
+            'nombre'        => 'Shakshuka',
+            'descripcion'   => 'Huevos escalfados en salsa de tomate, pimiento y especias.',
+            'imagen'        => 'Shakshuka.png',
+            'instrucciones' => 'Sofríe cebolla y pimiento, añade tomate triturado, comino y pimentón. Cocina y haz huecos para los huevos. Escalfa los huevos en la salsa y sirve con pan.',
+            'tiempo_preparacion' => 35,
+            'calorias'      => 290,
+            'proteinas'     => 13,
+            'grasas'        => 15,
+            'carbohidratos' => 27,
+        ]);
     }
 }
