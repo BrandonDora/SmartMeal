@@ -138,18 +138,16 @@ export class DashboardComponent implements OnInit {
                   next: (recetas) => {
                     // Unificar lógica de imagen igual que en recetas.component.ts
                     const recetasProcesadas = recetas.map((receta: any) => {
-                      let imagen = receta.imagen;
+                      let imagen = receta.imagen_url || receta.imagen;
                       if (!imagen || imagen.trim() === '') {
                         imagen =
-                          'http://35.172.64.180:8000/storage/recetas/default.png';
-                      } else if (
-                        !imagen.startsWith('http') &&
-                        !imagen.startsWith('/storage/')
-                      ) {
+                          'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+                      } else if (imagen.startsWith('http')) {
+                        // Usar la URL tal cual (S3 o externa)
+                      } else {
                         imagen =
-                          'http://35.172.64.180:8000/storage/recetas/' + imagen;
-                      } else if (imagen.startsWith('/storage/')) {
-                        imagen = 'http://localhost:8000' + imagen;
+                          'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/' +
+                          imagen;
                       }
                       return { ...receta, imagen };
                     });
@@ -311,16 +309,16 @@ export class DashboardComponent implements OnInit {
             next: (recetas) => {
               // Procesar la ruta de la imagen igual que en recetas.component.ts
               this.recetasMenu = recetas.map((receta: any) => {
-                let imagen = receta.imagen;
+                let imagen = receta.imagen_url || receta.imagen;
                 if (!imagen || imagen.trim() === '') {
-                  imagen = 'http://localhost:8000/storage/recetas/default.png';
-                } else if (
-                  !imagen.startsWith('http') &&
-                  !imagen.startsWith('/storage/')
-                ) {
-                  imagen = 'http://localhost:8000/storage/recetas/' + imagen;
-                } else if (imagen.startsWith('/storage/')) {
-                  imagen = 'http://localhost:8000' + imagen;
+                  imagen =
+                    'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+                } else if (imagen.startsWith('http')) {
+                  // Usar la URL tal cual (S3 o externa)
+                } else {
+                  imagen =
+                    'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/' +
+                    imagen;
                 }
                 return { ...receta, imagen };
               });

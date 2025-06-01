@@ -49,12 +49,16 @@ export class LogedHeaderComponent {
 
   get fotoPerfilUrlCompleta(): string {
     if (this.fotoPerfilUrl && this.fotoPerfilUrl.trim() !== '') {
-      if (this.fotoPerfilUrl.startsWith('/storage/')) {
-        return environment.apiUrl.replace(/\/api$/, '') + this.fotoPerfilUrl;
+      if (this.fotoPerfilUrl.startsWith('http')) {
+        return this.fotoPerfilUrl;
       }
-      return this.fotoPerfilUrl;
+      // Mostrar desde S3 si no es URL absoluta
+      return (
+        'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/' +
+        this.fotoPerfilUrl
+      );
     }
-    return 'assets/img/default.jpg';
+    return 'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/default.png';
   }
 
   checkMobile() {

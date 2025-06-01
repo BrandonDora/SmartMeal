@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { HttpTokenService } from '../../http-token.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-subir-foto',
@@ -49,7 +50,8 @@ export class SubirFotoComponent {
 
   constructor(
     private httpToken: HttpTokenService,
-    private dialogRef: MatDialogRef<SubirFotoComponent>
+    private dialogRef: MatDialogRef<SubirFotoComponent>,
+    private http: HttpClient
   ) {}
 
   onFileSelected(event: Event) {
@@ -68,15 +70,23 @@ export class SubirFotoComponent {
     if (!this.selectedFile) return;
     this.loading = true;
     this.errorMsg = '';
-    this.httpToken.subirFotoPerfil(this.selectedFile).subscribe({
-      next: (resp) => {
-        this.loading = false;
-        this.dialogRef.close(resp.ruta); // Devuelve la nueva ruta al cerrar
-      },
-      error: (err) => {
-        this.loading = false;
-        this.errorMsg = 'Error al subir la foto. Intenta nuevamente.';
-      },
-    });
+    const file = this.selectedFile;
+    const s3Url =
+      'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/' +
+      file.name;
+    this.http
+      .put(s3Url, file, {
+        headers: new HttpHeaders({ 'Content-Type': file.type }),
+      })
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.dialogRef.close(s3Url); // Devuelve la URL de S3 al cerrar
+        },
+        error: (err) => {
+          this.loading = false;
+          this.errorMsg = 'Error al subir la foto. Intenta nuevamente.';
+        },
+      });
   }
 }

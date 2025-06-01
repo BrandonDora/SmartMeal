@@ -396,45 +396,73 @@ export class CrearRecetaComponent implements OnInit {
   crearReceta() {
     this.errorMsg = '';
     this.loading = true;
-    const formData = new FormData();
-    formData.append('nombre', this.nombre);
-    formData.append('descripcion', this.descripcion);
-    formData.append('instrucciones', this.instrucciones);
-    formData.append('tiempo_preparacion', String(this.tiempo_preparacion));
+    const subirYCrear = (imagenUrl: string | null) => {
+      const formData = new FormData();
+      formData.append('nombre', this.nombre);
+      formData.append('descripcion', this.descripcion);
+      formData.append('instrucciones', this.instrucciones);
+      formData.append('tiempo_preparacion', String(this.tiempo_preparacion));
+      if (imagenUrl) {
+        formData.append('imagen_url', imagenUrl); // Usar campo imagen_url para la URL de S3
+      }
+      // Adjuntar ingredientes como JSON (id y cantidad)
+      formData.append(
+        'ingredientes',
+        JSON.stringify(this.ingredientesSeleccionados)
+      );
+      formData.append(
+        'categorias',
+        JSON.stringify(this.categoriasSeleccionadas)
+      );
+      formData.append(
+        'tiempos_comida',
+        JSON.stringify(this.tiempoComidaSeleccionados)
+      );
+      // Adjuntar el user_id
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (user && user.id) {
+        formData.append('user_id', String(user.id));
+      }
+      const token = localStorage.getItem('token');
+      const headers = token
+        ? new HttpHeaders({ Authorization: `Bearer ${token}` })
+        : undefined;
+      this.http
+        .post<any>(environment.apiUrl + '/api/recetas', formData, { headers })
+        .subscribe({
+          next: (resp) => {
+            this.loading = false;
+            this.mostrarModalExito();
+          },
+          error: (err) => {
+            this.loading = false;
+            this.errorMsg = err?.error?.message || 'Error al crear la receta.';
+          },
+        });
+    };
+
     if (this.imagen) {
-      formData.append('imagen', this.imagen);
+      const file = this.imagen;
+      // Asegura que la URL tenga la barra antes del nombre
+      const s3Url =
+        'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/' +
+        encodeURIComponent(file.name);
+      this.http
+        .put(s3Url, file, {
+          headers: new HttpHeaders({ 'Content-Type': file.type }),
+        })
+        .subscribe({
+          next: () => {
+            subirYCrear(s3Url);
+          },
+          error: (err) => {
+            this.loading = false;
+            this.errorMsg = 'Error al subir la imagen. Intenta nuevamente.';
+          },
+        });
+    } else {
+      subirYCrear(null);
     }
-    // Adjuntar ingredientes como JSON (id y cantidad)
-    formData.append(
-      'ingredientes',
-      JSON.stringify(this.ingredientesSeleccionados)
-    );
-    formData.append('categorias', JSON.stringify(this.categoriasSeleccionadas));
-    formData.append(
-      'tiempos_comida',
-      JSON.stringify(this.tiempoComidaSeleccionados)
-    );
-    // Adjuntar el user_id
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (user && user.id) {
-      formData.append('user_id', String(user.id));
-    }
-    const token = localStorage.getItem('token');
-    const headers = token
-      ? new HttpHeaders({ Authorization: `Bearer ${token}` })
-      : undefined;
-    this.http
-      .post<any>(environment.apiUrl + '/api/recetas', formData, { headers })
-      .subscribe({
-        next: (resp) => {
-          this.loading = false;
-          this.mostrarModalExito();
-        },
-        error: (err) => {
-          this.loading = false;
-          this.errorMsg = err?.error?.message || 'Error al crear la receta.';
-        },
-      });
   }
 
   mostrarModalExito() {
