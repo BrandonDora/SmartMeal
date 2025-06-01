@@ -40,3 +40,4 @@ Route::post('/receta-ingredientes/by-recetas', [RecetaIngredienteController::cla
 Route::post('/ingredientes/by-ids', [IngredienteController::class, 'getByIds']);
 Route::middleware(['auth:sanctum'])->delete('/menus/{id_menu}', [MenuController::class, 'destroy']);
 Route::get('/recetas-por-categoria', [RecetaController::class, 'recetasPorCategoria']);
+Route::middleware(['auth:sanctum'])->post('/generar-menu-categorias', [MenuController::class, 'generarMenuPorCategorias']);

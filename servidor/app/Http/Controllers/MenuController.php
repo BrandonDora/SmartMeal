@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Receta;
+use App\Models\PreferenciaNutricional;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -104,5 +107,80 @@ class MenuController extends Controller
         }
         $menu->delete();
         return response()->json(['message' => 'Menú eliminado correctamente']);
+    }
+    
+    public function generarMenuPorCategorias(Request $request)
+    {
+        $user = $request->user();
+        $categorias = $request->input('categorias'); // array de ids de categoría
+        $nombreMenu = $request->input('nombre');
+        if (!is_array($categorias) || count($categorias) === 0 || !$nombreMenu) {
+            return response()->json(['error' => 'Datos incompletos'], 400);
+        }
+
+        // 1. Obtener todos los ids de recetas que pertenezcan a esas categorías (sin duplicados)
+        $recetaIds = DB::table('receta_categoria')
+            ->whereIn('categoria_id', $categorias)
+            ->pluck('receta_id')
+            ->unique()
+            ->values()
+            ->toArray();
+        if (count($recetaIds) < 3) {
+            return response()->json(['error' => 'No hay suficientes recetas para generar el menú'], 400);
+        }
+
+        // 2. Obtener calorías de esas recetas
+        $recetas = Receta::whereIn('id_receta', $recetaIds)
+            ->select('id_receta', 'calorias')
+            ->get();
+
+        // 3. Obtener calorías deseadas del usuario
+        $prefs = PreferenciaNutricional::where('user_id', $user->id)->first();
+        if (!$prefs) {
+            return response()->json(['error' => 'No se encontraron preferencias nutricionales'], 400);
+        }
+        $caloriasDeseadas = $prefs->calorias_deseadas;
+
+        // 4. Buscar la combinación de 3 recetas cuya suma de calorías sea más cercana a caloriasDeseadas
+        $mejorDiferencia = null;
+        $mejorTrio = null;
+        $n = count($recetas);
+        for ($i = 0; $i < $n - 2; $i++) {
+            for ($j = $i + 1; $j < $n - 1; $j++) {
+                for ($k = $j + 1; $k < $n; $k++) {
+                    $suma = $recetas[$i]->calorias + $recetas[$j]->calorias + $recetas[$k]->calorias;
+                    $diferencia = abs($caloriasDeseadas - $suma);
+                    if ($mejorDiferencia === null || $diferencia < $mejorDiferencia) {
+                        $mejorDiferencia = $diferencia;
+                        $mejorTrio = [$recetas[$i]->id_receta, $recetas[$j]->id_receta, $recetas[$k]->id_receta];
+                    }
+                }
+            }
+        }
+        if (!$mejorTrio) {
+            return response()->json(['error' => 'No se pudo encontrar una combinación adecuada'], 400);
+        }
+
+        // 5. Crear el menú
+        $menu = new Menu();
+        $menu->nombre = $nombreMenu;
+        $menu->user_id = $user->id;
+        $menu->fecha_creacion = now();
+        $menu->save();
+
+        // 6. Insertar las recetas en menu_receta
+        foreach ($mejorTrio as $idReceta) {
+            DB::table('menu_receta')->insert([
+                'id_menu' => $menu->id_menu,
+                'id_receta' => $idReceta,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        return response()->json([
+            'menu' => $menu,
+            'recetas_elegidas' => $mejorTrio,
+        ], 201);
     }
 }

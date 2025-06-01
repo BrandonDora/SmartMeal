@@ -1,0 +1,106 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal.d-block {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1060;
+  pointer-events: auto;
+}
+.modal-content {
+  border-radius: 25px;
+  box-shadow: 0 4px 16px rgba(187, 212, 62, 0.08);
+  background: #fff;
+  max-width: 450px;
+  width: 100%;
+  padding: 24px 0;
+}
+.btn-verde {
+  background: #bbd43e;
+  color: #fff;
+  border: none;
+}
+.btn-verde:hover {
+  background: #a2b82e;
+}
+.form-control,
+.form-select {
+  border-radius: 25px !important;
+  border: 2px solid #bbd43e !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s;
+  background-color: #fff;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #bbd43e !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.form-select {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+  background-image: none !important; /* Deja la flecha nativa */
+}
+
+.form-select option[disabled] {
+  color: #aaa;
+}
+
+.menu-form-box .form-select {
+  border-radius: 20px !important;
+  border: 1.5px solid #bbd43e !important;
+  box-shadow: none !important;
+  background-color: #fff !important;
+  padding: 8px 12px !important;
+  font-size: 1.1rem !important;
+  text-align: center;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+}
+.menu-form-box .form-select:focus {
+  border-color: #bbd43e !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.menu-form-box .form-select option[disabled] {
+  color: #aaa !important;
+}
+.select-categoria-menu {
+  border-radius: 20px !important;
+  border: 1.5px solid #bbd43e !important;
+  box-shadow: none !important;
+  background-color: #fff !important;
+  padding: 8px 12px !important;
+  font-size: 1.1rem !important;
+  text-align: center;
+  margin-bottom: 10px;
+  transition: border-color 0.2s;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
+}
+.select-categoria-menu:focus {
+  border-color: #bbd43e !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.select-categoria-menu option[disabled] {
+  color: #aaa !important;
+}

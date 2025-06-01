@@ -333,7 +333,11 @@ export class CrearRecetaComponent implements OnInit {
     formData.append('ingredientes', JSON.stringify(this.ingredientesReceta));
     formData.append('categoria', String(Number(this.categoria)));
     formData.append('tiempo_comida', String(Number(this.tiempo_comida)));
-    // El campo categoría es decorativo por ahora
+    // Adjuntar el user_id
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (user && user.id) {
+      formData.append('user_id', String(user.id));
+    }
     const token = localStorage.getItem('token');
     const headers = token
       ? new HttpHeaders({ Authorization: `Bearer ${token}` })

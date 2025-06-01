@@ -32,7 +32,7 @@ import { FormsModule } from '@angular/forms';
           mat-raised-button
           color="primary"
           (click)="cambiarNombre()"
-          [disabled]="!nuevoNombre.trim()"
+          [disabled]="!nuevoNombre || !nuevoNombre.trim()"
         >
           Cambiar
         </button>

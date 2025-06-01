@@ -44,10 +44,24 @@ main {
           align-items: center;
           flex: 1;
 
-          input {
+          input[type="checkbox"] {
             border-radius: 50%;
             border: solid 3px $verde;
             margin-right: 15px;
+            pointer-events: none;
+            background: #fff;
+            box-shadow: none;
+            accent-color: $verde;
+            transition: none;
+            cursor: default;
+          }
+          label.form-check-label {
+            color: #222 !important;
+            font-weight: 500;
+            cursor: default;
+            user-select: none;
+            background: none;
+            transition: none;
           }
         }
         .quantity {
@@ -56,13 +70,30 @@ main {
           font-weight: bold;
           color: #6b7280;
         }
+        // Botón eliminar circular rojo
+        button.eliminar-circular {
+          background: #dc3545 !important;
+          color: #fff !important;
+          border: none !important;
+          border-radius: 50% !important;
+          width: 20px;
+          height: 20px;
+          min-width: 20px;
+          min-height: 20px;
+          font-size: 0.85rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          box-shadow: none;
+        }
       }
     }
 
     button {
       background-color: $verde;
       color: #fff;
-      margin-left: 150px;
+      margin-left: 170px;
       padding: 10px 20px;
       border-radius: 25px;
     }

@@ -38,20 +38,22 @@ class RecetaController extends Controller
             'imagen' => 'nullable|image|max:4096',
             'ingredientes' => 'required|json',
             'categoria' => 'required|integer|exists:categorias,id_categoria',
-            // Cambiar a la tabla y columna correctas:
             'tiempo_comida' => 'required|integer|exists:tiempo_comida,id_tipo',
         ]);
+
+        // Obtener el usuario autenticado por el token
+        $user = $request->user();
 
         $receta = new Receta();
         $receta->nombre = $request->nombre;
         $receta->descripcion = $request->descripcion;
         $receta->instrucciones = $request->instrucciones;
         $receta->tiempo_preparacion = $request->tiempo_preparacion;
+        $receta->user_id = $user ? $user->id : null;
 
         if ($request->hasFile('imagen')) {
             $file = $request->file('imagen');
             $filename = 'receta_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            // Guardar en la carpeta correcta: storage/app/public/recetas
             $file->move(storage_path('app/public/recetas'), $filename);
             $receta->imagen = '/storage/recetas/' . $filename;
         }
@@ -73,7 +75,7 @@ class RecetaController extends Controller
         // Guardar tiempo de comida en receta_tiempo_comida
         \DB::table('receta_tiempo_comida')->insert([
             'id_receta' => $receta->id_receta,
-            'id_tipo' => $request->tiempo_comida, // columna correcta según tu tabla
+            'id_tipo' => $request->tiempo_comida,
         ]);
 
         // Guardar categoría en receta_categoria

@@ -230,6 +230,10 @@ textarea:focus {
   border-color: $verde;
 }
 
+:host ::ng-deep .modal-exito .modal-content {
+  color: #222 !important;
+}
+
 @media (max-width: 900px) {
   .calculator-container {
     width: 100% !important;

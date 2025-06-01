@@ -8,7 +8,11 @@ class Receta extends Model
 {
     protected $table = 'recetas';
     protected $primaryKey = 'id_receta';
-    public $timestamps = false;
+    public $timestamps = true; // Cambiado a true para usar created_at/updated_at
+    protected $fillable = [
+        'nombre', 'descripcion', 'imagen', 'instrucciones', 'tiempo_preparacion',
+        'calorias', 'proteinas', 'grasas', 'carbohidratos', 'categoria', 'user_id'
+    ];
 
     public function tiemposComida()
     {

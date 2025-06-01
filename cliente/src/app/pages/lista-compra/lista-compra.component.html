@@ -20,19 +20,30 @@
         </div>
         <div
           *ngFor="let item of ingredientesLista; let i = index"
-          class="shopping-item"
+          class="shopping-item d-flex align-items-center justify-content-between"
         >
-          <div class="form-check">
+          <div class="form-check d-flex align-items-center">
             <input class="form-check-input" type="checkbox" [id]="'item' + i" />
-            <label class="form-check-label" [for]="'item' + i">
+            <label class="form-check-label ms-2" [for]="'item' + i">
               {{ item.nombre }}
             </label>
           </div>
-          <span class="quantity"> {{ item.cantidad }} {{ item.unidad }} </span>
+          <div class="d-flex align-items-center">
+            <span class="quantity me-2"
+              >{{ item.cantidad }} {{ item.unidad }}</span
+            >
+            <button
+              (click)="eliminarIngredienteManual(item)"
+              class="btn btn-danger btn-sm ms-1 p-0 d-flex align-items-center justify-content-center eliminar-circular"
+              title="Eliminar"
+            >
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <button class="btn mt-4">
+      <button class="btn mt-4" (click)="abrirAgregarIngrediente()">
         <i class="bi bi-plus-circle me-2"></i>
         Añadir Ingrediente
       </button>

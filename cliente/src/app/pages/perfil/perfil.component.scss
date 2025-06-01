@@ -95,6 +95,19 @@ main {
   font-size: 18px;
 }
 
+.goals .calorias-label {
+  display: block;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  margin-left: 0.1rem;
+}
+
+.goals .calorias-detalle {
+  text-align: left;
+}
+
 .custom-calories-progress {
   width: 100%;
   background: #f2f2f2;

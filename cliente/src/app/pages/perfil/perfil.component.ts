@@ -46,6 +46,10 @@ export class PerfilComponent implements OnInit {
   carbohidratos: number | null = null;
   grasas: number | null = null;
   caloriasConsumidas: number = 0;
+  caloriasMantenimiento: number | null = null;
+
+  // NUEVO: para la barra de progreso tipo dashboard
+  porcentajeCalorias: number = 0;
 
   get fotoPerfilUrl(): string {
     if (this.usuario.foto_perfil && this.usuario.foto_perfil.trim() !== '') {
@@ -67,6 +71,33 @@ export class PerfilComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Leer progreso de calorías y menú activo igual que en dashboard
+    const menuActivoGuardado = localStorage.getItem('menuActivo');
+    const progresoGuardado = localStorage.getItem('progresoMenu');
+    let caloriasProgreso = 0;
+    if (menuActivoGuardado && progresoGuardado) {
+      try {
+        const menuActivo = Number(menuActivoGuardado);
+        const progresoPorMenu = JSON.parse(progresoGuardado);
+        if (
+          progresoPorMenu[menuActivo] &&
+          typeof progresoPorMenu[menuActivo].calorias === 'number'
+        ) {
+          caloriasProgreso = progresoPorMenu[menuActivo].calorias;
+        }
+      } catch {}
+    }
+    this.caloriasConsumidas = caloriasProgreso;
+    // Calcular porcentaje si hay caloriasDeseadas (se recalcula más abajo si hay prefs)
+    if (this.caloriasDeseadas && this.caloriasDeseadas > 0) {
+      this.porcentajeCalorias = Math.min(
+        100,
+        (this.caloriasConsumidas / this.caloriasDeseadas) * 100
+      );
+    } else {
+      this.porcentajeCalorias = 0;
+    }
+
     this.tokenService.getUser().subscribe({
       next: (user) => {
         this.usuario = {
@@ -88,7 +119,7 @@ export class PerfilComponent implements OnInit {
         this.obtenerRecetasCreadas(user.id);
         // Obtener recetas guardadas
         this.obtenerRecetasGuardadas(user.id);
-        // Calcular calorías consumidas hoy
+        // Calcular calorías consumidas hoy (esto puede sobreescribir caloriasConsumidas)
         this.calcularCaloriasConsumidasHoy(user.id);
         // Comprobar si tiene objetivos nutricionales
         this.tokenService
@@ -98,17 +129,31 @@ export class PerfilComponent implements OnInit {
               if (Array.isArray(prefs) && prefs.length > 0) {
                 this.tieneObjetivosNutricionales = true;
                 this.caloriasDeseadas = prefs[0].calorias_deseadas;
+                this.caloriasMantenimiento = prefs[0].calorias_mantenimiento;
                 this.superavit();
+                // Recalcular porcentaje con caloriasDeseadas real
+                if (this.caloriasDeseadas && this.caloriasDeseadas > 0) {
+                  this.porcentajeCalorias = Math.min(
+                    100,
+                    (this.caloriasConsumidas / this.caloriasDeseadas) * 100
+                  );
+                } else {
+                  this.porcentajeCalorias = 0;
+                }
               } else {
                 this.tieneObjetivosNutricionales = false;
                 this.caloriasDeseadas = null;
+                this.caloriasMantenimiento = null;
                 this.superavit();
+                this.porcentajeCalorias = 0;
               }
             },
             error: () => {
               this.tieneObjetivosNutricionales = false;
               this.caloriasDeseadas = null;
+              this.caloriasMantenimiento = null;
               this.superavit();
+              this.porcentajeCalorias = 0;
             },
           });
       },
@@ -134,7 +179,10 @@ export class PerfilComponent implements OnInit {
       'Noviembre',
       'Diciembre',
     ];
-    return `${meses[date.getMonth()]} ${date.getFullYear()}`;
+    // Formato: 1 de Mayo 2025
+    return `${date.getDate()} de ${
+      meses[date.getMonth()]
+    } ${date.getFullYear()}`;
   }
 
   abrirDialogoCambiarFoto() {
@@ -172,26 +220,11 @@ export class PerfilComponent implements OnInit {
                     : '',
                   foto_perfil: user.foto_perfil || '',
                 };
-                this.snackBar.open(
-                  'Nombre actualizado correctamente',
-                  'Cerrar',
-                  { duration: 2500 }
-                );
               },
-              error: () => {
-                this.snackBar.open(
-                  'Error al recargar datos del usuario',
-                  'Cerrar',
-                  { duration: 2500 }
-                );
-              },
+              error: () => {},
             });
           },
-          error: () => {
-            this.snackBar.open('Error al actualizar el nombre', 'Cerrar', {
-              duration: 2500,
-            });
-          },
+          error: () => {},
         });
       }
     });

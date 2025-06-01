@@ -9,6 +9,8 @@ import { environment } from '../../../environments/environment';
 import { CrearMenuModalComponent } from '../../components/dialogs/crear-menu-modal.component';
 import { VerRecetaComponent } from '../../components/dialogs/ver-receta.component';
 import { MatDialog } from '@angular/material/dialog';
+import { GenerarMenuModalComponent } from '../../components/dialogs/generar-menu-modal.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
     FormsModule,
     CrearMenuModalComponent,
     VerRecetaComponent,
+    GenerarMenuModalComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -65,10 +68,13 @@ export class DashboardComponent implements OnInit {
   } = {};
 
   mostrarModalDesactivarMenu: boolean = false;
+  mostrarGenerarMenuModal: boolean = false;
+  categorias: any[] = [];
 
   constructor(
     private tokenService: HttpTokenService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -221,6 +227,20 @@ export class DashboardComponent implements OnInit {
     } else {
       this.proceso = { calorias: 0, proteinas: 0, carbohidratos: 0, grasas: 0 };
     }
+
+    // Obtener categorías para el modal de generar menú
+    this.http
+      .get<any[]>(environment.apiUrl.replace(/\/api$/, '') + '/api/categorias')
+      .subscribe({
+        next: (data) => {
+          this.categorias = data.sort((a, b) =>
+            a.nombre.localeCompare(b.nombre)
+          );
+        },
+        error: () => {
+          this.categorias = [];
+        },
+      });
   }
 
   async calcularTotalesMenu(idMenu: number) {
@@ -600,5 +620,26 @@ export class DashboardComponent implements OnInit {
         },
       });
     }
+  }
+
+  abrirGenerarMenu(): void {
+    if (this.prefs && this.prefs.length > 0) {
+      this.mostrarGenerarMenuModal = true;
+      this.mostrarMsgGenerarMenu = true;
+    } else {
+      this.mostrarMsgGenerarMenu = true;
+      this.mostrarGenerarMenuModal = false;
+    }
+  }
+
+  cerrarGenerarMenuModal(): void {
+    this.mostrarGenerarMenuModal = false;
+    this.mostrarMsgGenerarMenu = false;
+  }
+
+  onGenerarMenu(): void {
+    // Aquí iría la lógica para generar el menú
+    this.mostrarGenerarMenuModal = false;
+    this.mostrarMsgGenerarMenu = false;
   }
 }

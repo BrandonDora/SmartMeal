@@ -38,9 +38,9 @@ class PreferenciaNutricionalController extends Controller
 
         // Calorías deseadas
         if ($objetivo === 'subir') {
-            $calorias_deseadas = $calorias_mantenimiento * 1.15;
+            $calorias_deseadas = $calorias_mantenimiento * 1.10;
         } elseif ($objetivo === 'bajar') {
-            $calorias_deseadas = $calorias_mantenimiento * 0.85;
+            $calorias_deseadas = $calorias_mantenimiento * 0.90;
         } else {
             $calorias_deseadas = $calorias_mantenimiento;
         }

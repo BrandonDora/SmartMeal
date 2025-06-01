@@ -26,7 +26,7 @@
           </h2>
           <span class="subtle d-block">{{ usuario.email }}</span>
           <span class="subtle d-block"
-            >Miembro desde {{ usuario.fechaRegistro }}</span
+            >Miembro desde el {{ usuario.fechaRegistro }}</span
           >
 
           <ng-container *ngIf="tieneObjetivosNutricionales === true">
@@ -34,36 +34,50 @@
               <h5 class="text-start fw-semibold mb-3">
                 Mis Objetivos Nutricionales
               </h5>
-              <p class="small text-start mb-1">
-                Calorías diarias
-                <span *ngIf="caloriasDeseadas !== null" class="fw-bold ms-2"
-                  >{{ caloriasDeseadas }} Kcal</span
-                >
-              </p>
+              <div class="mb-2 calorias-label">Tus Calorías:</div>
+              <div
+                class="d-block border-0 pb-1 mb-2 calorias-detalle"
+                style="border-bottom: 3px solid #e3e7c2; width: fit-content"
+              >
+                <span class="small text-start" style="font-size: 1.15rem">
+                  Mantenimiento
+                  <span
+                    *ngIf="caloriasMantenimiento !== null"
+                    class="fw-bold ms-1"
+                    >{{ caloriasMantenimiento }} Kcal</span
+                  >
+                  <span class="mx-2 fw-normal">/</span>
+                  <span *ngIf="caloriasDeseadas !== null" class="fw-bold"
+                    >{{ caloriasDeseadas }} Kcal</span
+                  >
+                  <span class="ms-1 text-muted">Objetivo</span>
+                </span>
+              </div>
 
-              <!-- Barra de progreso personalizada para calorías diarias -->
-              <div class="custom-calories-progress mb-4">
+              <!-- Barra de progreso tipo dashboard para calorías diarias -->
+              <div
+                class="progress mb-4"
+                style="
+                  height: 24px;
+                  background: #f3f3f3;
+                  border-radius: 16px;
+                  overflow: hidden;
+                "
+              >
                 <div
-                  class="progress-bar-inner"
-                  [style.width]="
-                    caloriasDeseadas && caloriasConsumidas
-                      ? (caloriasConsumidas / caloriasDeseadas) * 100 + '%'
-                      : '0%'
+                  class="progress-bar"
+                  role="progressbar"
+                  [style.width]="porcentajeCalorias + '%'"
+                  [style.background]="'#bbd43e'"
+                  [attr.aria-valuenow]="porcentajeCalorias"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  style="
+                    border-radius: 16px;
+                    transition: width 0.5s;
+                    height: 100%;
                   "
-                  [ngClass]="{
-                    'over-goal':
-                      caloriasDeseadas !== null &&
-                      caloriasConsumidas > caloriasDeseadas,
-                    'under-goal':
-                      caloriasDeseadas !== null &&
-                      caloriasConsumidas <= caloriasDeseadas
-                  }"
-                >
-                  <span class="progress-label">
-                    {{ caloriasConsumidas || 0 }} /
-                    {{ caloriasDeseadas || 0 }} Kcal
-                  </span>
-                </div>
+                ></div>
               </div>
 
               <div

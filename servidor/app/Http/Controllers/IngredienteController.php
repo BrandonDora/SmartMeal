@@ -9,7 +9,7 @@ class IngredienteController extends Controller
 {
     public function index()
     {
-        $ingredientes = Ingrediente::all(['id_ingrediente as id', 'nombre']);
+        $ingredientes = Ingrediente::all(['id_ingrediente as id', 'nombre', 'unidad']);
         return response()->json($ingredientes);
     }
 

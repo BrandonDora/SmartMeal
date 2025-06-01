@@ -1,0 +1,53 @@
+@import "../../../styles/variables";
+@import "../../../styles/mixins";
+
+.dialog-content {
+  padding: 18px 20px 10px 20px;
+  min-width: 320px;
+  .titulo-dialogo {
+    color: $verde;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+  .form-label {
+    font-weight: 500;
+    color: #222;
+  }
+  .form-select,
+  .form-control {
+    border-radius: 18px;
+    border: 1.5px solid $verde;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  .form-select:focus,
+  .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #bbd43e33;
+    border-color: $verde;
+  }
+  button[mat-button] {
+    background: #e74c3c;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 8px 24px;
+    border: none;
+    &:hover {
+      background: #c62828;
+    }
+  }
+  button[mat-raised-button] {
+    background: $verde;
+    color: #fff;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 8px 24px;
+    border: none;
+    &:hover {
+      background: #a3c72e;
+    }
+  }
+}

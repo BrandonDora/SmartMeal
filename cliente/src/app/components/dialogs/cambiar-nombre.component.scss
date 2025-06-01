@@ -66,12 +66,23 @@ button[mat-raised-button] {
   border-radius: 25px;
   font-weight: bold;
   padding: 8px 32px;
-  box-shadow: 0 2px 8px rgba(187, 212, 62, 0.08);
+  box-shadow: 0 2px 8px rgba(187, 212, 62, 0.18),
+    0 1.5px 8px 0 rgba(0, 0, 0, 0.12);
   border: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   &:hover {
     background: #a3c72e;
     color: #fff;
+    box-shadow: 0 4px 16px rgba(163, 199, 46, 0.25);
+  }
+  &:disabled,
+  &[disabled] {
+    background: #b2b2b2 !important;
+    color: #eaeaea !important;
+    box-shadow: 0 2px 8px rgba(80, 80, 80, 0.18),
+      0 1.5px 8px 0 rgba(0, 0, 0, 0.18);
+    cursor: not-allowed;
+    filter: brightness(0.85) contrast(1.1);
   }
 }
 

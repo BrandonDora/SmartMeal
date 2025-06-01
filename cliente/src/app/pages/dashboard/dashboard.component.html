@@ -14,6 +14,14 @@
         (cancelar)="cerrarCrearMenuModal()"
       ></app-crear-menu-modal>
 
+      <!-- Modal Generar Menú -->
+      <app-generar-menu-modal
+        *ngIf="mostrarGenerarMenuModal"
+        [categorias]="categorias"
+        (generar)="onGenerarMenu()"
+        (cancelar)="cerrarGenerarMenuModal()"
+      ></app-generar-menu-modal>
+
       <!-- Contenedor cuando NO hay menús -->
       <div *ngIf="menus.length === 0">
         <div
@@ -39,12 +47,6 @@
             class="text-center mt-2 text-danger fw-bold"
           >
             PRIMERO DEBES IR A LA CALCULADORA
-          </div>
-          <div
-            *ngIf="prefs.length > 0"
-            class="text-center mt-2 text-success fw-bold"
-          >
-            TODO OK
           </div>
         </div>
       </div>
@@ -269,8 +271,19 @@
         </div>
       </div>
     </div>
+    <!-- Mensaje de calculadora si hay menús pero no hay preferencias nutricionales -->
+    <div *ngIf="mostrarMsgGenerarMenu && menus.length > 0">
+      <div
+        *ngIf="prefs.length === 0"
+        class="text-center mt-2 text-danger fw-bold"
+      >
+        PRIMERO DEBES IR A LA CALCULADORA
+      </div>
+      <!-- Modal para generar menú si hay preferencias -->
+      <ng-container *ngIf="prefs.length > 0"> </ng-container>
+    </div>
     <!-- Botones siempre visibles debajo del contenido principal, dentro de main -->
-    <div class="d-flex justify-content-center gap-3 mt-5 mb-4">
+    <div class="d-flex justify-content-center gap-3 mt-2 mb-4">
       <button
         type="button"
         class="btn btn-primary"
@@ -286,14 +299,11 @@
         type="button"
         class="btn btn-primary"
         (click)="
-          mostrarMsgGenerarMenu = true;
-          $event.stopPropagation();
-          $event.preventDefault()
+          abrirGenerarMenu(); $event.stopPropagation(); $event.preventDefault()
         "
       >
         Generar menú
       </button>
-      <!-- Botón para desactivar menú, solo si hay menú activo -->
       <button
         *ngIf="menuActivo"
         type="button"
