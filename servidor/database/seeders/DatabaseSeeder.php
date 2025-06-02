@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TiempoComidaRecetaSeeder::class,
             RecetaIngredienteSeeder::class,
             RecetaCategoriaSeeder::class,
+            ActualizarMacrosRecetaSeeder::class,
         ]);
     }
 }
