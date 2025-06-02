@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             ListaCompraSeeder::class,
             PreferenciaNutricionalSeeder::class,
             CategoriaSeeder::class,
-            TiempoComidaRecetaSeeder::class,
             RecetaSeeder::class,
+            TiempoComidaRecetaSeeder::class,
             RecetaIngredienteSeeder::class,
             RecetaCategoriaSeeder::class,
         ]);
