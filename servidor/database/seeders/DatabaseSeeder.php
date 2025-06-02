@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
             AlergenoSeeder::class,
             IngredienteSeeder::class,
             TiempoComidaSeeder::class,
-            RecetaSeeder::class,
             MenuSeeder::class,
             ListaCompraSeeder::class,
             PreferenciaNutricionalSeeder::class,
@@ -22,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TiempoComidaRecetaSeeder::class,
             RecetaIngredienteSeeder::class,
             RecetaCategoriaSeeder::class,
+            RecetaSeeder::class,
         ]);
     }
 }
