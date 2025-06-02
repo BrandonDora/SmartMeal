@@ -64,15 +64,15 @@ export class RecetasComponent implements OnInit {
         this.recetas = data.map((receta) => {
           let imagen = receta.imagen_url || receta.imagen;
           if (!imagen || imagen.trim() === '') {
-            imagen =
-              'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+            imagen = 'assets/img/default.jpg';
+          } else if (imagen.startsWith('assets/img')) {
+            // Ya es ruta relativa
+          } else if (!imagen.includes('/')) {
+            imagen = 'assets/img/' + imagen;
           } else if (imagen.startsWith('http')) {
-            // Usar la URL tal cual (S3 o externa)
+            // Si es URL absoluta, la dejamos (por compatibilidad)
           } else {
-            // Asumir que es un nombre de archivo y construir la URL de S3
-            imagen =
-              'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/' +
-              imagen;
+            imagen = 'assets/img/' + imagen;
           }
           return { ...receta, imagen };
         });

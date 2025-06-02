@@ -707,4 +707,22 @@ export class DashboardComponent implements OnInit {
         },
       });
   }
+
+  // Cuando se muestre una receta en el dashboard, asegurar que la imagen apunte a assets/img
+  getImagenReceta(receta: any): string {
+    let imagen = receta.imagen_url || receta.imagen;
+    if (!imagen || imagen.trim() === '') {
+      return 'assets/img/default.jpg';
+    }
+    if (imagen.startsWith('assets/img')) {
+      return imagen;
+    }
+    if (!imagen.includes('/')) {
+      return 'assets/img/' + imagen;
+    }
+    if (imagen.startsWith('http')) {
+      return imagen;
+    }
+    return 'assets/img/' + imagen;
+  }
 }

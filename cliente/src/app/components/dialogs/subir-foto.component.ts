@@ -71,22 +71,12 @@ export class SubirFotoComponent {
     this.loading = true;
     this.errorMsg = '';
     const file = this.selectedFile;
-    const s3Url =
-      'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/' +
-      file.name;
-    this.http
-      .put(s3Url, file, {
-        headers: new HttpHeaders({ 'Content-Type': file.type }),
-      })
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.dialogRef.close(s3Url); // Devuelve la URL de S3 al cerrar
-        },
-        error: (err) => {
-          this.loading = false;
-          this.errorMsg = 'Error al subir la foto. Intenta nuevamente.';
-        },
-      });
+    // Guardar solo la ruta relativa a assets/img
+    const ruta = 'assets/img/' + file.name;
+    // Aquí normalmente subirías el archivo, pero ahora solo devolvemos la ruta
+    setTimeout(() => {
+      this.loading = false;
+      this.dialogRef.close(ruta); // Devuelve la ruta relativa
+    }, 800);
   }
 }

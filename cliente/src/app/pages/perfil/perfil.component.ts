@@ -53,16 +53,22 @@ export class PerfilComponent implements OnInit {
 
   get fotoPerfilUrl(): string {
     if (this.usuario.foto_perfil && this.usuario.foto_perfil.trim() !== '') {
+      // Si ya es una ruta relativa a assets/img o empieza por assets/img, la devolvemos tal cual
+      if (this.usuario.foto_perfil.startsWith('assets/img')) {
+        return this.usuario.foto_perfil;
+      }
+      // Si solo es el nombre del archivo, construimos la ruta
+      if (!this.usuario.foto_perfil.includes('/')) {
+        return 'assets/img/' + this.usuario.foto_perfil;
+      }
+      // Si es una URL absoluta, la devolvemos (por compatibilidad)
       if (this.usuario.foto_perfil.startsWith('http')) {
         return this.usuario.foto_perfil;
       }
-      // Mostrar desde S3 si no es URL absoluta
-      return (
-        'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/' +
-        this.usuario.foto_perfil
-      );
+      // Cualquier otro caso, usar como nombre de archivo
+      return 'assets/img/' + this.usuario.foto_perfil;
     }
-    return 'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/default.png';
+    return 'assets/img/default.png';
   }
 
   constructor(
