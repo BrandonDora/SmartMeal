@@ -39,4 +39,15 @@ class UsuarioController extends Controller
 
         return response()->json(['message' => 'Nombre actualizado correctamente', 'nombre' => $user->nombre], 200);
     }
+
+    public function actualizarFoto(Request $request)
+    {
+        $request->validate([
+            'foto_perfil' => 'required|string|max:255',
+        ]);
+        $user = Auth::user();
+        $user->foto_perfil = $request->foto_perfil;
+        $user->save();
+        return response()->json(['message' => 'Foto de perfil actualizada', 'foto_perfil' => $user->foto_perfil], 200);
+    }
 }
