@@ -10,11 +10,11 @@ class ActualizarMacrosRecetaSeeder extends Seeder
     public function run(): void
     {
         $recetas = DB::table('recetas')->get();
-        $ingredientes = DB::table('ingredientes')->get()->keyBy('id');
+        $ingredientes = DB::table('ingredientes')->get()->keyBy('id_ingrediente');
         $recetaIngredientes = DB::table('receta_ingrediente')->get();
 
         foreach ($recetas as $receta) {
-            $ingredientesReceta = $recetaIngredientes->where('id_receta', $receta->id);
+            $ingredientesReceta = $recetaIngredientes->where('id_receta', $receta->id_receta);
             $calorias = 0;
             $proteinas = 0;
             $grasas = 0;
@@ -29,7 +29,7 @@ class ActualizarMacrosRecetaSeeder extends Seeder
                     $carbohidratos += $ing->carbohidratos * $cantidad;
                 }
             }
-            DB::table('recetas')->where('id', $receta->id)->update([
+            DB::table('recetas')->where('id_receta', $receta->id_receta)->update([
                 'calorias'      => round($calorias),
                 'proteinas'     => round($proteinas),
                 'grasas'        => round($grasas),
