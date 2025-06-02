@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   mostrarFormularioMenu: boolean = false;
   nuevoMenu = { nombre: '', descripcion: '' };
   mostrarMsgGenerarMenu: boolean = false;
-  fotoPerfilUrl: string = 'assets/img/default.jpg';
+  fotoPerfilUrl: string = '';
   mostrarModalTerminar: boolean = false;
   recetaSeleccionadaTerminar: any = null;
   totalesMenu = { calorias: 0, proteinas: 0, grasas: 0, carbohidratos: 0 };
@@ -87,11 +87,9 @@ export class DashboardComponent implements OnInit {
             : '{Sin nombre}';
         // Obtener la foto de perfil real
         if (data.foto_perfil && data.foto_perfil.trim() !== '') {
-          this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? environment.apiUrl.replace(/\/api$/, '') + data.foto_perfil
-            : data.foto_perfil;
+          this.fotoPerfilUrl = data.foto_perfil || '';
         } else {
-          this.fotoPerfilUrl = 'assets/img/default.jpg';
+          this.fotoPerfilUrl = '';
         }
         console.log(data);
         // Obtener preferencias nutricionales del usuario
@@ -141,7 +139,7 @@ export class DashboardComponent implements OnInit {
                       let imagen = receta.imagen_url || receta.imagen;
                       if (!imagen || imagen.trim() === '') {
                         imagen =
-                          'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+                          'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
                       } else if (imagen.startsWith('http')) {
                         // Usar la URL tal cual (S3 o externa)
                       } else {
@@ -312,7 +310,7 @@ export class DashboardComponent implements OnInit {
                 let imagen = receta.imagen_url || receta.imagen;
                 if (!imagen || imagen.trim() === '') {
                   imagen =
-                    'http://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+                    'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
                 } else if (imagen.startsWith('http')) {
                   // Usar la URL tal cual (S3 o externa)
                 } else {
@@ -710,19 +708,17 @@ export class DashboardComponent implements OnInit {
 
   // Cuando se muestre una receta en el dashboard, asegurar que la imagen apunte a assets/img
   getImagenReceta(receta: any): string {
-    let imagen = receta.imagen_url || receta.imagen;
+    const baseRecetas =
+      'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/';
+    let imagen = receta && receta.imagen ? receta.imagen : '';
     if (!imagen || imagen.trim() === '') {
-      return 'assets/img/default.jpg';
-    }
-    if (imagen.startsWith('assets/img')) {
-      return imagen;
-    }
-    if (!imagen.includes('/')) {
-      return 'assets/img/' + imagen;
+      return baseRecetas + 'default.jpg';
     }
     if (imagen.startsWith('http')) {
       return imagen;
     }
-    return 'assets/img/' + imagen;
+    // Si es solo el nombre del archivo o una ruta relativa
+    const nombre = imagen.replace(/^.*[\\\/]/, '');
+    return baseRecetas + nombre;
   }
 }

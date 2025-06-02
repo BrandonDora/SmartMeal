@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './lista-compra.component.scss',
 })
 export class ListaCompraComponent implements OnInit {
-  fotoPerfilUrl: string = 'assets/img/default.jpg';
+  fotoPerfilUrl: string = '';
   ingredientesLista: any[] = [];
   cargandoLista: boolean = false;
   todosIngredientes: any[] = [];
@@ -32,13 +32,7 @@ export class ListaCompraComponent implements OnInit {
     // --- CARGA ORIGINAL DE LA LISTA DE COMPRA ---
     this.tokenService.getUser().subscribe({
       next: (data) => {
-        if (data.foto_perfil && data.foto_perfil.trim() !== '') {
-          this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? environment.apiUrl.replace(/\/api$/, '') + data.foto_perfil
-            : data.foto_perfil;
-        } else {
-          this.fotoPerfilUrl = 'assets/img/default.jpg';
-        }
+        this.fotoPerfilUrl = data.foto_perfil || '';
         // Obtener todos los ingredientes para el modal (usando GET a /api/ingredientes)
         this.http
           .get<any[]>(
@@ -190,7 +184,7 @@ export class ListaCompraComponent implements OnInit {
         // --- FIN LISTA DE COMPRA ---
       },
       error: () => {
-        this.fotoPerfilUrl = 'assets/img/default.jpg';
+        this.fotoPerfilUrl = '';
       },
     });
   }

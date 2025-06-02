@@ -35,7 +35,7 @@ export class RecetasComponent implements OnInit {
   recetas: any[] = [];
   receta: any = null;
   x: number = 1;
-  fotoPerfilUrl: string = 'assets/img/default.jpg';
+  fotoPerfilUrl: string = '';
   recetasMostradas: number = 6;
   tiposComida: any[] = [];
   tipoComidaSeleccionado: number | null = null;
@@ -64,7 +64,8 @@ export class RecetasComponent implements OnInit {
         this.recetas = data.map((receta) => {
           let imagen = receta.imagen_url || receta.imagen;
           if (!imagen || imagen.trim() === '') {
-            imagen = 'assets/img/default.jpg';
+            imagen =
+              'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
           } else if (imagen.startsWith('assets/img')) {
             // Ya es ruta relativa
           } else if (!imagen.includes('/')) {
@@ -83,16 +84,10 @@ export class RecetasComponent implements OnInit {
     this.getRecetaPorId();
     this.tokenService.getUser().subscribe({
       next: (data) => {
-        if (data.foto_perfil && data.foto_perfil.trim() !== '') {
-          this.fotoPerfilUrl = data.foto_perfil.startsWith('/storage/')
-            ? 'http://localhost:8000' + data.foto_perfil
-            : data.foto_perfil;
-        } else {
-          this.fotoPerfilUrl = 'assets/img/default.jpg';
-        }
+        this.fotoPerfilUrl = data.foto_perfil || '';
       },
       error: () => {
-        this.fotoPerfilUrl = 'assets/img/default.jpg';
+        this.fotoPerfilUrl = '';
       },
     });
     // Cargar categorías desde la API
@@ -349,5 +344,20 @@ export class RecetasComponent implements OnInit {
     }
     this.recetas = recetasFiltradas;
     this.recetasMostradas = 6;
+  }
+
+  getImagenReceta(receta: any): string {
+    const baseRecetas =
+      'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/';
+    let imagen = receta && receta.imagen ? receta.imagen : '';
+    if (!imagen || imagen.trim() === '') {
+      return baseRecetas + 'default.jpg';
+    }
+    if (imagen.startsWith('http')) {
+      return imagen;
+    }
+    // Si es solo el nombre del archivo o una ruta relativa
+    const nombre = imagen.replace(/^.*[\\\/]/, '');
+    return baseRecetas + nombre;
   }
 }

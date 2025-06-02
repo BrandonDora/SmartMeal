@@ -396,7 +396,8 @@ export class CrearRecetaComponent implements OnInit {
   crearReceta() {
     this.errorMsg = '';
     this.loading = true;
-    let imagenRuta = 'assets/img/default.jpg';
+    let imagenRuta =
+      'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
     if (this.imagen) {
       imagenRuta = 'assets/img/' + this.imagen.name;
     }

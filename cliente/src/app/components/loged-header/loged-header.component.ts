@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './loged-header.component.scss',
 })
 export class LogedHeaderComponent {
-  @Input() fotoPerfilUrl: string = 'assets/img/default.jpg';
+  @Input() fotoPerfilUrl: string = '';
   @Output() buscarRecetaHeader = new EventEmitter<string>();
   busquedaReceta: string = '';
   hover: string | null = null;
@@ -41,26 +41,24 @@ export class LogedHeaderComponent {
     const dialogRef = this.dialog.open(CambiarFotoComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Aquí podrías emitir un evento o recargar la foto si es necesario
-        window.location.reload(); // Simple recarga para reflejar el cambio
+        window.location.reload();
       }
     });
   }
 
   get fotoPerfilUrlCompleta(): string {
+    const basePerfil =
+      'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/';
     if (this.fotoPerfilUrl && this.fotoPerfilUrl.trim() !== '') {
-      if (this.fotoPerfilUrl.startsWith('assets/img')) {
-        return this.fotoPerfilUrl;
-      }
-      if (!this.fotoPerfilUrl.includes('/')) {
-        return 'assets/img/' + this.fotoPerfilUrl;
-      }
       if (this.fotoPerfilUrl.startsWith('http')) {
         return this.fotoPerfilUrl;
       }
-      return 'assets/img/' + this.fotoPerfilUrl;
+      // Si es solo el nombre del archivo o una ruta relativa
+      const nombre = this.fotoPerfilUrl.replace(/^.*[\\\/]/, '');
+      return basePerfil + nombre;
     }
-    return 'assets/img/default.png';
+    // Imagen por defecto de perfil
+    return basePerfil + 'default.jpg';
   }
 
   checkMobile() {

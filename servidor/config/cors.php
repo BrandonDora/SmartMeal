@@ -23,7 +23,7 @@ return [
         ',',
         env(
             'FRONTEND_URLS',
-            'http://35.172.64.180:4200,' .
+            'http://localhost:4200,' .
             'http://smartmeal.s3-website-us-east-1.amazonaws.com,' .
             'https://smartmeal.s3-website-us-east-1.amazonaws.com'
         )

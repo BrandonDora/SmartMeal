@@ -63,11 +63,11 @@ export class CalculadoraComponent {
 
     // Obtener usuario y foto de perfil
     this.tokenService.getUser().subscribe({
-      next: (user) => {
-        this.fotoPerfilUrl = user.foto_perfil || 'assets/img/default.jpg';
+      next: (data) => {
+        this.fotoPerfilUrl = data.foto_perfil || '';
       },
       error: () => {
-        this.fotoPerfilUrl = 'assets/img/default.jpg';
+        this.fotoPerfilUrl = '';
       },
     });
   }

@@ -16,7 +16,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
       <form>
         <div class="preview-container">
           <img
-            [src]="previewUrl || 'assets/img/default.jpg'"
+            [src]="
+              previewUrl ||
+              'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/default.jpg'
+            "
             alt="Previsualización"
             class="preview-img"
           />
@@ -71,12 +74,14 @@ export class SubirFotoComponent {
     this.loading = true;
     this.errorMsg = '';
     const file = this.selectedFile;
-    // Guardar solo la ruta relativa a assets/img
-    const ruta = 'assets/img/' + file.name;
-    // Aquí normalmente subirías el archivo, pero ahora solo devolvemos la ruta
+    // Guardar solo el nombre del archivo, pero la ruta final será S3
+    const ruta =
+      'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/perfiles/' +
+      file.name;
+    // Aquí normalmente subirías el archivo a S3, pero ahora solo devolvemos la ruta
     setTimeout(() => {
       this.loading = false;
-      this.dialogRef.close(ruta); // Devuelve la ruta relativa
+      this.dialogRef.close(ruta); // Devuelve la ruta completa de S3
     }, 800);
   }
 }
