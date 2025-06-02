@@ -195,7 +195,22 @@ export class PerfilComponent implements OnInit {
           const subirRef = this.dialog.open(SubirFotoComponent);
           subirRef.afterClosed().subscribe((nuevaRuta) => {
             if (nuevaRuta) {
-              this.usuario.foto_perfil = nuevaRuta;
+              // Actualizar en backend la foto de perfil
+              this.tokenService.actualizarFotoPerfil(nuevaRuta).subscribe({
+                next: () => {
+                  this.usuario.foto_perfil = nuevaRuta;
+                  this.snackBar.open('Foto de perfil actualizada', 'Cerrar', {
+                    duration: 2000,
+                  });
+                },
+                error: () => {
+                  this.snackBar.open(
+                    'Error al actualizar la foto de perfil',
+                    'Cerrar',
+                    { duration: 3000 }
+                  );
+                },
+              });
             }
           });
         }, 100);

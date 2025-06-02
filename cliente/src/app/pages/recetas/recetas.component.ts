@@ -65,7 +65,7 @@ export class RecetasComponent implements OnInit {
           let imagen = receta.imagen_url || receta.imagen;
           if (!imagen || imagen.trim() === '') {
             imagen =
-              'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+              'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.png';
           } else if (imagen.startsWith('assets/img')) {
             // Ya es ruta relativa
           } else if (!imagen.includes('/')) {
@@ -351,7 +351,7 @@ export class RecetasComponent implements OnInit {
       'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/';
     let imagen = receta && receta.imagen ? receta.imagen : '';
     if (!imagen || imagen.trim() === '') {
-      return baseRecetas + 'default.jpg';
+      return baseRecetas + 'default.png';
     }
     if (imagen.startsWith('http')) {
       return imagen;

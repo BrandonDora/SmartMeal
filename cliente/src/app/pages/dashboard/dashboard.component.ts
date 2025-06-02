@@ -139,7 +139,7 @@ export class DashboardComponent implements OnInit {
                       let imagen = receta.imagen_url || receta.imagen;
                       if (!imagen || imagen.trim() === '') {
                         imagen =
-                          'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+                          'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.png';
                       } else if (imagen.startsWith('http')) {
                         // Usar la URL tal cual (S3 o externa)
                       } else {
@@ -310,7 +310,7 @@ export class DashboardComponent implements OnInit {
                 let imagen = receta.imagen_url || receta.imagen;
                 if (!imagen || imagen.trim() === '') {
                   imagen =
-                    'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.jpg';
+                    'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/default.png';
                 } else if (imagen.startsWith('http')) {
                   // Usar la URL tal cual (S3 o externa)
                 } else {
@@ -476,21 +476,27 @@ export class DashboardComponent implements OnInit {
   }
 
   activarMenu(id_menu: number) {
-    // Solo reiniciar barras visuales, NO progreso ni recetas terminadas aquí
+    // Si ya hay un menú activo y es diferente al que se quiere activar, mostrar modal de confirmación de cambio
+    if (this.menuActivo !== null && this.menuActivo !== id_menu) {
+      this.menuPendienteActivar = id_menu;
+      this.mostrarModalCambioMenu = true;
+      return;
+    }
+    // Si se pulsa sobre el menú ya activo, mostrar modal de desactivación
+    if (this.menuActivo === id_menu) {
+      this.mostrarModalDesactivarMenu = true;
+      return;
+    }
+    // Si no hay menú activo, activar directamente
+    this.menuActivo = id_menu;
+    localStorage.setItem('menuActivo', String(id_menu));
+    this.calcularTotalesMenu(id_menu);
     this.proceso = this.procesoPorMenu[id_menu] || {
       calorias: 0,
       proteinas: 0,
       carbohidratos: 0,
       grasas: 0,
     };
-
-    if (this.menuActivo === id_menu) {
-      this.mostrarModalDesactivarMenu = true;
-      return;
-    }
-    this.menuActivo = id_menu;
-    localStorage.setItem('menuActivo', String(id_menu));
-    this.calcularTotalesMenu(id_menu);
   }
 
   abrirModalDesactivarMenu() {
@@ -550,6 +556,22 @@ export class DashboardComponent implements OnInit {
 
   confirmarCambioMenu() {
     if (this.menuPendienteActivar !== null) {
+      // Limpiar progreso y recetas terminadas de TODOS los menús
+      for (const menu of this.menus) {
+        this.procesoPorMenu[menu.id_menu] = {
+          calorias: 0,
+          proteinas: 0,
+          carbohidratos: 0,
+          grasas: 0,
+        };
+        this.recetasTerminadas[menu.id_menu] = [];
+      }
+      localStorage.setItem('progresoMenu', JSON.stringify(this.procesoPorMenu));
+      localStorage.setItem(
+        'recetasTerminadas',
+        JSON.stringify(this.recetasTerminadas)
+      );
+      // Activar el nuevo menú
       this.menuActivo = this.menuPendienteActivar;
       localStorage.setItem('menuActivo', String(this.menuPendienteActivar));
       this.calcularTotalesMenu(this.menuPendienteActivar);
@@ -712,7 +734,7 @@ export class DashboardComponent implements OnInit {
       'https://s3.us-east-1.amazonaws.com/smartmeal.imagenes/recetas/';
     let imagen = receta && receta.imagen ? receta.imagen : '';
     if (!imagen || imagen.trim() === '') {
-      return baseRecetas + 'default.jpg';
+      return baseRecetas + 'default.png';
     }
     if (imagen.startsWith('http')) {
       return imagen;

@@ -118,6 +118,17 @@ export class HttpTokenService {
     );
   }
 
+  actualizarFotoPerfil(ruta: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post<any>(
+      `${baseUrl}/api/user/actualizar-foto`,
+      { foto_perfil: ruta },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
+
   // Obtener recetas creadas por un usuario
   getRecetasByUser(userId: number) {
     const token = localStorage.getItem('token');

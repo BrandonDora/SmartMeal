@@ -180,7 +180,6 @@
                 type="button"
                 [ngClass]="{ activo: menu.id_menu === menuActivo }"
                 (click)="activarMenu(menu.id_menu)"
-                [disabled]="menuActivo !== null && menu.id_menu !== menuActivo"
               >
                 {{ menu.id_menu === menuActivo ? "Activado" : "Activar" }}
               </button>
